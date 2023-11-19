@@ -7,10 +7,7 @@
 
 [node name="BoardNode" type="Node2D" parent="."]
 script = ExtResource("1_rwohw")
-width = 8
-height = 8
-offset = 70
-y_offset = -2
 
 [node name="BoardSprite" type="Sprite2D" parent="BoardNode"]
+position = Vector2(135, 145)
 texture = ExtResource("1_42v5p")

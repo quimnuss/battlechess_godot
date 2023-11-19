@@ -5,8 +5,8 @@ extends Node2D
 @export var offset: int
 @export var y_offset: int
 
-@onready var x_start = ((get_window().size.x / 2.0) - ((width/2.0) * offset ) + (offset / 2))
-@onready var y_start = ((get_window().size.y / 2.0) + ((height/2.0) * offset ) - (offset / 2))
+#@onready var x_start = ((get_window().size.x / 2.0) - ((width/2.0) * offset ) + (offset / 2))
+#@onready var y_start = ((get_window().size.y / 2.0) + ((height/2.0) * offset ) - (offset / 2))
 
 @export var empty_spaces: PackedVector2Array
 
@@ -32,14 +32,14 @@ func _ready():
     print('init board')
 
     var board_string = '''
-        rnbkqbnr
-        pppppppp
-        ________
-        ________
-        ________
-        ________
+        RNBKQBNR
         PPPPPPPP
-        RNBKQBNR'''
+        ________
+        ________
+        ________
+        ________
+        pppppppp
+        rnbkqbnr'''
 
     board_string = board_string.replace(' ','')
     board_string = board_string.replace('\n','')
