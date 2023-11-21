@@ -9,6 +9,7 @@ extends Node2D
 #@onready var y_start = ((get_window().size.y / 2.0) + ((height/2.0) * offset ) - (offset / 2))
 
 @export var empty_spaces: PackedVector2Array
+@onready var base_select : Sprite2D = $BaseSelect
 
 var TILE_SIZE = 40
 
@@ -29,6 +30,8 @@ var char_to_piece : Dictionary = {
 
 func _ready():
 
+    base_select.modulate = Color(1,1,1,0.5)
+    base_select.set_visible(false)
     print('init board')
 
     var board_string = '''
@@ -57,7 +60,24 @@ func _ready():
             piece.set_piece(piece_type)
             piece.position = Vector2i(x*TILE_SIZE,y*TILE_SIZE)
             add_child(piece)
+            piece.piece_dropped.connect(place_piece)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _out_of_bounds(pos : Vector2i) -> bool:
+    return pos.x < -0.5*TILE_SIZE or 7.5*TILE_SIZE < pos.x or pos.y < -0.5*TILE_SIZE or 7.5*TILE_SIZE < pos.y
+
+func place_piece(piece : ChessPiece):
+    prints("called")
+    print(piece)
+    if _out_of_bounds(piece.position):
+        piece.cancel_move()
+    var target_tile = Vector2(round(piece.position.x / TILE_SIZE), round(piece.position.y / TILE_SIZE))
+    # check if tile is free
+
+    piece.position = target_tile*TILE_SIZE
+
+func piece_selected(piece):
+    base_select.set_visible(true)
+
 func _process(delta):
+
     pass
