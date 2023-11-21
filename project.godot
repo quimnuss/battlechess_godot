@@ -20,6 +20,11 @@ config/icon="res://assets/icon.png"
 
 ChessConstants="*res://actors/chess_constants.gd"
 
+[display]
+
+window/size/viewport_width=500
+window/size/viewport_height=500
+
 [dotnet]
 
 project/assembly_name="battlechess"

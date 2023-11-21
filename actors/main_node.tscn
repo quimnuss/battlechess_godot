@@ -4,5 +4,14 @@
 
 [node name="MainNode" type="Node2D"]
 
-[node name="scene_board" parent="." instance=ExtResource("1_utw0q")]
-position = Vector2(266, 202)
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="scene_board" parent="Control" instance=ExtResource("1_utw0q")]
