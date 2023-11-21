@@ -31,6 +31,9 @@ var piece_type : ChessConstants.PieceType
 func _ready():
     sprite.set_frame_coords(frame)
 
+func _enter_tree():
+    self.name = ChessConstants.PieceTypeName[self.piece_type] + "_" + self.get_name()
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
     if selected:
@@ -44,17 +47,19 @@ func _input(event):
             prints("dropped",ChessConstants.PieceTypeName[self.piece_type])
             piece_dropped.emit(self)
 
+
 func cancel_move():
     self.global_position = original_position
 
+
 func set_piece(chess_piece_type : ChessConstants.PieceType):
     self.piece_type = chess_piece_type
-    self.name = ChessConstants.PieceTypeName[self.piece_type] + "_" + self.name
     frame = piece_to_frame.get(chess_piece_type, Vector2i(1,0))
     original_position = self.global_position
 
 func _on_area_2d_input_event(viewport, event, shape_idx):
     if Input.is_action_just_pressed("select"):
+        prints("selected",self.name)
         selected = true
         original_position = self.global_position
 

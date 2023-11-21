@@ -9,7 +9,7 @@ extends Node2D
 #@onready var y_start = ((get_window().size.y / 2.0) + ((height/2.0) * offset ) - (offset / 2))
 
 @export var empty_spaces: PackedVector2Array
-@onready var base_select : Sprite2D = $BaseSelect
+@onready var base_select : Sprite2D = $BoardTileMap/BaseSelect
 
 var TILE_SIZE = 40
 
