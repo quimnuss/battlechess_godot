@@ -10,6 +10,7 @@ extends Node2D
 
 @export var empty_spaces: PackedVector2Array
 @onready var base_select : Sprite2D = $BoardTileMap/BaseSelect
+@onready var board_tilemap : TileMap = $BoardTileMap
 
 var TILE_SIZE = 40
 
@@ -75,9 +76,29 @@ func place_piece(piece : ChessPiece):
 
     piece.position = target_tile*TILE_SIZE
 
+func fog_tile(board_coords : Vector2i, fog : bool):
+    #var atlas_coords : Vector2i = board_tilemap.get_cell_atlas_coords(1,board_coords)
+    if board_coords.x < 0 or 8 < board_coords.x or board_coords.y < 0 or 8 < board_coords.y:
+        return
+    if fog:
+        board_tilemap.set_cell(1, board_coords, 1, Vector2i(0,0))
+    else:
+        board_tilemap.set_cell(1, board_coords, 1, Vector2i(1,0))
+
 func piece_selected(piece):
     base_select.set_visible(true)
 
-func _process(delta):
+var fog : bool = true
+var elapsed : float = 0
 
-    pass
+func _process(delta):
+    var mouse : Vector2 = get_local_mouse_position()
+    if _out_of_bounds(mouse):
+        return
+    var tile_mouse_coords : Vector2i = board_tilemap.local_to_map(mouse)
+    elapsed += delta
+    print(elapsed)
+    if elapsed > 0.3:
+        elapsed = 0
+        fog = not fog
+        fog_tile(tile_mouse_coords, fog)

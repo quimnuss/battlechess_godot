@@ -1,19 +1,36 @@
-[gd_scene load_steps=6 format=3 uid="uid://rlxycfbs6rgr"]
+[gd_scene load_steps=10 format=3 uid="uid://rlxycfbs6rgr"]
 
 [ext_resource type="Texture2D" uid="uid://buqavppfk1vrq" path="res://assets/board_green_tiles_80.png" id="1_evpyn"]
 [ext_resource type="Script" path="res://actors/board_node.gd" id="1_rwohw"]
+[ext_resource type="Texture2D" uid="uid://cp4mjv6sj30te" path="res://assets/black_square.png" id="2_nuycb"]
 [ext_resource type="Texture2D" uid="uid://c842s1entu6a" path="res://assets/select_square.png" id="3_gltre"]
+[ext_resource type="Texture2D" uid="uid://biip4kpq5jy1p" path="res://assets/fog_squares.png" id="3_rowlf"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ntcxj"]
+texture = ExtResource("2_nuycb")
+texture_region_size = Vector2i(40, 40)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wlm6d"]
+texture = ExtResource("3_rowlf")
+texture_region_size = Vector2i(40, 40)
+0:0/0 = 0
+1:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_46roe"]
 texture = ExtResource("1_evpyn")
 texture_region_size = Vector2i(40, 40)
 0:0/0 = 0
 1:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_tfiog"]
 tile_layout = 4
 tile_size = Vector2i(40, 40)
 sources/8 = SubResource("TileSetAtlasSource_46roe")
+sources/0 = SubResource("TileSetAtlasSource_ntcxj")
+sources/1 = SubResource("TileSetAtlasSource_wlm6d")
 
 [node name="scene_board" type="Node2D"]
 script = ExtResource("1_rwohw")
@@ -22,7 +39,15 @@ script = ExtResource("1_rwohw")
 position = Vector2(-20, -20)
 tile_set = SubResource("TileSet_tfiog")
 format = 2
+layer_0/name = "board"
 layer_0/tile_data = PackedInt32Array(0, 8, 0, 1, 65544, 0, 65536, 65544, 0, 3, 65544, 0, 65538, 65544, 0, 131073, 65544, 0, 196608, 65544, 0, 5, 65544, 0, 65540, 65544, 0, 131075, 65544, 0, 196610, 65544, 0, 262145, 65544, 0, 327680, 65544, 0, 327682, 65544, 0, 262147, 65544, 0, 196612, 65544, 0, 131077, 65544, 0, 65542, 65544, 0, 7, 65544, 0, 131079, 65544, 0, 196614, 65544, 0, 262151, 65544, 0, 393223, 65544, 0, 327686, 65544, 0, 262149, 65544, 0, 393221, 65544, 0, 327684, 65544, 0, 393219, 65544, 0, 393217, 65544, 0, 393216, 8, 0, 327681, 8, 0, 262144, 8, 0, 196609, 8, 0, 131072, 8, 0, 65537, 8, 0, 2, 8, 0, 65539, 8, 0, 131074, 8, 0, 196611, 8, 0, 262146, 8, 0, 327683, 8, 0, 393218, 8, 0, 393220, 8, 0, 327685, 8, 0, 262148, 8, 0, 131076, 8, 0, 4, 8, 0, 6, 8, 0, 65541, 8, 0, 65543, 8, 0, 131078, 8, 0, 196615, 8, 0, 262150, 8, 0, 196613, 8, 0, 327687, 8, 0, 393222, 8, 0, 458752, 65544, 0, 458754, 65544, 0, 458756, 65544, 0, 458758, 65544, 0, 458753, 8, 0, 458755, 8, 0, 458757, 8, 0, 458759, 8, 0)
+layer_1/name = "fog"
+layer_1/enabled = true
+layer_1/modulate = Color(1, 1, 1, 0.784314)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = 1
+layer_1/tile_data = PackedInt32Array(0, 65537, 0, 1, 65537, 0, 65538, 65537, 0, 65539, 65537, 0, 3, 65537, 0, 4, 65537, 0, 65540, 65537, 0, 65541, 65537, 0, 6, 65537, 0, 7, 65537, 0, 131075, 65537, 0, 196611, 65537, 0, 262147, 65537, 0, 327683, 65537, 0, 196610, 65537, 0, 196609, 65537, 0, 2, 65537, 0, 65537, 65537, 0, 131073, 65537, 0, 131074, 65537, 0, 458752, 65537, 0, 524287, 65537, 0, 458753, 65537, 0, 393217, 65537, 0, 393218, 65537, 0, 327682, 65537, 0, 262148, 65537, 0, 196612, 65537, 0, 196613, 65537, 0, 131077, 65537, 0, 131078, 65537, 0, 131076, 65537, 0, 327684, 65537, 0, 262146, 65537, 0, 262149, 65537, 0, 327685, 65537, 0, 327686, 65537, 0, 262150, 65537, 0, 262151, 65537, 0, 196614, 65537, 0, 262145, 65537, 0, -65532, 65537, 0, 5, 65537, 0, 65543, 65537, 0, 65544, 65537, 0, 131079, 65537, 0, 196615, 65537, 0, 327687, 65537, 0, 393223, 65537, 0, 458759, 65537, 0, 458758, 65537, 0, 393222, 65537, 0, 393221, 65537, 0, 458757, 65537, 0, 393220, 65537, 0, 393219, 65537, 0, 327681, 65537, 0, 196608, 65537, 0, 262144, 65537, 0, 327680, 65537, 0, 131072, 65537, 0, 65536, 65537, 0, 393216, 65537, 0, 524288, 65537, 0, 458754, 65537, 0, 458755, 65537, 0, 458756, 65537, 0)
 
 [node name="BaseSelect" type="Sprite2D" parent="BoardTileMap"]
 position = Vector2(20, 20)
