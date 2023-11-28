@@ -1,0 +1,63 @@
+[gd_resource type="TileSet" load_steps=9 format=3 uid="uid://culndfir8cyij"]
+
+[ext_resource type="Texture2D" uid="uid://cp4mjv6sj30te" path="res://assets/black_square.png" id="1_ua4x1"]
+[ext_resource type="Texture2D" uid="uid://biip4kpq5jy1p" path="res://assets/fog_squares.png" id="2_46q1s"]
+[ext_resource type="Texture2D" uid="uid://75ejfxof0rbo" path="res://assets/pieces_big_2_alpha.png" id="3_raahy"]
+[ext_resource type="Texture2D" uid="uid://buqavppfk1vrq" path="res://assets/board_green_tiles_80.png" id="4_646hk"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ntcxj"]
+texture = ExtResource("1_ua4x1")
+texture_region_size = Vector2i(40, 40)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wlm6d"]
+texture = ExtResource("2_46q1s")
+texture_region_size = Vector2i(40, 40)
+0:0/0 = 0
+1:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_korqs"]
+texture = ExtResource("3_raahy")
+texture_region_size = Vector2i(40, 40)
+0:0/0 = 0
+0:0/0/custom_data_0 = 2
+1:0/0 = 0
+1:0/0/custom_data_0 = 8
+2:0/0 = 0
+2:0/0/custom_data_0 = 1
+0:1/0 = 0
+0:1/0/custom_data_0 = 4
+1:1/0 = 0
+1:1/0/custom_data_0 = 10
+2:1/0 = 0
+2:1/0/custom_data_0 = 3
+0:2/0 = 0
+0:2/0/custom_data_0 = 6
+1:2/0 = 0
+1:2/0/custom_data_0 = 12
+2:2/0 = 0
+2:2/0/custom_data_0 = 5
+3:0/0 = 0
+3:0/0/custom_data_0 = 7
+3:1/0 = 0
+3:1/0/custom_data_0 = 9
+3:2/0 = 0
+3:2/0/custom_data_0 = 11
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_46roe"]
+texture = ExtResource("4_646hk")
+texture_region_size = Vector2i(40, 40)
+0:0/0 = 0
+1:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+
+[resource]
+tile_layout = 4
+tile_size = Vector2i(40, 40)
+custom_data_layer_0/name = "PieceType"
+custom_data_layer_0/type = 2
+sources/8 = SubResource("TileSetAtlasSource_46roe")
+sources/0 = SubResource("TileSetAtlasSource_ntcxj")
+sources/1 = SubResource("TileSetAtlasSource_wlm6d")
+sources/3 = SubResource("TileSetAtlasSource_korqs")
