@@ -9,7 +9,7 @@ extends Node2D
 #@onready var y_start = ((get_window().size.y / 2.0) + ((height/2.0) * offset ) - (offset / 2))
 
 @export var empty_spaces: PackedVector2Array
-@onready var base_select : Sprite2D = $BoardTileMap/BaseSelect
+@onready var highlight : Sprite2D = $BoardTileMap/Highlight
 @onready var board_tilemap : TileMap = $BoardTileMap
 
 var TILE_SIZE = 40
@@ -17,13 +17,15 @@ var TILE_SIZE = 40
 enum TILEMAP_LAYERS {
     BOARD,
     FOG,
-    PIECES
+    PIECES,
+    EFFECTS
 }
 
 enum TILEMAP_SOURCES {
     BOARD = 8,
     FOG = 1,
-    PIECES = 3
+    PIECES = 3,
+    EFFECTS = 2
 }
 
 var char_to_piece : Dictionary = {
@@ -43,8 +45,7 @@ var char_to_piece : Dictionary = {
 
 func _ready():
 
-    base_select.modulate = Color(1,1,1,0.5)
-    base_select.set_visible(false)
+    highlight.modulate = Color(1,0,0,0.7)
     print('init board')
 
     var board_string = '''
@@ -120,7 +121,7 @@ func has_neighbour(board_coords : Vector2i, im_black : bool) -> bool:
 func is_white_from_piece_type(piece_type : ChessConstants.PieceType):
     if piece_type == ChessConstants.PieceType.EMPTY:
         return null
-    return piece_type % 2
+    return bool(piece_type % 2)
 
 var player_color = ChessConstants.PlayerColor.BLACK
 
@@ -141,8 +142,23 @@ func fog_tile(board_coords : Vector2i, fog : bool):
     var atlas_col = 0 if fog else 1
     board_tilemap.set_cell(TILEMAP_LAYERS.FOG, board_coords, TILEMAP_SOURCES.FOG, Vector2i(atlas_col,0))
 
-func piece_selected(piece):
-    base_select.set_visible(true)
+func highlight_tile(board_point : Vector2):
+    if _out_of_bounds(board_point):
+        highlight.visible = false
+        return
+#    var tile_center : Vector2i = board_tilemap.local_to_map(board_point)
+    var tile_center : Vector2i = Vector2i(round(board_point.x / TILE_SIZE), round(board_point.y / TILE_SIZE))*TILE_SIZE
+    highlight.set_position(tile_center)
+    highlight.visible = true
+
+func select_tiles(board_coords_list : Array[Vector2i]):
+    for board_coords in board_coords_list:
+        board_tilemap.set_cell(TILEMAP_LAYERS.EFFECTS, board_coords, TILEMAP_SOURCES.EFFECTS, Vector2i(1,2))
+
+func deselect_tiles():
+    for x in range(8):
+        for y in range(8):
+            board_tilemap.set_cell(TILEMAP_LAYERS.BOARD, Vector2i(x,y), TILEMAP_SOURCES.BOARD, Vector2i(0,0))
 
 var fog : bool = true
 var elapsed : float = 0
@@ -152,6 +168,7 @@ func do_something(tile_clicked : Vector2i):
         return
     var piece_type : ChessConstants.PieceType = get_tile_piece_type(tile_clicked)
     prints("clicked",piece_type,ChessConstants.piece_to_emoji[piece_type],ChessConstants.piece_to_frame[piece_type])
+    select_tiles([tile_clicked])
 
 func _input(event):
     if event is InputEventMouseButton:
@@ -161,13 +178,13 @@ func _input(event):
         print("clicked tile",tile_clicked)
 
 func _process(delta):
-    return
     var mouse : Vector2 = get_local_mouse_position()
     if _out_of_bounds(mouse):
         return
-    var tile_mouse_coords : Vector2i = board_tilemap.local_to_map(mouse)
-    elapsed += delta
-    if elapsed > 0.3:
-        elapsed = 0
-        fog = not fog
-        fog_tile(tile_mouse_coords, fog)
+    highlight_tile(mouse)
+#    var tile_mouse_coords : Vector2i = board_tilemap.local_to_map(mouse)
+#    elapsed += delta
+#    if elapsed > 0.3:
+#        elapsed = 0
+#        fog = not fog
+#        fog_tile(tile_mouse_coords, fog)

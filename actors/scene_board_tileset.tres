@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=9 format=3 uid="uid://culndfir8cyij"]
+[gd_resource type="TileSet" load_steps=10 format=3 uid="uid://culndfir8cyij"]
 
 [ext_resource type="Texture2D" uid="uid://cp4mjv6sj30te" path="res://assets/black_square.png" id="1_ua4x1"]
 [ext_resource type="Texture2D" uid="uid://biip4kpq5jy1p" path="res://assets/fog_squares.png" id="2_46q1s"]
@@ -15,6 +15,16 @@ texture = ExtResource("2_46q1s")
 texture_region_size = Vector2i(40, 40)
 0:0/0 = 0
 1:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2cnro"]
+texture = ExtResource("4_646hk")
+texture_region_size = Vector2i(40, 40)
+0:0/0 = 0
+1:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_korqs"]
 texture = ExtResource("3_raahy")
@@ -61,3 +71,4 @@ sources/8 = SubResource("TileSetAtlasSource_46roe")
 sources/0 = SubResource("TileSetAtlasSource_ntcxj")
 sources/1 = SubResource("TileSetAtlasSource_wlm6d")
 sources/3 = SubResource("TileSetAtlasSource_korqs")
+sources/2 = SubResource("TileSetAtlasSource_2cnro")

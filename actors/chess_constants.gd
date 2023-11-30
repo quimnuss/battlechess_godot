@@ -37,16 +37,17 @@ var piece_type_name : Dictionary = {
 }
 
 var piece_to_frame : Dictionary = {
-    ChessConstants.PieceType.KW : Vector2i(2,0),
-    ChessConstants.PieceType.KB : Vector2i(0,0),
-    ChessConstants.PieceType.QW : Vector2i(2,1),
-    ChessConstants.PieceType.QB : Vector2i(0,1),
-    ChessConstants.PieceType.RW : Vector2i(2,2),
-    ChessConstants.PieceType.RB : Vector2i(0,2),
-    ChessConstants.PieceType.BW : Vector2i(3,0),
-    ChessConstants.PieceType.BB : Vector2i(1,0),
-    ChessConstants.PieceType.NW : Vector2i(3,1),
-    ChessConstants.PieceType.NB : Vector2i(1,1),
-    ChessConstants.PieceType.PW : Vector2i(3,2),
-    ChessConstants.PieceType.PB : Vector2i(1,2)
+    PieceType.EMPTY : null,
+    PieceType.KW : Vector2i(2,0),
+    PieceType.KB : Vector2i(0,0),
+    PieceType.QW : Vector2i(2,1),
+    PieceType.QB : Vector2i(0,1),
+    PieceType.RW : Vector2i(2,2),
+    PieceType.RB : Vector2i(0,2),
+    PieceType.BW : Vector2i(3,0),
+    PieceType.BB : Vector2i(1,0),
+    PieceType.NW : Vector2i(3,1),
+    PieceType.NB : Vector2i(1,1),
+    PieceType.PW : Vector2i(3,2),
+    PieceType.PB : Vector2i(1,2)
 }
