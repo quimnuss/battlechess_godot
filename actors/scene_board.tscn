@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://rlxycfbs6rgr"]
+[gd_scene load_steps=5 format=3 uid="uid://rlxycfbs6rgr"]
 
 [ext_resource type="Script" path="res://actors/board_node.gd" id="1_rwohw"]
 [ext_resource type="TileSet" uid="uid://culndfir8cyij" path="res://actors/scene_board_tileset.tres" id="2_pkvcs"]
 [ext_resource type="Texture2D" uid="uid://r2dfl1t5i26n" path="res://assets/white_green_square.png" id="3_yxn3t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2mei2"]
+size = Vector2(320, 320)
 
 [node name="scene_board" type="Node2D"]
 script = ExtResource("1_rwohw")
@@ -38,6 +41,17 @@ layer_3/tile_data = PackedInt32Array()
 [node name="Highlight" type="Sprite2D" parent="BoardTileMap"]
 texture = ExtResource("3_yxn3t")
 centered = false
+
+[node name="PlayArea" type="Area2D" parent="BoardTileMap"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BoardTileMap/PlayArea"]
+position = Vector2(160, 160)
+shape = SubResource("RectangleShape2D_2mei2")
+
+[node name="ReferenceRect" type="ReferenceRect" parent="BoardTileMap"]
+offset_right = 324.0
+offset_bottom = 324.0
+mouse_filter = 1
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 visible = false

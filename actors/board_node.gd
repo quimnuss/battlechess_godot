@@ -11,8 +11,11 @@ extends Node2D
 @export var empty_spaces: PackedVector2Array
 @onready var highlight : Sprite2D = $BoardTileMap/Highlight
 @onready var board_tilemap : TileMap = $BoardTileMap
-
+@onready var play_area : Area2D = $BoardTileMap/PlayArea
+@onready var reference_rect : ReferenceRect = $BoardTileMap/ReferenceRect
 var TILE_SIZE = 40
+
+var play_area_rect : Rect2 = Rect2(-0.45*TILE_SIZE, -0.45*TILE_SIZE, 7.9*TILE_SIZE, 7.9*TILE_SIZE)
 
 enum TILEMAP_LAYERS {
     BOARD,
@@ -86,7 +89,15 @@ func spawn_piece(piece_type : ChessConstants.PieceType):
     piece.piece_dropped.connect(place_piece)
 
 func _out_of_bounds(pos : Vector2i) -> bool:
-    return pos.x < -0.5*TILE_SIZE or 7.5*TILE_SIZE < pos.x or pos.y < -0.5*TILE_SIZE or 7.5*TILE_SIZE < pos.y
+#    return not play_area.get_viewport_rect().has_point(pos)
+    return not play_area_rect.has_point(pos)
+    var rect: Rect2 = Rect2(to_global(reference_rect.position), reference_rect.size)
+    return not rect.has_point(pos)
+    return not reference_rect.has_point(pos)
+    return pos.x < -0.45*TILE_SIZE \
+        or 7.45*TILE_SIZE < pos.x \
+        or pos.y < -0.45*TILE_SIZE \
+        or 7.45*TILE_SIZE < pos.y
 
 func place_piece(piece : ChessPiece):
     prints("called")
@@ -146,6 +157,7 @@ func highlight_tile(board_point : Vector2):
     if _out_of_bounds(board_point):
         highlight.visible = false
         return
+
 #    var tile_center : Vector2i = board_tilemap.local_to_map(board_point)
     var tile_center : Vector2i = Vector2i(round(board_point.x / TILE_SIZE), round(board_point.y / TILE_SIZE))*TILE_SIZE
     highlight.set_position(tile_center)
