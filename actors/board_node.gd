@@ -13,7 +13,8 @@ extends Node2D
 @onready var board_tilemap : TileMap = $BoardTileMap
 var TILE_SIZE = 40
 
-var play_area_rect : Rect2 = Rect2(-0.45*TILE_SIZE, -0.45*TILE_SIZE, 7.9*TILE_SIZE, 7.9*TILE_SIZE)
+var play_area_rect : Rect2 = Rect2(0, 0, 8*TILE_SIZE, 8*TILE_SIZE)
+var picked_piece : ChessPiece = null
 
 enum TILEMAP_LAYERS {
     BOARD,
@@ -30,6 +31,8 @@ enum TILEMAP_SOURCES {
 }
 
 var char_to_piece : Dictionary = {
+    '' : ChessConstants.PieceType.EMPTY,
+    '_': ChessConstants.PieceType.EMPTY,
     'k': ChessConstants.PieceType.KW,
     'K': ChessConstants.PieceType.KB,
     'q': ChessConstants.PieceType.QW,
@@ -41,7 +44,7 @@ var char_to_piece : Dictionary = {
     'n': ChessConstants.PieceType.NW,
     'N': ChessConstants.PieceType.NB,
     'p': ChessConstants.PieceType.PW,
-    'P': ChessConstants.PieceType.PB
+    'P': ChessConstants.PieceType.PB,
 }
 
 func _ready():
@@ -60,46 +63,62 @@ func _ready():
         rnbkqbnr'''
 
     board_string = board_string.replace(' ','')
+    board_string = board_string.replace('\t','')
     board_string = board_string.replace('\n','')
 
     prints(board_string)
     for x in range(8):
         for y in range(8):
             var char_piece = board_string[y*8+x]
-            if char_piece == '' or char_piece == '\n' or char_piece == '_':
+            if char_piece == '_':
                 continue
-            var piece_type : ChessConstants.PieceType = char_to_piece[char_piece]
+            print(char_piece)
+            var debug_char_piece = '-' + char_piece + '-'
+            var piece_type : ChessConstants.PieceType = char_to_piece.get(char_piece, ChessConstants.PieceType.EMPTY)
             if piece_type == ChessConstants.PieceType.EMPTY or piece_type == null:
                 continue
-            set_piece_tile(Vector2i(x,y), piece_type)
+            set_piece_tile_type(Vector2i(x,y), piece_type)
 
-func set_piece_tile(board_coords : Vector2i, piece_type : ChessConstants.PieceType):
-    var atlas_coords : Vector2i = ChessConstants.piece_to_frame[piece_type]
-    board_tilemap.set_cell(TILEMAP_LAYERS.PIECES, board_coords, TILEMAP_SOURCES.PIECES, atlas_coords)
+func set_piece_tile_type(board_coords : Vector2i, piece_type : ChessConstants.PieceType):
+    if piece_type == ChessConstants.PieceType.EMPTY:
+        board_tilemap.erase_cell(TILEMAP_LAYERS.PIECES, board_coords)
+    else:
+        var atlas_coords : Vector2i = ChessConstants.piece_to_frame[piece_type]
+        board_tilemap.set_cell(TILEMAP_LAYERS.PIECES, board_coords, TILEMAP_SOURCES.PIECES, atlas_coords)
 
-func spawn_piece(piece_type : ChessConstants.PieceType):
+func spawn_piece(piece_type : ChessConstants.PieceType, board_coords : Vector2i):
     var piece : ChessPiece = preload('res://actors/chess_piece.tscn').instantiate()
     piece.set_piece(piece_type)
-#    piece.board_coords = Vector2i(x,y)
-#    piece.position = board_tilemap.local_to_map(Vector2i(x,y))
-#            piece.position = Vector2i(x*TILE_SIZE,y*TILE_SIZE)
+    piece.board_coords = board_coords
+    piece.position = board_tilemap.map_to_local(board_coords)
     add_child(piece)
     piece.piece_dropped.connect(place_piece)
+    prints("spawned piece",piece, piece_type)
+    return piece
 
 func _out_of_bounds(pos : Vector2) -> bool:
     return not play_area_rect.has_point(pos)
 
+func delete_grabbed_piece(piece):
+    piece.queue_free()
+    
+
 func place_piece(piece : ChessPiece):
-    prints("called")
-    print(piece)
+    prints("try place piece",piece)
     if _out_of_bounds(piece.position):
         piece.cancel_move()
-    var target_tile = Vector2i(round(piece.position.x / TILE_SIZE), round(piece.position.y / TILE_SIZE))
-    # check if tile is free
-
-    piece.position = target_tile*TILE_SIZE
-
-    update_fog()
+        set_piece_tile_type(piece.board_coords,piece.piece_type)
+        delete_grabbed_piece(piece)
+        prints("placement canceled, returning",piece.piece_type,"to",piece.board_coords)
+        return
+    var target_board_coords = board_tilemap.local_to_map(piece.position)
+    # TODO check if tile is free
+    
+    prints("place piece",piece,"at",target_board_coords)
+    set_piece_tile_type(target_board_coords, piece.piece_type)
+    delete_grabbed_piece(piece)
+    # fix placing first
+    #update_fog()
 
 func get_tile_piece_type(board_coords : Vector2i) -> ChessConstants.PieceType:
     var piece_tile_data : TileData = board_tilemap.get_cell_tile_data(TILEMAP_LAYERS.PIECES, board_coords)
@@ -143,21 +162,25 @@ func fog_tile(board_coords : Vector2i, fog : bool):
     var atlas_col = 0 if fog else 1
     board_tilemap.set_cell(TILEMAP_LAYERS.FOG, board_coords, TILEMAP_SOURCES.FOG, Vector2i(atlas_col,0))
 
-func highlight_tile(board_point : Vector2):
+func hover_highlight_tile(board_point : Vector2):
     if _out_of_bounds(board_point):
         highlight.visible = false
         return
-
-#    var tile_center : Vector2i = board_tilemap.local_to_map(board_point)
-    var tile_center : Vector2i = Vector2i(round(board_point.x / TILE_SIZE), round(board_point.y / TILE_SIZE))*TILE_SIZE
+    # option 1: go from local to map and map to local -- good for debuging mouse clicks...
+    # apparently mouse coords are relative to the origin, non-offseted tilemap
+    var tile_coords : Vector2i = board_tilemap.local_to_map(board_point)
+    var tile_center : Vector2 = board_tilemap.map_to_local(tile_coords) - Vector2(TILE_SIZE/2,TILE_SIZE/2)
+        
+    # option 2: just round to the closest tile bottom-right corner
+#    var tile_center : Vector2i = Vector2i(round(board_point.x / TILE_SIZE), round(board_point.y / TILE_SIZE))*TILE_SIZE
     highlight.set_position(tile_center)
     highlight.visible = true
 
-func select_tiles(board_coords_list : Array[Vector2i]):
+func highlight_tiles(board_coords_list : Array[Vector2i]):
     for board_coords in board_coords_list:
         board_tilemap.set_cell(TILEMAP_LAYERS.EFFECTS, board_coords, TILEMAP_SOURCES.EFFECTS, Vector2i(1,2))
 
-func deselect_tiles():
+func clear_highlight_tiles():
     for x in range(8):
         for y in range(8):
             board_tilemap.set_cell(TILEMAP_LAYERS.BOARD, Vector2i(x,y), TILEMAP_SOURCES.BOARD, Vector2i(0,0))
@@ -165,25 +188,36 @@ func deselect_tiles():
 var fog : bool = true
 var elapsed : float = 0
 
-func do_something(tile_clicked : Vector2i):
+func pick_up_piece(tile_clicked : Vector2i):
     if _out_of_bounds(tile_clicked):
-        return
+        return null
     var piece_type : ChessConstants.PieceType = get_tile_piece_type(tile_clicked)
-    prints("clicked",piece_type,ChessConstants.piece_to_emoji[piece_type],ChessConstants.piece_to_frame[piece_type])
-    select_tiles([tile_clicked])
+    if piece_type == ChessConstants.PieceType.EMPTY:
+        return null
+    prints("clicked piece",piece_type,ChessConstants.piece_to_emoji[piece_type],"at",tile_clicked)
+    set_piece_tile_type(tile_clicked, ChessConstants.PieceType.EMPTY)
+    highlight_tiles([tile_clicked])
+    var piece : ChessPiece = spawn_piece(piece_type, tile_clicked)
+    return piece
 
 func _input(event):
     if event is InputEventMouseButton:
         var mouse_pos : Vector2 = get_local_mouse_position()
         var tile_clicked : Vector2i = board_tilemap.local_to_map(mouse_pos)
-        do_something(tile_clicked)
         print("clicked tile",tile_clicked)
+        # TODO maybe check we dont already have a piece?
+        if not _out_of_bounds(tile_clicked) and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+            var piece : ChessPiece = pick_up_piece(tile_clicked)
+            if piece:
+                picked_piece = piece
+                picked_piece.selected = true
+                
 
 func _process(delta):
     var mouse : Vector2 = get_local_mouse_position()
     if _out_of_bounds(mouse):
         return
-    highlight_tile(mouse)
+    hover_highlight_tile(mouse)
 #    var tile_mouse_coords : Vector2i = board_tilemap.local_to_map(mouse)
 #    elapsed += delta
 #    if elapsed > 0.3:

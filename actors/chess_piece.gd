@@ -49,7 +49,8 @@ func _input(event):
             piece_dropped.emit(self)
 
 func cancel_move():
-    self.global_position = original_position
+    self.selected = false
+    #piece.visible = false    
 
 func set_piece(chess_piece_type : ChessConstants.PieceType):
     self.piece_type = chess_piece_type
