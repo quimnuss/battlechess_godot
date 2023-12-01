@@ -11,7 +11,6 @@ size = Vector2(320, 320)
 script = ExtResource("1_rwohw")
 
 [node name="BoardTileMap" type="TileMap" parent="."]
-position = Vector2(-20, -20)
 tile_set = ExtResource("2_pkvcs")
 format = 2
 layer_0/name = "board"
@@ -49,8 +48,8 @@ position = Vector2(160, 160)
 shape = SubResource("RectangleShape2D_2mei2")
 
 [node name="ReferenceRect" type="ReferenceRect" parent="BoardTileMap"]
-offset_right = 324.0
-offset_bottom = 324.0
+offset_right = 321.0
+offset_bottom = 321.0
 mouse_filter = 1
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
