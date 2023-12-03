@@ -11,7 +11,7 @@
  "errors_do_not_cause_failure": false,
  "font_color": "ccccccff",
  "font_name": "CourierPrime",
- "font_size": 11,
+ "font_size": 12,
  "gut_on_top": true,
  "hide_orphans": false,
  "ignore_pause": false,
@@ -24,7 +24,7 @@
  "paint_after": 0.1,
  "panel_options": {
   "font_name": "CourierPrime",
-  "font_size": 30,
+  "font_size": 12,
   "hide_output_text": false,
   "hide_result_tree": false,
   "hide_settings": false,
