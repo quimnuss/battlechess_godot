@@ -50,7 +50,7 @@ func _input(event):
 
 func cancel_move():
     self.selected = false
-    #piece.visible = false    
+    #piece.visible = false
 
 func set_piece(chess_piece_type : ChessConstants.PieceType):
     self.piece_type = chess_piece_type
