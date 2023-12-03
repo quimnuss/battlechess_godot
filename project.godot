@@ -29,6 +29,10 @@ window/size/viewport_height=500
 
 project/assembly_name="battlechess"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gut/plugin.cfg")
+
 [input]
 
 select={
