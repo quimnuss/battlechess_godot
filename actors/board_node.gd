@@ -127,13 +127,13 @@ func place_piece(piece : ChessPiece) -> bool:
         return false
 
     var target_board_coords = board_tilemap.local_to_map(piece.position)
-    
-    
+
+
     if not is_move_valid(piece, piece.board_coords, target_board_coords):
         prints("tile is already occupied")
         cancel_move(piece)
         return false
-    
+
     prints("place piece",piece,"at",target_board_coords)
     set_piece_tile_type(target_board_coords, piece.piece_type)
     delete_grabbed_piece(piece)
@@ -198,7 +198,7 @@ func hover_highlight_tile(board_point : Vector2):
     # apparently mouse coords are relative to the origin, non-offseted tilemap
     var tile_coords : Vector2i = board_tilemap.local_to_map(board_point)
     var tile_center : Vector2 = board_tilemap.map_to_local(tile_coords) - Vector2(TILE_SIZE/2,TILE_SIZE/2)
-        
+
     # option 2: just round to the closest tile bottom-right corner
 #    var tile_center : Vector2i = Vector2i(round(board_point.x / TILE_SIZE), round(board_point.y / TILE_SIZE))*TILE_SIZE
     highlight.set_position(tile_center)
@@ -239,7 +239,7 @@ func _input(event):
                 picked_piece = piece
                 picked_piece.selected = true
 
-var fog : bool = true      
+var fog : bool = true
 var elapsed : float = 0
 
 func _process(delta):
