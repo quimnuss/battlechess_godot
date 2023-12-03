@@ -1,5 +1,7 @@
 extends Node2D
 
+class_name Board
+
 @export var width: int
 @export var height: int
 @export var offset: int
@@ -15,6 +17,9 @@ var TILE_SIZE = 40
 
 var play_area_rect : Rect2 = Rect2(0, 0, 8*TILE_SIZE, 8*TILE_SIZE)
 var picked_piece : ChessPiece = null
+
+# TODO choose before game
+var player_color = ChessConstants.PlayerColor.BLACK
 
 enum TILEMAP_LAYERS {
     BOARD,
@@ -101,24 +106,39 @@ func _out_of_bounds(pos : Vector2) -> bool:
 
 func delete_grabbed_piece(piece):
     piece.queue_free()
-    
 
-func place_piece(piece : ChessPiece):
+func cancel_move(piece : ChessPiece):
+    piece.cancel_move()
+    set_piece_tile_type(piece.board_coords,piece.piece_type)
+    delete_grabbed_piece(piece)
+    prints("placement canceled, returning",piece.piece_type,"to",piece.board_coords)
+
+func is_move_valid(piece : ChessPiece, origin : Vector2i, destination : Vector2i):
+    #TODO check if movement valid instead of just occupied
+    if get_tile_piece_type(destination) != ChessConstants.PieceType.EMPTY:
+        return false
+    return true
+
+func place_piece(piece : ChessPiece) -> bool:
     prints("try place piece",piece)
+    clear_highlight_tiles()
     if _out_of_bounds(piece.position):
-        piece.cancel_move()
-        set_piece_tile_type(piece.board_coords,piece.piece_type)
-        delete_grabbed_piece(piece)
-        prints("placement canceled, returning",piece.piece_type,"to",piece.board_coords)
-        return
+        cancel_move(piece)
+        return false
+
     var target_board_coords = board_tilemap.local_to_map(piece.position)
-    # TODO check if tile is free
+    
+    
+    if not is_move_valid(piece, piece.board_coords, target_board_coords):
+        prints("tile is already occupied")
+        cancel_move(piece)
+        return false
     
     prints("place piece",piece,"at",target_board_coords)
     set_piece_tile_type(target_board_coords, piece.piece_type)
     delete_grabbed_piece(piece)
-    # fix placing first
-    #update_fog()
+    update_fog()
+    return true
 
 func get_tile_piece_type(board_coords : Vector2i) -> ChessConstants.PieceType:
     var piece_tile_data : TileData = board_tilemap.get_cell_tile_data(TILEMAP_LAYERS.PIECES, board_coords)
@@ -128,14 +148,24 @@ func get_tile_piece_type(board_coords : Vector2i) -> ChessConstants.PieceType:
     var piece_type : ChessConstants.PieceType = piece_num
     return piece_type
 
-func has_neighbour(board_coords : Vector2i, im_black : bool) -> bool:
-    for dx in range(-1,1,1):
-        for dy in range(-1,1,1):
+func tile_neighbours(board_coords : Vector2i) -> Array[Vector2i]:
+    var neighbours : Set = Set.new()
+    for dx in range(-1,2,1):
+        for dy in range(-1,2,1):
             var neighbour_board_coords : Vector2i = Vector2i(clamp(board_coords.x+dx, 0, 7), clamp(board_coords.y+dy, 0, 7))
-            var piece_type : ChessConstants.PieceType = get_tile_piece_type(board_coords)
-            if piece_type != ChessConstants.PieceType.EMPTY:
-                prints("tile_data",piece_type, ChessConstants.piece_to_emoji[piece_type])
-                return true
+            neighbours.add(neighbour_board_coords)
+    var neigh : Array = neighbours.get_elements()
+    var neigh_tiles : Array[Vector2i]
+    neigh_tiles.assign(neigh)
+    return neigh_tiles
+
+func has_neighbour(board_coords : Vector2i, im_black : bool) -> bool:
+    var neighbour_tiles_coords : Array[Vector2i] = tile_neighbours(board_coords)
+    for neighbour_board_coords in neighbour_tiles_coords:
+        var piece_type : ChessConstants.PieceType = get_tile_piece_type(neighbour_board_coords)
+#        prints("tile",board_coords,"has",ChessConstants.piece_to_emoji[piece_type],"@",neighbour_board_coords)
+        if piece_type != ChessConstants.PieceType.EMPTY:
+            return true
     return false
 
 func is_white_from_piece_type(piece_type : ChessConstants.PieceType):
@@ -143,7 +173,6 @@ func is_white_from_piece_type(piece_type : ChessConstants.PieceType):
         return null
     return bool(piece_type % 2)
 
-var player_color = ChessConstants.PlayerColor.BLACK
 
 func update_fog():
     for x in range(8):
@@ -151,9 +180,8 @@ func update_fog():
             var is_black = player_color == ChessConstants.PlayerColor.BLACK
             var board_coords = Vector2i(x,y)
             var has_neighb = has_neighbour(board_coords, is_black)
-            prints(board_coords,"has neighbour",has_neighb)
+#            prints(board_coords,"has neighbour",has_neighb)
             fog_tile(board_coords,not has_neighb)
-
 
 func fog_tile(board_coords : Vector2i, fog : bool):
     #var atlas_coords : Vector2i = board_tilemap.get_cell_atlas_coords(1,board_coords)
@@ -183,10 +211,8 @@ func highlight_tiles(board_coords_list : Array[Vector2i]):
 func clear_highlight_tiles():
     for x in range(8):
         for y in range(8):
-            board_tilemap.set_cell(TILEMAP_LAYERS.BOARD, Vector2i(x,y), TILEMAP_SOURCES.BOARD, Vector2i(0,0))
-
-var fog : bool = true
-var elapsed : float = 0
+#            board_tilemap.set_cell(TILEMAP_LAYERS.EFFECTS, Vector2i(x,y), TILEMAP_SOURCES.EFFECTS, Vector2i(0,0))
+            board_tilemap.erase_cell(TILEMAP_LAYERS.EFFECTS, Vector2i(x,y))
 
 func pick_up_piece(tile_clicked : Vector2i):
     if _out_of_bounds(tile_clicked):
@@ -196,6 +222,7 @@ func pick_up_piece(tile_clicked : Vector2i):
         return null
     prints("clicked piece",piece_type,ChessConstants.piece_to_emoji[piece_type],"at",tile_clicked)
     set_piece_tile_type(tile_clicked, ChessConstants.PieceType.EMPTY)
+    clear_highlight_tiles()
     highlight_tiles([tile_clicked])
     var piece : ChessPiece = spawn_piece(piece_type, tile_clicked)
     return piece
@@ -211,7 +238,9 @@ func _input(event):
             if piece:
                 picked_piece = piece
                 picked_piece.selected = true
-                
+
+var fog : bool = true      
+var elapsed : float = 0
 
 func _process(delta):
     var mouse : Vector2 = get_local_mouse_position()
