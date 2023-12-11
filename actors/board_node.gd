@@ -214,11 +214,25 @@ func clear_highlight_tiles():
 #            board_tilemap.set_cell(TILEMAP_LAYERS.EFFECTS, Vector2i(x,y), TILEMAP_SOURCES.EFFECTS, Vector2i(0,0))
             board_tilemap.erase_cell(TILEMAP_LAYERS.EFFECTS, Vector2i(x,y))
 
+func get_color(piece_type : ChessConstants.PieceType) -> ChessConstants.PlayerColor:
+    if piece_type == ChessConstants.PieceType.EMPTY:
+        return ChessConstants.PlayerColor.EMPTY
+    
+    var modulo_piece_type : bool = (piece_type % 2 == 0)
+    
+    match modulo_piece_type:
+        true:
+            return ChessConstants.PlayerColor.BLACK
+        false:
+            return ChessConstants.PlayerColor.WHITE
+        _:
+            return ChessConstants.PlayerColor.EMPTY
+
 func pick_up_piece(tile_clicked : Vector2i):
-    if _out_of_bounds(tile_clicked):
-        return null
     var piece_type : ChessConstants.PieceType = get_tile_piece_type(tile_clicked)
     if piece_type == ChessConstants.PieceType.EMPTY:
+        return null
+    if get_color(piece_type) != self.player_color:
         return null
     prints("clicked piece",piece_type,ChessConstants.piece_to_emoji[piece_type],"at",tile_clicked)
     set_piece_tile_type(tile_clicked, ChessConstants.PieceType.EMPTY)
