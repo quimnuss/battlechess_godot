@@ -2,7 +2,7 @@ extends Node
 
 enum PieceType {EMPTY, KW, KB, QW, QB, RW, RB, BW, BB, NW, NB, PW, PB}
 
-enum PlayerColor {BLACK,WHITE}
+enum PlayerColor {BLACK,WHITE,EMPTY}
 
 var piece_to_emoji : Dictionary = {
     PieceType.EMPTY : "_",
