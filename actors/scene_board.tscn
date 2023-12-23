@@ -60,3 +60,7 @@ polygon = PackedVector2Array(-24, -16, 296, -16, 304, 304, -24, 304)
 
 [node name="BtchServer" type="Node2D" parent="."]
 script = ExtResource("4_33rir")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="BtchServer"]
+
+[connection signal="request_completed" from="BtchServer/HTTPRequest" to="BtchServer" method="_on_http_request_request_completed"]
