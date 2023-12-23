@@ -51,3 +51,19 @@ var piece_to_frame : Dictionary = {
     PieceType.PW : Vector2i(3,2),
     PieceType.PB : Vector2i(1,2)
 }
+
+var piece_to_color : Dictionary = {
+    PieceType.EMPTY : PlayerColor.EMPTY,
+    PieceType.KW : PlayerColor.WHITE,
+    PieceType.KB : PlayerColor.BLACK,
+    PieceType.QW : PlayerColor.WHITE,
+    PieceType.QB : PlayerColor.BLACK,
+    PieceType.RW : PlayerColor.WHITE,
+    PieceType.RB : PlayerColor.BLACK,
+    PieceType.BW : PlayerColor.WHITE,
+    PieceType.BB : PlayerColor.BLACK,
+    PieceType.NW : PlayerColor.WHITE,
+    PieceType.NB : PlayerColor.BLACK,
+    PieceType.PW : PlayerColor.WHITE,
+    PieceType.PB : PlayerColor.BLACK
+}
