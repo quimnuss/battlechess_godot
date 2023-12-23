@@ -245,6 +245,9 @@ func _input(event):
         var mouse_pos : Vector2 = get_local_mouse_position()
         var tile_clicked : Vector2i = board_tilemap.local_to_map(mouse_pos)
         print("clicked tile",tile_clicked)
+        # TODO point and click logic
+
+        # drag-and-drop logic
         # TODO maybe check we dont already have a piece?
         if not _out_of_bounds(tile_clicked) and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
             var piece : ChessPiece = pick_up_piece(tile_clicked)
