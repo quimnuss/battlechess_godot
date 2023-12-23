@@ -13,6 +13,7 @@ class_name Board
 @export var empty_spaces: PackedVector2Array
 @onready var highlight : Sprite2D = $BoardTileMap/Highlight
 @onready var board_tilemap : TileMap = $BoardTileMap
+@onready var btch_server : BtchServer = $BtchServer
 var TILE_SIZE = 40
 
 var play_area_rect : Rect2 = Rect2(0, 0, 8*TILE_SIZE, 8*TILE_SIZE)
@@ -77,7 +78,7 @@ func _ready():
             var char_piece = board_string[y*8+x]
             if char_piece == '_':
                 continue
-            print(char_piece)
+
             var debug_char_piece = '-' + char_piece + '-'
             var piece_type : ChessConstants.PieceType = char_to_piece.get(char_piece, ChessConstants.PieceType.EMPTY)
             if piece_type == ChessConstants.PieceType.EMPTY or piece_type == null:
@@ -246,7 +247,8 @@ func _input(event):
         var tile_clicked : Vector2i = board_tilemap.local_to_map(mouse_pos)
         print("clicked tile",tile_clicked)
         # TODO point and click logic
-
+        btch_server.test_request()
+        
         # drag-and-drop logic
         # TODO maybe check we dont already have a piece?
         if not _out_of_bounds(tile_clicked) and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
