@@ -159,12 +159,12 @@ func tile_neighbours(board_coords : Vector2i) -> Array[Vector2i]:
     neigh_tiles.assign(neigh)
     return neigh_tiles
 
-func has_neighbour(board_coords : Vector2i, im_black : bool) -> bool:
+func has_neighbour(board_coords : Vector2i, player_color : ChessConstants.PlayerColor) -> bool:
     var neighbour_tiles_coords : Array[Vector2i] = tile_neighbours(board_coords)
     for neighbour_board_coords in neighbour_tiles_coords:
         var piece_type : ChessConstants.PieceType = get_tile_piece_type(neighbour_board_coords)
 #        prints("tile",board_coords,"has",ChessConstants.piece_to_emoji[piece_type],"@",neighbour_board_coords)
-        if piece_type != ChessConstants.PieceType.EMPTY:
+        if piece_type != ChessConstants.PieceType.EMPTY and ChessConstants.piece_to_color[piece_type] == player_color:
             return true
     return false
 
@@ -177,9 +177,8 @@ func is_white_from_piece_type(piece_type : ChessConstants.PieceType):
 func update_fog():
     for x in range(8):
         for y in range(8):
-            var is_black = player_color == ChessConstants.PlayerColor.BLACK
             var board_coords = Vector2i(x,y)
-            var has_neighb = has_neighbour(board_coords, is_black)
+            var has_neighb = has_neighbour(board_coords, player_color)
 #            prints(board_coords,"has neighbour",has_neighb)
             fog_tile(board_coords,not has_neighb)
 
@@ -217,9 +216,9 @@ func clear_highlight_tiles():
 func get_color(piece_type : ChessConstants.PieceType) -> ChessConstants.PlayerColor:
     if piece_type == ChessConstants.PieceType.EMPTY:
         return ChessConstants.PlayerColor.EMPTY
-    
+
     var modulo_piece_type : bool = (piece_type % 2 == 0)
-    
+
     match modulo_piece_type:
         true:
             return ChessConstants.PlayerColor.BLACK
