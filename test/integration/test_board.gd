@@ -17,6 +17,6 @@ func highlight_neighbours(board_coords : Vector2i):
 func _process(delta):
     var mouse : Vector2 = get_local_mouse_position()
     var tile = scene_board.board_tilemap.local_to_map(mouse)
-    var has_neigh = scene_board.has_neighbour(tile, true)
+    var has_neigh = scene_board.has_neighbour(tile, ChessConstants.PlayerColor.BLACK)
     prints("tile",tile,"has neighbour?",has_neigh)
     highlight_neighbours(tile)
