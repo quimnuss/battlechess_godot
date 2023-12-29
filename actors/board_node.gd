@@ -248,7 +248,7 @@ func _input(event):
         print("clicked tile",tile_clicked)
         # TODO point and click logic
         btch_server.test_request()
-        
+
         # drag-and-drop logic
         # TODO maybe check we dont already have a piece?
         if not _out_of_bounds(tile_clicked) and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
