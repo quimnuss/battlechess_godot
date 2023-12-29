@@ -6,8 +6,8 @@ class_name BtchServer
 @onready var admin_request : HTTPRequest = $AdminRequests
 @onready var seq_request : HTTPRequest = $SeqRequests
 
-var BASE_URL : String = "http://localhost:8000"
-var ENDPOINT : String = "/games"
+const BASE_URL : String = "http://localhost:8000"
+const ENDPOINT : String = "/games"
 
 var token : String = ""
 
@@ -22,7 +22,7 @@ func _ready():
     var err = config.load(CONFIG_FILE)
     if err != OK:
         prints("User config",CONFIG_FILE,"failed to load.")
-        
+
         config.set_value("Player", "username", "Steve")
         config.set_value("Player", "password", "foo")
         config.save(CONFIG_FILE)
@@ -31,13 +31,14 @@ func _ready():
         password = config.get_value("Player", "password", "foo")
 
 func register_user(username: String, password: String):
-    
+
     # create user (skip if server says it exists)
-    
+
     # store token
-    
+
     var users_endpoint : String = "%s/users/" % BASE_URL
-    
+
+
 
 func auth():
     var auth_endpoint : String = "%s/token" % BASE_URL
@@ -45,15 +46,15 @@ func auth():
     var error = seq_request.request(auth_endpoint, [], HTTPClient.METHOD_POST)
     print("auth req error?",error)
     var response_pack = await seq_request.request_completed
-    
+
     var result = response_pack[0]
     var response_code = response_pack[1]
     var headers = response_pack[2]
     var body = response_pack[3]
-    
+
     var json = JSON.parse_string(body.get_string_from_utf8())
     prints("auth response",result, response_code, headers)
-    print(JSON.stringify(json,'  ')) 
+    print(JSON.stringify(json,'  '))
 
 func btch_standard_request(url : String, payload : Dictionary, req : HTTPRequest) -> Error:
     var headers = ["Bearer: %s" % token]
@@ -76,14 +77,14 @@ func btch_request(url : String, payload : Dictionary, req : HTTPRequest) -> Erro
     if not token:
         auth()
     return btch_standard_request(url, payload, req)
-    
+
 
 func test_request():
     var url = "{BASE_URL}{ENDPOINT}".format({"BASE_URL" : BASE_URL, "ENDPOINT" : ENDPOINT})
     var move_payload : Dictionary = {}
-    
+
     # testing auth
-    btch_request(url, move_payload, request)        
+    btch_request(url, move_payload, request)
 
 # Poll server for moves
 func _process(delta):
