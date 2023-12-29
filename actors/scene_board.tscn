@@ -65,5 +65,7 @@ script = ExtResource("4_33rir")
 
 [node name="AdminRequests" type="HTTPRequest" parent="BtchServer"]
 
+[node name="SeqRequests" type="HTTPRequest" parent="BtchServer"]
+
 [connection signal="request_completed" from="BtchServer/GameRequests" to="BtchServer" method="_on_http_request_request_completed"]
 [connection signal="request_completed" from="BtchServer/AdminRequests" to="BtchServer" method="_on_admin_requests_request_completed"]
