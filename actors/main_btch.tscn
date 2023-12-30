@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://l2wnr4401kqx"]
 
 [ext_resource type="PackedScene" uid="uid://c76ybxdwy7mbk" path="res://actors/player_control.tscn" id="1_1ddh3"]
+[ext_resource type="Script" path="res://actors/phone_operator.gd" id="1_kq3wj"]
 [ext_resource type="PackedScene" uid="uid://rlxycfbs6rgr" path="res://actors/scene_board.tscn" id="1_t4sml"]
-[ext_resource type="Script" path="res://actors/game.gd" id="2_7u6il"]
 [ext_resource type="PackedScene" uid="uid://dqa6kk2vyqay" path="res://actors/btch_server.tscn" id="3_bxw6y"]
 
 [node name="main_btch" type="Control"]
@@ -26,6 +26,7 @@ grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
+script = ExtResource("1_kq3wj")
 
 [node name="TopPlayerControl" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_1ddh3")]
 layout_mode = 2
@@ -34,14 +35,19 @@ layout_mode = 2
 custom_minimum_size = Vector2(320, 320)
 layout_mode = 2
 
-[node name="Game" type="Node2D" parent="CenterContainer/VBoxContainer/AspectRatioContainer"]
-script = ExtResource("2_7u6il")
+[node name="CanvasLayer" type="CanvasLayer" parent="CenterContainer/VBoxContainer/AspectRatioContainer"]
 
-[node name="SceneBoard" parent="CenterContainer/VBoxContainer/AspectRatioContainer/Game" node_paths=PackedStringArray("btch_server") instance=ExtResource("1_t4sml")]
+[node name="Game" type="Node2D" parent="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer"]
+position = Vector2(90, 90)
+
+[node name="SceneBoard" parent="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game" node_paths=PackedStringArray("btch_server") instance=ExtResource("1_t4sml")]
 btch_server = NodePath("../BtchServer")
 
-[node name="BtchServer" parent="CenterContainer/VBoxContainer/AspectRatioContainer/Game" instance=ExtResource("3_bxw6y")]
+[node name="BtchServer" parent="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game" instance=ExtResource("3_bxw6y")]
 
 [node name="BottomPlayerControl" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_1ddh3")]
 layout_mode = 2
 player_name = "bar"
+
+[connection signal="opponent_username_update" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer/BottomPlayerControl" method="_set_label_text"]
+[connection signal="username_update" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer/TopPlayerControl" method="_set_label_text"]

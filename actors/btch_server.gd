@@ -18,6 +18,11 @@ var CONFIG_FILE : String = "user://btch.cfg"
 var username : String
 var password : String
 
+signal username_update(username : String)
+signal opponent_username_update(username : String)
+
+signal connection_status_updated(connected : bool)
+
 func _ready():
     var err = config.load(CONFIG_FILE)
     if err != OK:
@@ -39,7 +44,6 @@ func register_user(username: String, password: String):
     var users_endpoint : String = "%s/users/" % BASE_URL
 
 
-
 func auth():
     var auth_endpoint : String = "%s/token" % BASE_URL
     var credentials : Dictionary = {'username': username, 'password': password}
@@ -55,6 +59,9 @@ func auth():
     var json = JSON.parse_string(body.get_string_from_utf8())
     prints("auth response",result, response_code, headers)
     print(JSON.stringify(json,'  '))
+    
+    if response_code != 200:
+        connection_status_updated.emit(false)
 
 func btch_standard_request(url : String, payload : Dictionary, req : HTTPRequest) -> Error:
     var headers = ["Bearer: %s" % token]

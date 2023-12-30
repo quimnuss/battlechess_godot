@@ -33,3 +33,4 @@ max_lines_visible = 1
 
 [node name="PlayerCheckButton" type="CheckButton" parent="PlayerMarginContainer/PlayerHBoxContainer"]
 layout_mode = 2
+button_pressed = true
