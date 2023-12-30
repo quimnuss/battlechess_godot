@@ -6,7 +6,7 @@ var auth_endpoint : String = "%s/token" % BtchServer.BASE_URL
 @onready var user_seq_request : HTTPRequest = $UserSeqRequests
 
 @export var username : String = 'foo'
-@export var password : String = 'bar'
+@export var password : String = 'deadbeef'
 
 var token : String = ""
 var config = ConfigFile.new()

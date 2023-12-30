@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3 uid="uid://c76ybxdwy7mbk"]
+
+[ext_resource type="Script" path="res://actors/player_control.gd" id="1_5grjc"]
+
+[node name="PlayerControl" type="Control"]
+custom_minimum_size = Vector2(320, 50)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_5grjc")
+
+[node name="PlayerMarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="PlayerHBoxContainer" type="HBoxContainer" parent="PlayerMarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="PlayerLabel" type="Label" parent="PlayerMarginContainer/PlayerHBoxContainer"]
+layout_mode = 2
+text = "foo"
+horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
+
+[node name="PlayerCheckButton" type="CheckButton" parent="PlayerMarginContainer/PlayerHBoxContainer"]
+layout_mode = 2
