@@ -20,6 +20,7 @@ config/icon="res://assets/icon.png"
 [autoload]
 
 ChessConstants="*res://actors/chess_constants.gd"
+BtchCommon="*res://actors/btch_common.gd"
 
 [display]
 
