@@ -13,7 +13,7 @@ class_name Board
 @export var empty_spaces: PackedVector2Array
 @onready var highlight : Sprite2D = $BoardTileMap/Highlight
 @onready var board_tilemap : TileMap = $BoardTileMap
-@onready var btch_server : BtchServer = $BtchServer
+@export var btch_server : BtchServer
 var TILE_SIZE = 40
 
 var play_area_rect : Rect2 = Rect2(0, 0, 8*TILE_SIZE, 8*TILE_SIZE)

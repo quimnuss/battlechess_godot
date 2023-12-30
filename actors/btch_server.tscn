@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqa6kk2vyqay"]
+
+[ext_resource type="Script" path="res://actors/btch_server.gd" id="1_armag"]
+[ext_resource type="Script" path="res://actors/btch_user.gd" id="2_1w108"]
+
+[node name="BtchServer" type="Node2D"]
+script = ExtResource("1_armag")
+
+[node name="GameRequests" type="HTTPRequest" parent="."]
+
+[node name="@Timer@196351" type="Timer" parent="GameRequests"]
+one_shot = true
+
+[node name="AdminRequests" type="HTTPRequest" parent="."]
+
+[node name="@Timer@196352" type="Timer" parent="AdminRequests"]
+one_shot = true
+
+[node name="SeqRequests" type="HTTPRequest" parent="."]
+
+[node name="@Timer@196353" type="Timer" parent="SeqRequests"]
+one_shot = true
+
+[node name="OpponentPlayer" type="Node" parent="."]
+script = ExtResource("2_1w108")
+
+[node name="UserSeqRequests" type="HTTPRequest" parent="OpponentPlayer"]
+
+[node name="_Timer_196354" type="Timer" parent="OpponentPlayer/UserSeqRequests"]
+one_shot = true
+
+[node name="Player" type="Node" parent="."]
+script = ExtResource("2_1w108")
+
+[node name="UserSeqRequests" type="HTTPRequest" parent="Player"]
+
+[node name="@Timer@196354" type="Timer" parent="Player/UserSeqRequests"]
+one_shot = true
+
+[connection signal="request_completed" from="GameRequests" to="." method="_on_http_request_request_completed"]
+[connection signal="request_completed" from="AdminRequests" to="." method="_on_admin_requests_request_completed"]

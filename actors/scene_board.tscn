@@ -1,10 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://rlxycfbs6rgr"]
+[gd_scene load_steps=5 format=3 uid="uid://rlxycfbs6rgr"]
 
 [ext_resource type="Script" path="res://actors/board_node.gd" id="1_rwohw"]
 [ext_resource type="TileSet" uid="uid://culndfir8cyij" path="res://actors/scene_board_tileset.tres" id="2_pkvcs"]
 [ext_resource type="Texture2D" uid="uid://r2dfl1t5i26n" path="res://assets/white_green_square.png" id="3_yxn3t"]
-[ext_resource type="Script" path="res://actors/btch_server.gd" id="4_33rir"]
-[ext_resource type="Script" path="res://actors/btch_user.gd" id="5_6hniu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2mei2"]
 size = Vector2(320, 320)
@@ -58,20 +56,3 @@ mouse_filter = 1
 visible = false
 color = Color(1, 0, 0, 0.368627)
 polygon = PackedVector2Array(-24, -16, 296, -16, 304, 304, -24, 304)
-
-[node name="BtchServer" type="Node2D" parent="."]
-script = ExtResource("4_33rir")
-
-[node name="GameRequests" type="HTTPRequest" parent="BtchServer"]
-
-[node name="AdminRequests" type="HTTPRequest" parent="BtchServer"]
-
-[node name="SeqRequests" type="HTTPRequest" parent="BtchServer"]
-
-[node name="Node" type="Node" parent="BtchServer"]
-script = ExtResource("5_6hniu")
-
-[node name="UserSeqRequests" type="HTTPRequest" parent="BtchServer/Node"]
-
-[connection signal="request_completed" from="BtchServer/GameRequests" to="BtchServer" method="_on_http_request_request_completed"]
-[connection signal="request_completed" from="BtchServer/AdminRequests" to="BtchServer" method="_on_admin_requests_request_completed"]
