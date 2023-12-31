@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqa6kk2vyqay"]
+[gd_scene load_steps=4 format=3 uid="uid://dqa6kk2vyqay"]
 
 [ext_resource type="Script" path="res://actors/btch_server.gd" id="1_armag"]
 [ext_resource type="Script" path="res://actors/btch_user.gd" id="2_1w108"]
+[ext_resource type="Script" path="res://actors/btch_game.gd" id="3_kw7fr"]
 
 [node name="BtchServer" type="Node2D"]
 script = ExtResource("1_armag")
@@ -22,7 +23,6 @@ one_shot = true
 one_shot = true
 
 [node name="OpponentPlayer" type="Node" parent="."]
-script = ExtResource("2_1w108")
 
 [node name="UserSeqRequests" type="HTTPRequest" parent="OpponentPlayer"]
 
@@ -36,6 +36,11 @@ script = ExtResource("2_1w108")
 
 [node name="@Timer@196354" type="Timer" parent="Player/UserSeqRequests"]
 one_shot = true
+
+[node name="BtchGame" type="Node" parent="."]
+script = ExtResource("3_kw7fr")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="BtchGame"]
 
 [connection signal="request_completed" from="GameRequests" to="." method="_on_http_request_request_completed"]
 [connection signal="request_completed" from="AdminRequests" to="." method="_on_admin_requests_request_completed"]

@@ -69,3 +69,45 @@ func auth(username : String, password : String) -> Error:
         return response_code
     else:
         return OK
+
+
+func request_error_handle(result, response_code) -> bool:
+    var ok : bool = false
+    match result:
+        HTTPRequest.RESULT_SUCCESS:
+            prints("request success... let's see response...")
+
+        HTTPRequest.RESULT_CANT_CONNECT:
+            prints("request cant connect")
+            return false
+        _:
+            prints("request err unknown")
+            return false
+
+    match response_code:
+        200:
+            prints("response ok!")
+            return true
+        _:
+            prints("response not ok",response_code)
+            return false
+    return false
+
+
+func btch_standard_request(url : String, payload : Dictionary, req : HTTPRequest) -> Error:
+    var headers = ["Bearer: %s" % token]
+    var payload_json = JSON.stringify(payload)
+    prints("request",url,payload_json)
+    var error : Error = req.request(url, headers, HTTPClient.METHOD_GET)
+    prints("error",error)
+    match error:
+        OK:
+            pass
+        ERR_BUSY:
+            prints("Url is busy or does not exist")
+        ERR_INVALID_PARAMETER:
+            prints("Error invalid parameter")
+        _:
+            pass
+    return error
+

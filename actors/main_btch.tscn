@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://l2wnr4401kqx"]
+[gd_scene load_steps=6 format=3 uid="uid://l2wnr4401kqx"]
 
 [ext_resource type="PackedScene" uid="uid://c76ybxdwy7mbk" path="res://actors/player_control.tscn" id="1_1ddh3"]
 [ext_resource type="Script" path="res://actors/phone_operator.gd" id="1_kq3wj"]
 [ext_resource type="PackedScene" uid="uid://rlxycfbs6rgr" path="res://actors/scene_board.tscn" id="1_t4sml"]
+[ext_resource type="Script" path="res://actors/main_btch.gd" id="1_xxlde"]
 [ext_resource type="PackedScene" uid="uid://dqa6kk2vyqay" path="res://actors/btch_server.tscn" id="3_bxw6y"]
 
 [node name="main_btch" type="Control"]
@@ -15,6 +16,7 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
+script = ExtResource("1_xxlde")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
