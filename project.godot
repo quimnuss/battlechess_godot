@@ -21,6 +21,7 @@ config/icon="res://assets/icon.png"
 
 ChessConstants="*res://actors/chess_constants.gd"
 BtchCommon="*res://actors/btch_common.gd"
+Globals="*res://actors/globals.gd"
 
 [display]
 
