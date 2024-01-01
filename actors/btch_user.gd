@@ -16,9 +16,9 @@ var config : ConfigFile = ConfigFile.new()
 var player_section : String = "Player"
 
 func _ready():
-        
-    dev_run_setup()    
-    
+
+    dev_run_setup()
+
     var err = config.load(Globals.CONFIG_FILE_ACTIVE)
     if err != OK:
         prints("User config",Globals.CONFIG_FILE_ACTIVE,"failed to load.")
@@ -65,9 +65,9 @@ func dev_run_setup():
 
 func create_user(username, email, password) -> Error:
     var credentials : Dictionary = {'username': username, 'email': email, 'plain_password': password}
-    
+
     var payload : String = JSON.stringify(credentials)
-    
+
     var endpoint : String = "%s/users/" % BtchCommon.BASE_URL
     var error = user_seq_request.request(endpoint, ["Content-Type: application/json"], HTTPClient.METHOD_POST, payload)
     prints("auth req error?",error != OK, error)
@@ -81,11 +81,11 @@ func create_user(username, email, password) -> Error:
     var json = JSON.parse_string(body.get_string_from_utf8())
     prints("auth response",result, response_code, headers)
     print(JSON.stringify(json,'  '))
-    
+
     if response_code == 200:
         var hashed_password : String = json['hashed_password']
         prints("save hashed password for",username,"on section",player_section,"config",Globals.CONFIG_FILE_ACTIVE,"value",hashed_password)
-        
+
         config.load(Globals.CONFIG_FILE_ACTIVE)
         config.set_value(player_section, "hash_password", hashed_password)
         config.save(Globals.CONFIG_FILE_ACTIVE)

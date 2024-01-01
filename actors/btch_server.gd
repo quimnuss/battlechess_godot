@@ -28,7 +28,7 @@ func btch_request(url : String, payload : Dictionary, req : HTTPRequest) -> Erro
         if response_code != OK:
             connection_status_updated.emit(false)
             return ERR_CONNECTION_ERROR
-    
+
     return BtchCommon.btch_standard_request(url, payload, req)
 
 func test_request():
