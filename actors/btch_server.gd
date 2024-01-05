@@ -6,24 +6,47 @@ class_name BtchServer
 @onready var admin_request : HTTPRequest = $AdminRequests
 @onready var seq_request : HTTPRequest = $SeqRequests
 
+@onready var player : BtchUser = $Player
+@onready var game : BtchGame = $BtchGame
+
 const ENDPOINT : String = "/games"
 
 var config : ConfigFile = ConfigFile.new()
-
-var username : String
-var password : String
 
 signal username_update(username : String)
 signal opponent_username_update(username : String)
 
 signal connection_status_updated(connected : bool)
 
+signal game_joined(uuid : String)
+
 func _ready():
-    pass
+    username_update.emit(player.username)
+    join_or_create_game()
+
+func join_or_create_game():
+    var result : BtchCommon.HTTPStatus = game.join_open_game()
+
+    match result:
+        BtchCommon.HTTPStatus.OK:
+            prints("game",game.uuid,"joined")
+        BtchCommon.HTTPStatus.SERVICEUNAVAILABLE:
+            prints("server did not respond")
+        BtchCommon.HTTPStatus.NOTFOUND:
+            prints("no games available. Let's create one")
+            var create_result = game.create_game()
+            if create_result != BtchCommon.HTTPStatus.OK:
+                prints("game creation failed",create_result)
+                return create_result
+            else:
+                game_joined.emit(game.uuid)
+                return create_result
+        _:
+            prints("Error",result,"joining game")
 
 func btch_request(url : String, payload : Dictionary, req : HTTPRequest) -> Error:
     if not BtchCommon.token:
-        var response_code = await BtchCommon.auth(username, password)
+        var response_code = await BtchCommon.auth(player.username, player.password)
 
         if response_code != OK:
             connection_status_updated.emit(false)
