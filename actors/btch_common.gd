@@ -48,6 +48,10 @@ enum HTTPStatus {
      HTTPVERSIONNOTSUPPORTED = 505
 }
 
+enum BtchError {
+    OK,
+}
+
 func auth(username : String, password : String) -> Error:
     var auth_endpoint : String = "%s/token" % BASE_URL
     var credentials : Dictionary = {'username': username, 'password': password}

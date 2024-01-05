@@ -33,7 +33,7 @@ func _ready():
 
     var ok : int = await create_user(username, email, plain_password)
     if ok != OK and ok != ERR_ALREADY_EXISTS:
-        prints("failed remote creating user")
+        prints("failed remote creating user",username)
     else:
         prints("user",username,"OK.","exists?",ok==ERR_ALREADY_EXISTS)
 
