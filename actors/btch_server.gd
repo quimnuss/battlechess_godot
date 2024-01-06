@@ -43,7 +43,7 @@ func forward_connection_status(new_connection_status : bool):
     self.connection_status = new_connection_status
 
 func join_or_create_game():
-    var result : BtchCommon.HTTPStatus = game.join_open_game()
+    var result : BtchCommon.HTTPStatus = await game.join_open_game()
 
     match result:
         BtchCommon.HTTPStatus.OK:
@@ -53,7 +53,7 @@ func join_or_create_game():
             connection_status_updated.emit(false)
         BtchCommon.HTTPStatus.NOTFOUND:
             prints("no games available. Let's create one")
-            var create_result = game.create_game()
+            var create_result : BtchCommon.HTTPStatus = await game.create_and_join_game()
             if create_result != BtchCommon.HTTPStatus.OK:
                 prints("game creation failed",create_result)
             else:
@@ -62,27 +62,22 @@ func join_or_create_game():
         _:
             prints("Error",result,BtchCommon.httpstatus_to_string[result],"joining game")
 
-func btch_request(url : String, payload : Dictionary, req : HTTPRequest) -> BtchCommon.HTTPStatus:
+func btch_request(endpoint : String, payload : Dictionary, req : HTTPRequest) -> BtchCommon.HTTPStatus:
     if not BtchCommon.token:
         var response_code = await BtchCommon.auth(player.username, player.plain_password)
 
-        if response_code != OK:
-            return BtchCommon.HTTPStatus.SERVICEUNAVAILABLE
-            
+        if response_code != BtchCommon.HTTPStatus.OK:
+            return BtchCommon.HTTPStatus.SERVICEUNAVAILABLE            
 
-    return await BtchCommon.btch_standard_request(url, payload, req)
+    return await BtchCommon.btch_standard_request(endpoint, payload, req)
 
 func test_request():
-    var url = "{BASE_URL}{ENDPOINT}".format({"BASE_URL" : BtchCommon.BASE_URL, "ENDPOINT" : ENDPOINT})
     var move_payload : Dictionary = {}
-
-    # testing auth
-    btch_request(url, move_payload, request)
+    btch_request(ENDPOINT, move_payload, request)
 
 # Poll server for moves
 func _process(delta):
     pass
-
 
 func _on_http_request_request_completed(result, response_code, headers, body):
     var json = JSON.parse_string(body.get_string_from_utf8())
@@ -91,4 +86,3 @@ func _on_http_request_request_completed(result, response_code, headers, body):
     if ok:
         prints("all ok, do something")
         #TODO handle responses
-

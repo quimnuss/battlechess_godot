@@ -122,18 +122,26 @@ func request_error_handle(result, response_code) -> bool:
     return false
 
 
-func btch_standard_request(endpoint : String, payload : Dictionary, req : HTTPRequest) -> HTTPStatus:
+func btch_standard_request(endpoint : String, payload : Dictionary, req : HTTPRequest, method : HTTPClient.Method = HTTPClient.METHOD_GET) -> HTTPStatus:
+    var response_data : Dictionary = await btch_standard_data_request(endpoint, payload, req, method)
+
+    return response_data['status_code']
+
+func btch_standard_data_request(endpoint : String, payload : Dictionary, req : HTTPRequest, method : HTTPClient.Method = HTTPClient.METHOD_GET) -> Dictionary:
     var url : String =  BtchCommon.BASE_URL + endpoint
-    var reqheaders = ["Bearer: " + token]
+    var reqheaders = ["Authorization: Bearer " + token]
     var payload_json = JSON.stringify(payload)
     prints("request",url,payload_json)
-    var error : Error = req.request(url, reqheaders, HTTPClient.METHOD_GET)
+    var error : Error = req.request(url, reqheaders, method, payload_json)
     prints("auth req error?",error,error_string(error))
     if error != Error.OK:
         connection_status = false
-        return HTTPStatus.BADGATEWAY
-    var response_pack = await common_request.request_completed
-
+        return {'status_code' : HTTPStatus.BADGATEWAY}
+    
+    prints("awaiting request...")
+    var response_pack = await req.request_completed
+    prints("done!")
+    
     var result = response_pack[0]
     var response_code : HTTPStatus = response_pack[1]
     var headers = response_pack[2]
@@ -143,15 +151,9 @@ func btch_standard_request(endpoint : String, payload : Dictionary, req : HTTPRe
     prints("auth response", result, response_code, headers)
     print(JSON.stringify(json,'  '))
 
-    if response_code != HTTPStatus.OK:
-        # TODO translate codes to something btch
-        connection_status = false
-        return response_code
-    else:
-        token = json['access_token']
-        connection_status = true
-        return HTTPStatus.OK
+    json['status_code'] = response_code
 
+    return json
 
 var httpstatus_to_string : Dictionary = {
      100 : 'CONTINUE',
