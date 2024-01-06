@@ -14,6 +14,8 @@ var connection_status : bool = false:
 
 var common_request : HTTPRequest = HTTPRequest.new()
 
+var _http_client : HTTPClient = HTTPClient.new()
+
 enum HTTPStatus {
      CONTINUE = 100,
      SWITCHINGPROTOCOLS = 101,
@@ -66,9 +68,12 @@ func _ready():
 
 
 func auth(username : String, password : String) -> HTTPStatus:
-    var auth_endpoint : String = "%s/token" % BASE_URL
+    var auth_endpoint : String = BASE_URL + "/token"
     var credentials : Dictionary = {'username': username, 'password': password}
-    var error : Error = common_request.request(auth_endpoint, ["Content-Type: application/json"], HTTPClient.METHOD_POST, JSON.stringify(credentials))
+    var query_string : String = _http_client.query_string_from_dict(credentials)
+    var payload : String = JSON.stringify(credentials)
+    prints(query_string)
+    var error : Error = common_request.request(auth_endpoint, ["Content-Type: application/x-www-form-urlencoded"], HTTPClient.METHOD_POST, query_string) 
     prints("auth req error?",error,error_string(error))
     if error != Error.OK:
         connection_status = false
@@ -81,7 +86,7 @@ func auth(username : String, password : String) -> HTTPStatus:
     var body = response_pack[3]
 
     var json = JSON.parse_string(body.get_string_from_utf8())
-    prints("auth response",result, response_code, headers)
+    prints("auth response", result, response_code, headers)
     print(JSON.stringify(json,'  '))
 
     if response_code != HTTPStatus.OK:
@@ -89,6 +94,7 @@ func auth(username : String, password : String) -> HTTPStatus:
         connection_status = false
         return response_code
     else:
+        token = json['access_token']
         connection_status = true
         return HTTPStatus.OK
 
@@ -116,20 +122,79 @@ func request_error_handle(result, response_code) -> bool:
     return false
 
 
-func btch_standard_request(url : String, payload : Dictionary, req : HTTPRequest) -> Error:
-    var headers = ["Bearer: %s" % token]
+func btch_standard_request(endpoint : String, payload : Dictionary, req : HTTPRequest) -> HTTPStatus:
+    var url : String =  BtchCommon.BASE_URL + endpoint
+    var reqheaders = ["Bearer: " + token]
     var payload_json = JSON.stringify(payload)
     prints("request",url,payload_json)
-    var error : Error = req.request(url, headers, HTTPClient.METHOD_GET)
-    prints("error",error)
-    match error:
-        OK:
-            pass
-        ERR_BUSY:
-            prints("Url is busy or does not exist")
-        ERR_INVALID_PARAMETER:
-            prints("Error invalid parameter")
-        _:
-            pass
-    return error
+    var error : Error = req.request(url, reqheaders, HTTPClient.METHOD_GET)
+    prints("auth req error?",error,error_string(error))
+    if error != Error.OK:
+        connection_status = false
+        return HTTPStatus.BADGATEWAY
+    var response_pack = await common_request.request_completed
 
+    var result = response_pack[0]
+    var response_code : HTTPStatus = response_pack[1]
+    var headers = response_pack[2]
+    var body = response_pack[3]
+
+    var json = JSON.parse_string(body.get_string_from_utf8())
+    prints("auth response", result, response_code, headers)
+    print(JSON.stringify(json,'  '))
+
+    if response_code != HTTPStatus.OK:
+        # TODO translate codes to something btch
+        connection_status = false
+        return response_code
+    else:
+        token = json['access_token']
+        connection_status = true
+        return HTTPStatus.OK
+
+
+var httpstatus_to_string : Dictionary = {
+     100 : 'CONTINUE',
+     101 : 'SWITCHINGPROTOCOLS',
+     200 : 'OK',
+     201 : 'CREATED',
+     202 : 'ACCEPTED',
+     203 : 'NONAUTHORITATIVEINFORMATION',
+     204 : 'NOCONTENT',
+     205 : 'RESETCONTENT',
+     206 : 'PARTIALCONTENT',
+     300 : 'MULTIPLECHOICES',
+     301 : 'MOVEDPERMANENTLY',
+     302 : 'FOUND',
+     303 : 'SEEOTHER',
+     304 : 'NOTMODIFIED',
+     305 : 'USEPROXY',
+     307 : 'TEMPORARYREDIRECT',
+     400 : 'BADREQUEST',
+     401 : 'UNAUTHORIZED',
+     402 : 'PAYMENTREQUIRED',
+     403 : 'FORBIDDEN',
+     404 : 'NOTFOUND',
+     405 : 'METHODNOTALLOWED',
+     406 : 'NOTACCEPTABLE',
+     407 : 'PROXYAUTHENTICATIONREQUIRED',
+     408 : 'REQUESTTIMEOUT',
+     409 : 'CONFLICT',
+     410 : 'GONE',
+     411 : 'LENGTHREQUIRED',
+     412 : 'PRECONDITIONFAILED',
+     413 : 'REQUESTENTITYTOOLARGE',
+     414 : 'REQUESTURITOOLONG',
+     415 : 'UNSUPPORTEDMEDIATYPE',
+     416 : 'REQUESTEDRANGENOTSATISFIABLE',
+     417 : 'EXPECTATIONFAILED',
+     500 : 'INTERNALSERVERERROR',
+     501 : 'NOTIMPLEMENTED',
+     502 : 'BADGATEWAY',
+     503 : 'SERVICEUNAVAILABLE',
+     504 : 'GATEWAYTIMEOUT',
+     505 : 'HTTPVERSIONNOTSUPPORTED'
+}
+
+func httpcode_string(code : HTTPStatus):
+    return httpstatus_to_string[code] 
