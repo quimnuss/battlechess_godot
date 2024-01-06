@@ -3,6 +3,15 @@ extends Node
 const BASE_URL : String = "http://localhost:8000"
 var token : String = ""
 
+signal connection_status_changed(new_status : bool)
+var connection_status : bool = false:
+    get:
+        return connection_status
+    set(new_connection_status):
+        connection_status_changed.emit(new_connection_status)
+        connection_status = new_connection_status
+        
+
 var common_request : HTTPRequest = HTTPRequest.new()
 
 enum HTTPStatus {
@@ -52,15 +61,22 @@ enum BtchError {
     OK,
 }
 
-func auth(username : String, password : String) -> Error:
+func _ready():
+    add_child(common_request)
+
+
+func auth(username : String, password : String) -> HTTPStatus:
     var auth_endpoint : String = "%s/token" % BASE_URL
     var credentials : Dictionary = {'username': username, 'password': password}
-    var error = common_request.request(auth_endpoint, [], HTTPClient.METHOD_POST)
-    print("auth req error?",error)
+    var error : Error = common_request.request(auth_endpoint, ["Content-Type: application/json"], HTTPClient.METHOD_POST, JSON.stringify(credentials))
+    prints("auth req error?",error,error_string(error))
+    if error != Error.OK:
+        connection_status = false
+        return HTTPStatus.BADGATEWAY
     var response_pack = await common_request.request_completed
 
     var result = response_pack[0]
-    var response_code = response_pack[1]
+    var response_code : HTTPStatus = response_pack[1]
     var headers = response_pack[2]
     var body = response_pack[3]
 
@@ -70,9 +86,11 @@ func auth(username : String, password : String) -> Error:
 
     if response_code != HTTPStatus.OK:
         # TODO translate codes to something btch
+        connection_status = false
         return response_code
     else:
-        return OK
+        connection_status = true
+        return HTTPStatus.OK
 
 
 func request_error_handle(result, response_code) -> bool:
