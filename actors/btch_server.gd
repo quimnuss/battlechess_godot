@@ -60,17 +60,17 @@ func join_or_create_game():
                 game_joined.emit(game.uuid)
             return create_result
         _:
-            prints("Error",result,"joining game")
+            prints("Error",result,BtchCommon.httpstatus_to_string[result],"joining game")
 
-func btch_request(url : String, payload : Dictionary, req : HTTPRequest) -> Error:
+func btch_request(url : String, payload : Dictionary, req : HTTPRequest) -> BtchCommon.HTTPStatus:
     if not BtchCommon.token:
         var response_code = await BtchCommon.auth(player.username, player.plain_password)
 
         if response_code != OK:
-            connection_status_updated.emit(false)
-            return ERR_CONNECTION_ERROR
+            return BtchCommon.HTTPStatus.SERVICEUNAVAILABLE
+            
 
-    return BtchCommon.btch_standard_request(url, payload, req)
+    return await BtchCommon.btch_standard_request(url, payload, req)
 
 func test_request():
     var url = "{BASE_URL}{ENDPOINT}".format({"BASE_URL" : BtchCommon.BASE_URL, "ENDPOINT" : ENDPOINT})
