@@ -15,6 +15,8 @@ var config : ConfigFile = ConfigFile.new()
 
 var player_section : String = "Player"
 
+var test_ready_awaits : bool = false
+
 func _ready():
 
     dev_run_setup()
@@ -36,7 +38,18 @@ func _ready():
         prints("failed remote creating user",username)
     else:
         prints("user",username,"OK.","exists?",ok==ERR_ALREADY_EXISTS)
+        auth()
+    
+    test_ready_awaits = true
 
+func auth():
+    var result : BtchCommon.HTTPStatus = await BtchCommon.auth(username, plain_password)
+    match result:
+        BtchCommon.HTTPStatus.OK:
+            return
+        _:
+            prints("Error while player auth", result)
+            return
 
 func init_config_file():
     if OS.has_feature("debug"):
@@ -70,7 +83,7 @@ func create_user(username, email, password) -> Error:
 
     var endpoint : String = "%s/users/" % BtchCommon.BASE_URL
     var error = user_seq_request.request(endpoint, ["Content-Type: application/json"], HTTPClient.METHOD_POST, payload)
-    prints("auth req error?",error != OK, error)
+    prints("authentication request error?", error != OK, error)
     var response_pack = await user_seq_request.request_completed
 
     var result = response_pack[0]
@@ -79,7 +92,8 @@ func create_user(username, email, password) -> Error:
     var body = response_pack[3]
 
     var json = JSON.parse_string(body.get_string_from_utf8())
-    prints("auth response",result, response_code, headers)
+    prints("authentication response",result, response_code, headers)
+    prints("json response:")
     print(JSON.stringify(json,'  '))
 
     if response_code == 200:
@@ -97,4 +111,5 @@ func create_user(username, email, password) -> Error:
         return ERR_ALREADY_EXISTS
     else:
         # LOL https://en.wikipedia.org/wiki/Lp0_on_fire
+        
         return ERR_PRINTER_ON_FIRE

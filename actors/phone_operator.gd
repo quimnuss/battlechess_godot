@@ -11,3 +11,7 @@ func _ready():
     var opponent_connection_status : CheckButton = top_player_control.get_node("PlayerMarginContainer/PlayerHBoxContainer/PlayerCheckButton")
     btch_server.connection_status_updated.connect(player_connection_status.set_pressed_no_signal)
     btch_server.connection_status_updated.connect(opponent_connection_status.set_pressed_no_signal)
+    
+    var last_known_connection_status = btch_server.connection_status
+    
+    player_connection_status.set_pressed_no_signal(last_known_connection_status)
