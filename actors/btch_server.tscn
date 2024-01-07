@@ -44,3 +44,4 @@ script = ExtResource("3_kw7fr")
 
 [connection signal="request_completed" from="GameRequests" to="." method="_on_http_request_request_completed"]
 [connection signal="request_completed" from="AdminRequests" to="." method="_on_admin_requests_request_completed"]
+[connection signal="game_joined" from="BtchGame" to="." method="_on_btch_game_game_joined"]

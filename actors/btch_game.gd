@@ -23,12 +23,14 @@ func join_open_game() -> BtchCommon.HTTPStatus:
     if len(data['data']) > 0:
         # we have games!
         var games = data['data']
-        game_joined.emit(games[0].uuid)
+        uuid = games[0].uuid
+        game_joined.emit(uuid)
         return BtchCommon.HTTPStatus.OK
     else:
         var game : Dictionary = await BtchCommon.btch_standard_data_request(game_endpoint, {}, http_request, HTTPClient.METHOD_PATCH)
         if game['status_code'] == BtchCommon.HTTPStatus.OK:
-            game_joined.emit(game.uuid)
+            uuid = game.uuid
+            game_joined.emit(uuid)
         return game['status_code']
 
 func create_and_join_game() -> BtchCommon.HTTPStatus:
@@ -41,4 +43,7 @@ func create_and_join_game() -> BtchCommon.HTTPStatus:
 
 func join_game(game_uuid : String) -> BtchCommon.HTTPStatus:
     var response_data : Dictionary = await BtchCommon.btch_standard_data_request(game_endpoint + '/' + game_uuid +'/join', {}, http_request, HTTPClient.METHOD_GET)
+    if response_data['status_code'] == BtchCommon.HTTPStatus.OK:
+        uuid = response_data['uuid']
+        game_joined.emit(uuid)
     return response_data['status_code']

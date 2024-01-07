@@ -29,7 +29,7 @@ func _ready():
     
     username_update.emit(player.username)
     
-    # wait for user creation/login on the api
+    # wait for user creation/login on the apiG
     await get_tree().create_timer(2).timeout
     prints("Does sleeping show the non-ready player is the culprit?",player.test_ready_awaits)
     if BtchCommon.token == "":
@@ -41,22 +41,23 @@ func _ready():
 func forward_connection_status(new_connection_status : bool):
     self.connection_status = new_connection_status
 
+func _on_game_joined(uuid : String):
+    pass
+
 func join_or_create_game():
     var result : BtchCommon.HTTPStatus = await game.join_open_game()
 
     match result:
         BtchCommon.HTTPStatus.OK:
-            prints("game",game.uuid,"joined")
+            #prints("game",game.uuid,"joined")
+            # successful join handled in "game" node
+            pass
         BtchCommon.HTTPStatus.SERVICEUNAVAILABLE:
             prints("server did not respond")
             connection_status_updated.emit(false)
         BtchCommon.HTTPStatus.NOTFOUND:
             prints("no games available. Let's create one")
             var create_result : BtchCommon.HTTPStatus = await game.create_and_join_game()
-            if create_result != BtchCommon.HTTPStatus.OK:
-                prints("game creation failed",create_result)
-            else:
-                game_joined.emit(game.uuid)
             return create_result
         _:
             prints("Error",result,BtchCommon.httpstatus_to_string[result],"joining game")
@@ -85,3 +86,8 @@ func _on_http_request_request_completed(result, response_code, headers, body):
     if ok:
         prints("all ok, do something")
         #TODO handle responses
+
+
+func _on_btch_game_game_joined(uuid):
+    prints("game",uuid,"joined")
+    game_joined.emit(uuid)
