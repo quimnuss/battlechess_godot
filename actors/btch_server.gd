@@ -28,10 +28,9 @@ func _ready():
     BtchCommon.connection_status_changed.connect(forward_connection_status)
     
     username_update.emit(player.username)
-    prints("Is player truly ready?",player.test_ready_awaits)
-    await player
-    prints("Can you await a node?",player.test_ready_awaits)
-    await get_tree().create_timer(3).timeout
+    
+    # wait for user creation/login on the api
+    await get_tree().create_timer(2).timeout
     prints("Does sleeping show the non-ready player is the culprit?",player.test_ready_awaits)
     if BtchCommon.token == "":
         connection_status_updated.emit(false)

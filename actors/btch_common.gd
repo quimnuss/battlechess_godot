@@ -151,7 +151,11 @@ func btch_standard_data_request(endpoint : String, payload : Dictionary, req : H
     prints("auth response", result, response_code, headers)
     print(JSON.stringify(json,'  '))
 
-    json['status_code'] = response_code
+    if json is Dictionary:
+        json['status_code'] = response_code
+    else:
+        var response_data : Dictionary = {'status_code':response_code, 'data' : json}
+        return response_data
 
     return json
 
