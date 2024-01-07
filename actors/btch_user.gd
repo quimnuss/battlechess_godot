@@ -10,6 +10,8 @@ var auth_endpoint : String = "%s/token" % BtchCommon.BASE_URL
 @export var plain_password : String = 'foo'
 @export var hash_password : String = ''
 
+var avatar_url : String
+
 var config : ConfigFile = ConfigFile.new()
 # NOTE on linux user:// is .local/share/godot/app_userdata/battlechess/
 
@@ -113,3 +115,6 @@ func create_user(username, email, password) -> Error:
         # LOL https://en.wikipedia.org/wiki/Lp0_on_fire
         
         return ERR_PRINTER_ON_FIRE
+
+func from_dict(player_dict : Dictionary):
+    avatar_url = player_dict['avatar'] if player_dict['avatar'] else ""

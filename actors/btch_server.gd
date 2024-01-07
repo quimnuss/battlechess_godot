@@ -8,6 +8,7 @@ class_name BtchServer
 
 @onready var player : BtchUser = $Player
 @onready var game : BtchGame = $BtchGame
+@onready var opponent_player : BtchUserBase = $OpponentPlayer
 
 const ENDPOINT : String = "/games"
 
@@ -89,5 +90,6 @@ func _on_http_request_request_completed(result, response_code, headers, body):
 
 func _on_btch_game_game_joined(uuid):
     prints("game",uuid,"joined")
-    game
+    if opponent_player.username != null:
+        opponent_username_update.emit(opponent_player.username)
     game_joined.emit(uuid)

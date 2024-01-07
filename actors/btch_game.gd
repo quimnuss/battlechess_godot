@@ -8,19 +8,22 @@ const game_endpoint : String = "/games"
 const users_games_endpoint : String = "/users/me/games"
 
 @onready var http_request = $HTTPRequest
+# uffffff violating the signal to parents and signals here
+@onready var player = $"../Player"
+@onready var opponent_player = $"../OpponentPlayer"
 
 signal game_joined(uuid : String)
 
 var uuid : String
 
-var game_owner : BtchUser
-var white_player : BtchUser
-var black_player : BtchUser
+var game_owner
+var white_player
+var black_player
 var game_status
-var player_turn : BtchUser
-var last_move_time : int
+var player_turn
+var last_move_time
 var is_public_game : bool
-var winner : BtchUser
+var winner
 
 func join_open_game() -> BtchCommon.HTTPStatus:
     # first try to join one of my games
@@ -63,12 +66,41 @@ func join_game(game_uuid : String) -> BtchCommon.HTTPStatus:
 func _from_dict(game_dict : Dictionary):
     uuid = game_dict['uuid']
     
-    game_owner = game_dict['owner_id']
-    white_player = game_dict['white_id']
-    black_player = game_dict['black_id']
+    # violating the signal to parents and siblings rule
+    if game_dict['owner']['username'] == null:
+        game_owner = null
+    elif player.username == game_dict['owner']['username']:
+        game_owner = player
+    else:
+        game_owner = opponent_player
+
+    if game_dict['white']['username'] == null:
+        white_player = null
+    elif player.username == game_dict['white']['username']:
+        white_player = player
+        player.from_dict(game_dict['white'])
+    else:
+        white_player = opponent_player
+        opponent_player.from_dict(game_dict['white'])
+
+    if game_dict['black']['username'] == null:
+        black_player = null
+    elif player.username == game_dict['black']['username']:
+        black_player = player
+        player.from_dict(game_dict['black'])
+    else:
+        black_player = opponent_player
+        opponent_player.from_dict(game_dict['black'])
     
     game_status = game_dict['status']
     player_turn = game_dict['turn']
     last_move_time = game_dict['last_move_time']
     is_public_game = game_dict['public']
-    winner = game_dict['winner']
+    
+    if game_dict['winner'] == null:
+        winner = null
+    elif player.username == game_dict['winner']:
+        winner = player
+    else:
+        winner = opponent_player
+
