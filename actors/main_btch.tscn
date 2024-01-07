@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://l2wnr4401kqx"]
+[gd_scene load_steps=7 format=3 uid="uid://l2wnr4401kqx"]
 
 [ext_resource type="PackedScene" uid="uid://c76ybxdwy7mbk" path="res://actors/player_control.tscn" id="1_1ddh3"]
 [ext_resource type="Script" path="res://actors/phone_operator.gd" id="1_kq3wj"]
 [ext_resource type="PackedScene" uid="uid://rlxycfbs6rgr" path="res://actors/scene_board.tscn" id="1_t4sml"]
 [ext_resource type="Script" path="res://actors/main_btch.gd" id="1_xxlde"]
 [ext_resource type="PackedScene" uid="uid://dqa6kk2vyqay" path="res://actors/btch_server.tscn" id="3_bxw6y"]
+[ext_resource type="Script" path="res://actors/game_container.gd" id="4_658t2"]
 
 [node name="main_btch" type="Control"]
 layout_mode = 3
@@ -30,17 +31,25 @@ grow_vertical = 2
 layout_mode = 2
 script = ExtResource("1_kq3wj")
 
+[node name="GameTitle" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Game "
+horizontal_alignment = 1
+
 [node name="TopPlayerControl" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_1ddh3")]
 layout_mode = 2
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(320, 320)
 layout_mode = 2
+script = ExtResource("4_658t2")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="CenterContainer/VBoxContainer/AspectRatioContainer"]
+offset = Vector2(90, 90)
+transform = Transform2D(1, 0, 0, 1, 90, 90)
 
 [node name="Game" type="Node2D" parent="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer"]
-position = Vector2(90, 90)
 
 [node name="SceneBoard" parent="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game" node_paths=PackedStringArray("btch_server") instance=ExtResource("1_t4sml")]
 btch_server = NodePath("../BtchServer")
