@@ -31,7 +31,7 @@ func _ready():
     
     # wait for user creation/login on the apiG
     await get_tree().create_timer(2).timeout
-    prints("Does sleeping show the non-ready player is the culprit?",player.test_ready_awaits)
+    prints("Does sleeping show the non-ready player is the culprit?", player.test_ready_awaits)
     if BtchCommon.token == "":
         connection_status_updated.emit(false)
         prints("[Error] Token is empty. Won't try to join game without a token...")
@@ -87,7 +87,7 @@ func _on_http_request_request_completed(result, response_code, headers, body):
         prints("all ok, do something")
         #TODO handle responses
 
-
 func _on_btch_game_game_joined(uuid):
     prints("game",uuid,"joined")
+    game
     game_joined.emit(uuid)
