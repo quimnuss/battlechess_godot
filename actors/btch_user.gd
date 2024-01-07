@@ -81,7 +81,7 @@ func create_user(username, email, password) -> Error:
 
     var payload : String = JSON.stringify(credentials)
 
-    var endpoint : String = "%s/users/" % BtchCommon.BASE_URL
+    var endpoint : String = BtchCommon.BASE_URL + "/users" 
     var error = user_seq_request.request(endpoint, ["Content-Type: application/json"], HTTPClient.METHOD_POST, payload)
     prints("authentication request error?", error != OK, error)
     var response_pack = await user_seq_request.request_completed
