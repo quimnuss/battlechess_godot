@@ -18,6 +18,9 @@ var TILE_SIZE = 40
 
 var play_area_rect : Rect2 = Rect2(0, 0, 8*TILE_SIZE, 8*TILE_SIZE)
 var picked_piece : ChessPiece = null
+var selected_tile : Vector2i = Vector2i(-1, -1)
+var null_selected_tile : Vector2i = Vector2i(-1, -1)
+var possible_tiles : Array[Vector2i] = []
 
 # TODO choose before game
 var player_color = ChessConstants.PlayerColor.BLACK
@@ -120,6 +123,14 @@ func is_move_valid(piece : ChessPiece, origin : Vector2i, destination : Vector2i
         return false
     return true
 
+func place_piece_by_clicks(source_tile, target_tile):
+    var selected_piece_type : ChessConstants.PieceType = get_tile_piece_type(source_tile)
+    set_piece_tile_type(target_tile, selected_piece_type)
+    set_piece_tile_type(source_tile, ChessConstants.PieceType.EMPTY)
+    clear_highlight_tiles()
+    selected_tile = null_selected_tile
+    update_fog()
+
 func place_piece(piece : ChessPiece) -> bool:
     prints("try place piece",piece)
     clear_highlight_tiles()
@@ -128,7 +139,6 @@ func place_piece(piece : ChessPiece) -> bool:
         return false
 
     var target_board_coords = board_tilemap.local_to_map(piece.position)
-
 
     if not is_move_valid(piece, piece.board_coords, target_board_coords):
         prints("tile is already occupied")
@@ -173,7 +183,6 @@ func is_white_from_piece_type(piece_type : ChessConstants.PieceType):
     if piece_type == ChessConstants.PieceType.EMPTY:
         return null
     return bool(piece_type % 2)
-
 
 func update_fog():
     for x in range(8):
@@ -247,15 +256,29 @@ func _input(event):
         var tile_clicked : Vector2i = board_tilemap.local_to_map(mouse_pos)
         print("clicked tile",tile_clicked)
         # TODO point and click logic
-        btch_server.test_request()
-
+                
         # drag-and-drop logic
         # TODO maybe check we dont already have a piece?
-        if not _out_of_bounds(tile_clicked) and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-            var piece : ChessPiece = pick_up_piece(tile_clicked)
-            if piece:
-                picked_piece = piece
-                picked_piece.selected = true
+        if event.button_index == MOUSE_BUTTON_LEFT and not _out_of_bounds(tile_clicked):
+            if selected_tile != null_selected_tile and tile_clicked in possible_tiles:
+                prints('Moving',selected_tile,'to',tile_clicked)
+                
+                var result : bool = btch_server.move(selected_tile, tile_clicked)
+                if result:                
+                    place_piece_by_clicks(selected_tile, tile_clicked)
+            else:
+                selected_tile = tile_clicked
+                possible_tiles = await btch_server.get_moves(tile_clicked)
+                prints("possible_tiles",possible_tiles)
+                clear_highlight_tiles()
+                highlight_tiles(possible_tiles)
+            
+
+        # let's switch to click and click instead of drag and drop for now
+#            var piece : ChessPiece = pick_up_piece(tile_clicked)
+#            if piece:
+#                picked_piece = piece
+#                picked_piece.selected = true
 
 var fog : bool = true
 var elapsed : float = 0
