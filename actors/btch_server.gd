@@ -76,6 +76,32 @@ func test_request():
     var move_payload : Dictionary = {}
     btch_request(ENDPOINT, move_payload, request)
 
+func tile_to_notation(tile_coords : Vector2i) -> String:
+    var square : String = char(tile_coords.x + 'a'.unicode_at(0)) + str(tile_coords.y+1)
+    return square
+
+func notation_to_tile(square : String) -> Vector2i:
+    var tile_coords : Vector2i = Vector2i(square[0].unicode_at(0) - 'a'.unicode_at(0), int(square[1])-1)
+    return tile_coords
+
+func get_moves(tile_coords : Vector2i) -> Array[Vector2i]:
+    if not self.game.uuid:
+        return []
+    var square : String = tile_to_notation(tile_coords)
+    var endpoint : String = '/games/' + self.game.uuid + '/moves/' + square
+    
+    var response_json : Dictionary = await BtchCommon.btch_standard_data_request(endpoint, {}, seq_request)
+    if response_json['status_code'] != BtchCommon.HTTPStatus.OK:
+        return []
+
+    var possible_squares : Array = response_json['data']
+    var possible_tiles : Array[Vector2i] = []
+    for square_candidate in possible_squares:
+        var tile_candidate : Vector2i = notation_to_tile(square_candidate)
+        possible_tiles.append(tile_candidate)
+
+    return possible_tiles
+
 # Poll server for moves
 func _process(delta):
     pass
