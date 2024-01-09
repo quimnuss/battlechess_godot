@@ -25,6 +25,9 @@ signal connection_status_updated(connected : bool)
 
 signal game_joined(uuid : String)
 
+# refresh board
+signal move_accepted
+
 func _ready():
     BtchCommon.connection_status_changed.connect(forward_connection_status)
     
@@ -101,6 +104,21 @@ func get_moves(tile_coords : Vector2i) -> Array[Vector2i]:
         possible_tiles.append(tile_candidate)
 
     return possible_tiles
+
+func move(tile_start : Vector2i, tile_end : Vector2i) -> bool:
+    var endpoint : String = '/games/' + self.game.uuid + '/move'
+    var square_start : String = tile_to_notation(tile_start)
+    var square_end : String = tile_to_notation(tile_end)
+    var move_notation : String = square_start + square_end
+    prints("request move", move_notation)
+    var response_status : BtchCommon.HTTPStatus = await BtchCommon.btch_standard_request(endpoint, {'move': move_notation}, seq_request, HTTPClient.METHOD_POST)
+    
+    if response_status == BtchCommon.HTTPStatus.OK:
+        move_accepted.emit()
+        return true # returning is useless, we need to know where the pieces are from server
+    else:
+        prints("move was not accepted",tile_start, tile_end)
+        return false
 
 # Poll server for moves
 func _process(delta):

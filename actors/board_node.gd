@@ -263,7 +263,7 @@ func _input(event):
             if selected_tile != null_selected_tile and tile_clicked in possible_tiles:
                 prints('Moving',selected_tile,'to',tile_clicked)
                 
-                var result : bool = btch_server.move(selected_tile, tile_clicked)
+                var result : bool = await btch_server.move(selected_tile, tile_clicked)
                 if result:                
                     place_piece_by_clicks(selected_tile, tile_clicked)
             else:
