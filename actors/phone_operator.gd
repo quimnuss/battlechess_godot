@@ -21,7 +21,7 @@ func _ready():
 
 func _on_btch_server_game_joined(uuid : String, is_white : bool):
     var color : String = 'white' if is_white else 'black'
-    game_title.set_text("Game " + uuid + "- you're" + color)
+    game_title.set_text("Game " + uuid + " - you're " + color)
     if is_white:
         scene_board.player_color = ChessConstants.PlayerColor.BLACK
     else:

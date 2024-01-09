@@ -80,11 +80,11 @@ func test_request():
     btch_request(ENDPOINT, move_payload, request)
 
 func tile_to_notation(tile_coords : Vector2i) -> String:
-    var square : String = char(tile_coords.x + 'a'.unicode_at(0)) + str(tile_coords.y+1)
+    var square : String = char(tile_coords.x + 'a'.unicode_at(0)) + str(8 - tile_coords.y)
     return square
 
 func notation_to_tile(square : String) -> Vector2i:
-    var tile_coords : Vector2i = Vector2i(square[0].unicode_at(0) - 'a'.unicode_at(0), int(square[1])-1)
+    var tile_coords : Vector2i = Vector2i(square[0].unicode_at(0) - 'a'.unicode_at(0), 8 - int(square[1]))
     return tile_coords
 
 func get_moves(tile_coords : Vector2i) -> Array[Vector2i]:
