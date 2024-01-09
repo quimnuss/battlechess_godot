@@ -18,12 +18,12 @@ var connection_status : bool = false:
     set(new_connection_status):
         connection_status_updated.emit(new_connection_status)
 
-signal username_update(username : String)
-signal opponent_username_update(username : String)
+signal white_username_update(username : String)
+signal black_username_update(username : String)
 
 signal connection_status_updated(connected : bool)
 
-signal game_joined(uuid : String)
+signal game_joined(uuid : String, is_white : bool)
 
 # refresh board
 signal move_accepted
@@ -31,7 +31,7 @@ signal move_accepted
 func _ready():
     BtchCommon.connection_status_changed.connect(forward_connection_status)
     
-    username_update.emit(player.username)
+    white_username_update.emit(player.username)
     
     # wait for user creation/login on the apiG
     await get_tree().create_timer(2).timeout
@@ -105,20 +105,31 @@ func get_moves(tile_coords : Vector2i) -> Array[Vector2i]:
 
     return possible_tiles
 
-func move(tile_start : Vector2i, tile_end : Vector2i) -> bool:
+func move(tile_start : Vector2i, tile_end : Vector2i) -> String:
     var endpoint : String = '/games/' + self.game.uuid + '/move'
     var square_start : String = tile_to_notation(tile_start)
     var square_end : String = tile_to_notation(tile_end)
     var move_notation : String = square_start + square_end
     prints("request move", move_notation)
-    var response_status : BtchCommon.HTTPStatus = await BtchCommon.btch_standard_request(endpoint, {'move': move_notation}, seq_request, HTTPClient.METHOD_POST)
+    var response_data : Dictionary = await BtchCommon.btch_standard_data_request(endpoint, {'move': move_notation}, seq_request, HTTPClient.METHOD_POST)
     
-    if response_status == BtchCommon.HTTPStatus.OK:
+    if response_data['status_code'] == BtchCommon.HTTPStatus.OK:
+        var board_string : String = response_data['board']
         move_accepted.emit()
-        return true # returning is useless, we need to know where the pieces are from server
+        return board_string
     else:
         prints("move was not accepted",tile_start, tile_end)
-        return false
+        return ""
+
+func get_board() -> String:
+    var endpoint : String = '/games/' + self.game.uuid + '/snap'
+    var response_data : Dictionary = await BtchCommon.btch_standard_data_request(endpoint, {}, seq_request, HTTPClient.METHOD_GET)
+    
+    if response_data['status_code'] == BtchCommon.HTTPStatus.OK and response_data['board']:
+        var board_string : String = response_data['board']
+        return board_string
+    
+    return ""
 
 # Poll server for moves
 func _process(delta):
@@ -134,6 +145,16 @@ func _on_http_request_request_completed(result, response_code, headers, body):
 
 func _on_btch_game_game_joined(uuid):
     prints("game",uuid,"joined")
+    if player == self.game.white_player:
+        white_username_update.emit(player.username)
+    else:
+        black_username_update.emit(player.username)
+    
     if opponent_player.username != null:
-        opponent_username_update.emit(opponent_player.username)
-    game_joined.emit(uuid)
+        if opponent_player == self.game.white_player:
+            white_username_update.emit(opponent_player.username)
+        else:
+            black_username_update.emit(opponent_player.username)
+    
+    var is_white : bool = (player == self.game.white_player)
+    game_joined.emit(uuid, is_white)

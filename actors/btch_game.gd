@@ -60,7 +60,8 @@ func join_game(game_uuid : String) -> BtchCommon.HTTPStatus:
     if response_data['status_code'] == BtchCommon.HTTPStatus.OK:
         uuid = response_data['uuid']
         _from_dict(response_data)
-        game_joined.emit(uuid)
+        var is_white : bool = player == white_player
+        game_joined.emit(uuid, is_white)
     return response_data['status_code']
 
 func _from_dict(game_dict : Dictionary):

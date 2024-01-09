@@ -22,7 +22,6 @@ var selected_tile : Vector2i = Vector2i(-1, -1)
 var null_selected_tile : Vector2i = Vector2i(-1, -1)
 var possible_tiles : Array[Vector2i] = []
 
-# TODO choose before game
 var player_color = ChessConstants.PlayerColor.BLACK
 
 enum TILEMAP_LAYERS {
@@ -42,6 +41,7 @@ enum TILEMAP_SOURCES {
 var char_to_piece : Dictionary = {
     '' : ChessConstants.PieceType.EMPTY,
     '_': ChessConstants.PieceType.EMPTY,
+    'X': ChessConstants.PieceType.EMPTY,
     'k': ChessConstants.PieceType.KW,
     'K': ChessConstants.PieceType.KB,
     'q': ChessConstants.PieceType.QW,
@@ -76,16 +76,19 @@ func _ready():
     board_string = board_string.replace('\n','')
 
     prints(board_string)
+    board_from_string(board_string)
+
+func board_from_string(board_string : String):
     for x in range(8):
         for y in range(8):
             var char_piece = board_string[y*8+x]
-            if char_piece == '_':
-                continue
+#            if char_piece == '_':
+#                continue
 
             var debug_char_piece = '-' + char_piece + '-'
             var piece_type : ChessConstants.PieceType = char_to_piece.get(char_piece, ChessConstants.PieceType.EMPTY)
-            if piece_type == ChessConstants.PieceType.EMPTY or piece_type == null:
-                continue
+            if piece_type == null:
+                piece_type = ChessConstants.PieceType.EMPTY
             set_piece_tile_type(Vector2i(x,y), piece_type)
 
 func set_piece_tile_type(board_coords : Vector2i, piece_type : ChessConstants.PieceType):
@@ -190,7 +193,7 @@ func update_fog():
             var board_coords = Vector2i(x,y)
             var has_neighb = has_neighbour(board_coords, player_color)
 #            prints(board_coords,"has neighbour",has_neighb)
-            fog_tile(board_coords,not has_neighb)
+            fog_tile(board_coords, not has_neighb)
 
 func fog_tile(board_coords : Vector2i, fog : bool):
     #var atlas_coords : Vector2i = board_tilemap.get_cell_atlas_coords(1,board_coords)
@@ -250,6 +253,15 @@ func pick_up_piece(tile_clicked : Vector2i):
     var piece : ChessPiece = spawn_piece(piece_type, tile_clicked)
     return piece
 
+func update_board(board_string : String) -> void:
+    board_from_string(board_string)    
+    update_fog()
+
+func refresh_board() -> void:
+    var board_string : String = await btch_server.get_board()
+    if board_string:                
+        update_board(board_string)
+
 func _input(event):
     if event is InputEventMouseButton:
         var mouse_pos : Vector2 = get_local_mouse_position()
@@ -263,9 +275,10 @@ func _input(event):
             if selected_tile != null_selected_tile and tile_clicked in possible_tiles:
                 prints('Moving',selected_tile,'to',tile_clicked)
                 
-                var result : bool = await btch_server.move(selected_tile, tile_clicked)
-                if result:                
+                var board_string : String = await btch_server.move(selected_tile, tile_clicked)
+                if board_string:                
                     place_piece_by_clicks(selected_tile, tile_clicked)
+                    update_board(board_string)
             else:
                 selected_tile = tile_clicked
                 possible_tiles = await btch_server.get_moves(tile_clicked)
@@ -294,3 +307,7 @@ func _process(delta):
 #        elapsed = 0
 #        fog = not fog
 #        fog_tile(tile_mouse_coords, fog)
+
+
+func _on_timer_timeout():
+    refresh_board()
