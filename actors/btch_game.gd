@@ -27,7 +27,7 @@ var winner
 
 func join_open_game() -> BtchCommon.HTTPStatus:
     # first try to join one of my games
-    var data : Dictionary = await BtchCommon.btch_standard_data_request(users_games_endpoint, {}, http_request, HTTPClient.METHOD_GET)
+    var data : Dictionary = await BtchCommon.btch_standard_data_request(users_games_endpoint + '?status=waiting',{}, http_request, HTTPClient.METHOD_GET)
     
     if data['status_code'] != BtchCommon.HTTPStatus.OK:
         return data['status_code']

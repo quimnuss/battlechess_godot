@@ -177,7 +177,7 @@ func has_neighbour(board_coords : Vector2i, player_color : ChessConstants.Player
     var neighbour_tiles_coords : Array[Vector2i] = tile_neighbours(board_coords)
     for neighbour_board_coords in neighbour_tiles_coords:
         var piece_type : ChessConstants.PieceType = get_tile_piece_type(neighbour_board_coords)
-#        prints("tile",board_coords,"has",ChessConstants.piece_to_emoji[piece_type],"@",neighbour_board_coords)
+        # prints("tile",board_coords,"has",ChessConstants.piece_to_emoji[piece_type],"@",neighbour_board_coords, 'of color', ChessConstants.piece_to_color[piece_type], 'and im', player_color)
         if piece_type != ChessConstants.PieceType.EMPTY and ChessConstants.piece_to_color[piece_type] == player_color:
             return true
     return false
@@ -192,7 +192,7 @@ func update_fog():
         for y in range(8):
             var board_coords = Vector2i(x,y)
             var has_neighb = has_neighbour(board_coords, player_color)
-#            prints(board_coords,"has neighbour",has_neighb)
+            # prints(board_coords,"has neighbour",has_neighb)
             fog_tile(board_coords, not has_neighb)
 
 func fog_tile(board_coords : Vector2i, fog : bool):
@@ -286,28 +286,18 @@ func _input(event):
                 clear_highlight_tiles()
                 highlight_tiles(possible_tiles)
             
-
         # let's switch to click and click instead of drag and drop for now
 #            var piece : ChessPiece = pick_up_piece(tile_clicked)
 #            if piece:
 #                picked_piece = piece
 #                picked_piece.selected = true
 
-var fog : bool = true
-var elapsed : float = 0
 
 func _process(delta):
     var mouse : Vector2 = get_local_mouse_position()
     if _out_of_bounds(mouse):
         return
     hover_highlight_tile(mouse)
-#    var tile_mouse_coords : Vector2i = board_tilemap.local_to_map(mouse)
-#    elapsed += delta
-#    if elapsed > 0.3:
-#        elapsed = 0
-#        fog = not fog
-#        fog_tile(tile_mouse_coords, fog)
-
 
 func _on_timer_timeout():
     refresh_board()
