@@ -10,11 +10,17 @@ class_name BtchServer
 @onready var game : BtchGame = $BtchGame
 @onready var opponent_player : BtchUserBase = $OpponentPlayer
 
+@onready var turn_timer = $TurnTimer
+
+const TURN_CHECK_RATE = 3
+
 const ENDPOINT : String = "/games"
 
 var connection_status : bool = false:
     set(new_connection_status):
         connection_status_updated.emit(new_connection_status)
+
+var turn : ChessConstants.PlayerColor = ChessConstants.PlayerColor.EMPTY
 
 signal white_username_update(username : String)
 signal black_username_update(username : String)
@@ -22,6 +28,8 @@ signal black_username_update(username : String)
 signal connection_status_updated(connected : bool)
 
 signal game_joined(uuid : String, is_white : bool)
+
+signal turn_changed(new_turn : ChessConstants.PlayerColor)
 
 # refresh board
 signal move_accepted
@@ -134,7 +142,7 @@ func get_turn() -> ChessConstants.PlayerColor:
     var response_data : Dictionary = await BtchCommon.btch_standard_data_request(endpoint, {}, seq_request, HTTPClient.METHOD_GET)
 
     if response_data['status_code'] == BtchCommon.HTTPStatus.OK:
-        var turn : String = response_data['turn']
+        var turn : String = response_data['data']
         match turn:
             'white':
                 return ChessConstants.PlayerColor.WHITE
@@ -143,6 +151,14 @@ func get_turn() -> ChessConstants.PlayerColor:
             _:
                 return ChessConstants.PlayerColor.EMPTY
     return ChessConstants.PlayerColor.EMPTY
+
+func _on_check_turn_timer_timeout():
+    var new_turn : ChessConstants.PlayerColor = await get_turn()
+    if self.turn != new_turn:
+        prints("turn changed!",self.turn,'->',new_turn)
+        self.turn = new_turn
+        turn_changed.emit(new_turn)
+        
 
 # Poll server for moves
 func _process(delta):
@@ -170,4 +186,6 @@ func _on_btch_game_game_joined(uuid):
             black_username_update.emit(opponent_player.username)
 
     var is_white : bool = (player == self.game.white_player)
+    turn_timer.start(TURN_CHECK_RATE)
     game_joined.emit(uuid, is_white)
+    

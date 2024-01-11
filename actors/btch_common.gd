@@ -151,8 +151,8 @@ func btch_standard_data_request(endpoint : String, payload : Dictionary, req : H
     var body = response_pack[3]
 
     var json = JSON.parse_string(body.get_string_from_utf8())
-    prints("auth response", result, response_code, headers)
-    print(JSON.stringify(json,'  '))
+    prints("auth response", result, response_code)
+    prints("response_data", JSON.stringify(json,'  '))
 
     if json is Dictionary:
         json['status_code'] = response_code

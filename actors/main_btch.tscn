@@ -39,6 +39,7 @@ horizontal_alignment = 1
 
 [node name="TopPlayerControl" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_1ddh3")]
 layout_mode = 2
+player_area_color = 0
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(320, 320)
@@ -56,14 +57,14 @@ btch_server = NodePath("../BtchServer")
 
 [node name="BtchServer" parent="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game" instance=ExtResource("3_bxw6y")]
 
-[node name="Timer" type="Timer" parent="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game"]
-wait_time = 10.0
-
 [node name="BottomPlayerControl" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_1ddh3")]
 layout_mode = 2
 player_name = "bar"
+player_area_color = 1
 
 [connection signal="black_username_update" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer/TopPlayerControl" method="_set_label_text"]
 [connection signal="game_joined" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer" method="_on_btch_server_game_joined"]
+[connection signal="turn_changed" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer/TopPlayerControl" method="_on_btch_server_turn_changed"]
+[connection signal="turn_changed" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/SceneBoard" method="_on_btch_server_turn_changed"]
+[connection signal="turn_changed" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer/BottomPlayerControl" method="_on_btch_server_turn_changed"]
 [connection signal="white_username_update" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer/BottomPlayerControl" method="_set_label_text"]
-[connection signal="timeout" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/Timer" to="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/SceneBoard" method="_on_timer_timeout"]
