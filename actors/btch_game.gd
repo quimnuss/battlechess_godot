@@ -42,8 +42,8 @@ func join_open_game() -> BtchCommon.HTTPStatus:
         #prints("we have games", data['data'])
         var games = data['data']
         var game_candidate = games[0]
-        var must_join : bool = im_player(game_candidate)
-        if not must_join:
+        var im_owner : bool = game_candidate.owner.username == player.username
+        if game_candidate.status == 'started' or im_owner:
             uuid = game_candidate.uuid
             _from_dict(game_candidate)
             game_joined.emit(uuid)
@@ -55,7 +55,6 @@ func join_open_game() -> BtchCommon.HTTPStatus:
                 _from_dict(game)
                 game_joined.emit(uuid)
             return game['status_code']
-
     else:
         var game : Dictionary = await BtchCommon.btch_standard_data_request(game_endpoint, {}, http_request, HTTPClient.METHOD_PATCH)
         if game['status_code'] == BtchCommon.HTTPStatus.OK:

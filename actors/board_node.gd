@@ -22,7 +22,10 @@ var selected_tile : Vector2i = Vector2i(-1, -1)
 var null_selected_tile : Vector2i = Vector2i(-1, -1)
 var possible_tiles : Array[Vector2i] = []
 
-var player_color = ChessConstants.PlayerColor.BLACK
+var player_color : ChessConstants.PlayerColor = ChessConstants.PlayerColor.BLACK
+var turn : ChessConstants.PlayerColor = ChessConstants.PlayerColor.EMPTY
+
+signal turn_changed(new_turn : ChessConstants.PlayerColor)
 
 enum TILEMAP_LAYERS {
     BOARD,
@@ -299,5 +302,16 @@ func _process(delta):
         return
     hover_highlight_tile(mouse)
 
+func has_turn_changed(new_turn : ChessConstants.PlayerColor) -> bool:
+    if self.turn != new_turn:
+        prints("turn changed!",self.turn,'->',new_turn)
+        self.turn = new_turn
+        turn_changed.emit(new_turn)
+        return true
+    else:
+        return false
+
 func _on_timer_timeout():
-    refresh_board()
+    var turn : ChessConstants.PlayerColor = await btch_server.get_turn()
+    if has_turn_changed(turn):
+        refresh_board()

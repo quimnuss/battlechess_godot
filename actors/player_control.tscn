@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://c76ybxdwy7mbk"]
+[gd_scene load_steps=3 format=3 uid="uid://c76ybxdwy7mbk"]
 
 [ext_resource type="Script" path="res://actors/player_control.gd" id="1_5grjc"]
+[ext_resource type="Texture2D" uid="uid://b11ig3w15rpen" path="res://assets/right_arrow.png" id="2_bddwp"]
 
 [node name="PlayerControl" type="Control"]
 custom_minimum_size = Vector2(320, 50)
@@ -23,6 +24,13 @@ theme_override_constants/margin_bottom = 10
 [node name="PlayerHBoxContainer" type="HBoxContainer" parent="PlayerMarginContainer"]
 layout_mode = 2
 alignment = 1
+
+[node name="TurnIndicator" type="TextureRect" parent="PlayerMarginContainer/PlayerHBoxContainer"]
+visible = false
+modulate = Color(0, 0.4, 0.0784314, 1)
+layout_mode = 2
+texture = ExtResource("2_bddwp")
+expand_mode = 3
 
 [node name="PlayerLabel" type="Label" parent="PlayerMarginContainer/PlayerHBoxContainer"]
 layout_mode = 2

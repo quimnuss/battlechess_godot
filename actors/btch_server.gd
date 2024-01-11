@@ -12,8 +12,6 @@ class_name BtchServer
 
 const ENDPOINT : String = "/games"
 
-var config : ConfigFile = ConfigFile.new()
-
 var connection_status : bool = false:
     set(new_connection_status):
         connection_status_updated.emit(new_connection_status)
@@ -130,6 +128,21 @@ func get_board() -> String:
         return board_string
 
     return ""
+
+func get_turn() -> ChessConstants.PlayerColor:
+    var endpoint : String = '/games/' + self.game.uuid + '/turn'
+    var response_data : Dictionary = await BtchCommon.btch_standard_data_request(endpoint, {}, seq_request, HTTPClient.METHOD_GET)
+
+    if response_data['status_code'] == BtchCommon.HTTPStatus.OK:
+        var turn : String = response_data['turn']
+        match turn:
+            'white':
+                return ChessConstants.PlayerColor.WHITE
+            'black':
+                return ChessConstants.PlayerColor.BLACK
+            _:
+                return ChessConstants.PlayerColor.EMPTY
+    return ChessConstants.PlayerColor.EMPTY
 
 # Poll server for moves
 func _process(delta):

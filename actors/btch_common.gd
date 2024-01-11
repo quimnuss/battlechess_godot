@@ -1,7 +1,9 @@
 extends Node
 
-const BASE_URL : String = "http://localhost:8000"
+var BASE_URL : String = "http://localhost:8000"
 var token : String = ""
+
+var config : ConfigFile = ConfigFile.new()
 
 signal connection_status_changed(new_status : bool)
 var connection_status : bool = false:
@@ -65,7 +67,8 @@ enum BtchError {
 
 func _ready():
     add_child(common_request)
-
+    config.load(Globals.CONFIG_FILE_ACTIVE)
+    BASE_URL = config.get_value('server','btch_base_url', BASE_URL)
 
 func auth(username : String, password : String) -> HTTPStatus:
     var auth_endpoint : String = BASE_URL + "/token"
