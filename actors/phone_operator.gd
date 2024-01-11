@@ -14,9 +14,9 @@ func _ready():
     var top_connection_status : CheckButton = top_player_control.get_node("PlayerMarginContainer/PlayerHBoxContainer/PlayerCheckButton")
     btch_server.connection_status_updated.connect(bottom_connection_status.set_pressed_no_signal)
     btch_server.connection_status_updated.connect(top_connection_status.set_pressed_no_signal)
-    
+
     var last_known_connection_status = btch_server.connection_status
-    
+
 #    player_connection_status.set_pressed_no_signal(last_known_connection_status)
 
 func _on_btch_server_game_joined(uuid : String, is_white : bool):
@@ -28,4 +28,4 @@ func _on_btch_server_game_joined(uuid : String, is_white : bool):
         scene_board.player_color = ChessConstants.PlayerColor.BLACK
     scene_board.refresh_board()
     timer.start(10)
-    
+

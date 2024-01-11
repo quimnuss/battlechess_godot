@@ -10,7 +10,7 @@ var connection_status : bool = false:
     set(new_connection_status):
         connection_status_changed.emit(new_connection_status)
         connection_status = new_connection_status
-        
+
 
 var common_request : HTTPRequest = HTTPRequest.new()
 
@@ -73,7 +73,7 @@ func auth(username : String, password : String) -> HTTPStatus:
     var query_string : String = _http_client.query_string_from_dict(credentials)
     var payload : String = JSON.stringify(credentials)
     prints(query_string)
-    var error : Error = common_request.request(auth_endpoint, ["Content-Type: application/x-www-form-urlencoded"], HTTPClient.METHOD_POST, query_string) 
+    var error : Error = common_request.request(auth_endpoint, ["Content-Type: application/x-www-form-urlencoded"], HTTPClient.METHOD_POST, query_string)
     prints("auth req error?",error,error_string(error))
     if error != Error.OK:
         connection_status = false
@@ -137,11 +137,11 @@ func btch_standard_data_request(endpoint : String, payload : Dictionary, req : H
     if error != Error.OK:
         connection_status = false
         return {'status_code' : HTTPStatus.BADGATEWAY}
-    
+
     prints("awaiting request...")
     var response_pack = await req.request_completed
     prints("done!")
-    
+
     var result = response_pack[0]
     var response_code : HTTPStatus = response_pack[1]
     var headers = response_pack[2]
@@ -203,4 +203,4 @@ var httpstatus_to_string : Dictionary = {
 }
 
 func httpcode_string(code : HTTPStatus):
-    return httpstatus_to_string[code] 
+    return httpstatus_to_string[code]

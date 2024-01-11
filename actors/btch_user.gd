@@ -41,7 +41,7 @@ func _ready():
     else:
         prints("user",username,"OK.","exists?",ok==ERR_ALREADY_EXISTS)
         auth()
-    
+
     test_ready_awaits = true
 
 func auth():
@@ -83,7 +83,7 @@ func create_user(username, email, password) -> Error:
 
     var payload : String = JSON.stringify(credentials)
 
-    var endpoint : String = BtchCommon.BASE_URL + "/users" 
+    var endpoint : String = BtchCommon.BASE_URL + "/users"
     var error = user_seq_request.request(endpoint, ["Content-Type: application/json"], HTTPClient.METHOD_POST, payload)
     prints("authentication request error?", error != OK, error)
     var response_pack = await user_seq_request.request_completed
@@ -113,7 +113,7 @@ func create_user(username, email, password) -> Error:
         return ERR_ALREADY_EXISTS
     else:
         # LOL https://en.wikipedia.org/wiki/Lp0_on_fire
-        
+
         return ERR_PRINTER_ON_FIRE
 
 func from_dict(player_dict : Dictionary):

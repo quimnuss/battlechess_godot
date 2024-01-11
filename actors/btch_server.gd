@@ -30,9 +30,9 @@ signal move_accepted
 
 func _ready():
     BtchCommon.connection_status_changed.connect(forward_connection_status)
-    
+
     white_username_update.emit(player.username)
-    
+
     # wait for user creation/login on the apiG
     await get_tree().create_timer(2).timeout
     prints("Does sleeping show the non-ready player is the culprit?", player.test_ready_awaits)
@@ -71,7 +71,7 @@ func btch_request(endpoint : String, payload : Dictionary, req : HTTPRequest) ->
         var response_code = await BtchCommon.auth(player.username, player.plain_password)
 
         if response_code != BtchCommon.HTTPStatus.OK:
-            return BtchCommon.HTTPStatus.SERVICEUNAVAILABLE            
+            return BtchCommon.HTTPStatus.SERVICEUNAVAILABLE
 
     return await BtchCommon.btch_standard_request(endpoint, payload, req)
 
@@ -92,7 +92,7 @@ func get_moves(tile_coords : Vector2i) -> Array[Vector2i]:
         return []
     var square : String = tile_to_notation(tile_coords)
     var endpoint : String = '/games/' + self.game.uuid + '/moves/' + square
-    
+
     var response_json : Dictionary = await BtchCommon.btch_standard_data_request(endpoint, {}, seq_request)
     if response_json['status_code'] != BtchCommon.HTTPStatus.OK:
         return []
@@ -112,7 +112,7 @@ func move(tile_start : Vector2i, tile_end : Vector2i) -> String:
     var move_notation : String = square_start + square_end
     prints("request move", move_notation)
     var response_data : Dictionary = await BtchCommon.btch_standard_data_request(endpoint, {'move': move_notation}, seq_request, HTTPClient.METHOD_POST)
-    
+
     if response_data['status_code'] == BtchCommon.HTTPStatus.OK:
         var board_string : String = response_data['board']
         move_accepted.emit()
@@ -124,11 +124,11 @@ func move(tile_start : Vector2i, tile_end : Vector2i) -> String:
 func get_board() -> String:
     var endpoint : String = '/games/' + self.game.uuid + '/snap'
     var response_data : Dictionary = await BtchCommon.btch_standard_data_request(endpoint, {}, seq_request, HTTPClient.METHOD_GET)
-    
+
     if response_data['status_code'] == BtchCommon.HTTPStatus.OK and response_data['board']:
         var board_string : String = response_data['board']
         return board_string
-    
+
     return ""
 
 # Poll server for moves
@@ -149,12 +149,12 @@ func _on_btch_game_game_joined(uuid):
         white_username_update.emit(player.username)
     else:
         black_username_update.emit(player.username)
-    
+
     if opponent_player.username != null:
         if opponent_player == self.game.white_player:
             white_username_update.emit(opponent_player.username)
         else:
             black_username_update.emit(opponent_player.username)
-    
+
     var is_white : bool = (player == self.game.white_player)
     game_joined.emit(uuid, is_white)

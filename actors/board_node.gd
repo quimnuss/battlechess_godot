@@ -254,12 +254,12 @@ func pick_up_piece(tile_clicked : Vector2i):
     return piece
 
 func update_board(board_string : String) -> void:
-    board_from_string(board_string)    
+    board_from_string(board_string)
     update_fog()
 
 func refresh_board() -> void:
     var board_string : String = await btch_server.get_board()
-    if board_string:                
+    if board_string:
         update_board(board_string)
 
 func _input(event):
@@ -268,15 +268,15 @@ func _input(event):
         var tile_clicked : Vector2i = board_tilemap.local_to_map(mouse_pos)
         print("clicked tile",tile_clicked)
         # TODO point and click logic
-                
+
         # drag-and-drop logic
         # TODO maybe check we dont already have a piece?
         if event.button_index == MOUSE_BUTTON_LEFT and not _out_of_bounds(tile_clicked):
             if selected_tile != null_selected_tile and tile_clicked in possible_tiles:
                 prints('Moving',selected_tile,'to',tile_clicked)
-                
+
                 var board_string : String = await btch_server.move(selected_tile, tile_clicked)
-                if board_string:                
+                if board_string:
                     place_piece_by_clicks(selected_tile, tile_clicked)
                     update_board(board_string)
             else:
@@ -285,7 +285,7 @@ func _input(event):
                 prints("possible_tiles",possible_tiles)
                 clear_highlight_tiles()
                 highlight_tiles(possible_tiles)
-            
+
         # let's switch to click and click instead of drag and drop for now
 #            var piece : ChessPiece = pick_up_piece(tile_clicked)
 #            if piece:
