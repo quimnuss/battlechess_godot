@@ -6,7 +6,6 @@ extends Node
 @onready var bottom_player_control = $BottomPlayerControl
 @onready var btch_server = $AspectRatioContainer/CanvasLayer/Game/BtchServer
 @onready var game_title = $GameTitle
-@onready var timer = $AspectRatioContainer/CanvasLayer/Game/Timer
 @onready var scene_board = $AspectRatioContainer/CanvasLayer/Game/SceneBoard
 
 func _ready():
@@ -27,5 +26,4 @@ func _on_btch_server_game_joined(uuid : String, is_white : bool):
     else:
         scene_board.player_color = ChessConstants.PlayerColor.BLACK
     scene_board.refresh_board()
-    timer.start(10)
 

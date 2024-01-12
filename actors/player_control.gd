@@ -2,7 +2,7 @@ extends Control
 
 @onready var label : Label = $PlayerMarginContainer/PlayerHBoxContainer/PlayerLabel
 @onready var check : CheckButton = $PlayerMarginContainer/PlayerHBoxContainer/PlayerCheckButton
-@onready var turn_indicator = $PlayerMarginContainer/PlayerHBoxContainer/TurnIndicator
+@onready var turn_indicator = %TurnIndicator
 
 @export var player_name : String = "foo" : set = _set_label_text
 @export var player_area_color : ChessConstants.PlayerColor = ChessConstants.PlayerColor.EMPTY
