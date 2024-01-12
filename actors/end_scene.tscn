@@ -1,0 +1,48 @@
+[gd_scene load_steps=2 format=3 uid="uid://e6ggebnvmmgi"]
+
+[ext_resource type="Theme" uid="uid://bhk63fxawy7ix" path="res://styles/btch_theme.tres" id="1_aggfm"]
+
+[node name="end_scene" type="CanvasLayer"]
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/TextureRect"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="MarginContainer/TextureRect/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/TextureRect/VBoxContainer/Label"]
+layout_mode = 0
+offset_right = 149.0
+offset_bottom = 27.0
+
+[node name="ReplayButton" type="Button" parent="MarginContainer/TextureRect/VBoxContainer/Label/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_aggfm")
+text = "Replay"
+
+[node name="NewGameButton" type="Button" parent="MarginContainer/TextureRect/VBoxContainer/Label/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_aggfm")
+text = "New Game"

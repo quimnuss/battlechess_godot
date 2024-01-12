@@ -143,6 +143,9 @@ func get_turn() -> ChessConstants.PlayerColor:
 
     if response_data['status_code'] == BtchCommon.HTTPStatus.OK:
         var turn : String = response_data['data']
+        if not turn:
+            return ChessConstants.PlayerColor.EMPTY
+
         match turn:
             'white':
                 return ChessConstants.PlayerColor.WHITE
