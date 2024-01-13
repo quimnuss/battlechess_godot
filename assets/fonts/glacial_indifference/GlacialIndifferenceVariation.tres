@@ -1,0 +1,6 @@
+[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://bhsuk8mrvk0ee"]
+
+[ext_resource type="FontFile" uid="uid://bpppimnx2ov18" path="res://assets/fonts/glacial_indifference/GlacialIndifference-Regular.otf" id="1_yhxbn"]
+
+[resource]
+base_font = ExtResource("1_yhxbn")

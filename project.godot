@@ -36,6 +36,13 @@ project/assembly_name="battlechess"
 
 enabled=PackedStringArray("res://addons/gut/plugin.cfg")
 
+[gui]
+
+theme/default_theme_scale=1.3
+theme/custom="res://styles/btch_theme.tres"
+theme/custom_font="res://assets/fonts/glacial_indifference/GlacialIndifference-Bold.otf"
+theme/default_font_hinting=2
+
 [input]
 
 select={

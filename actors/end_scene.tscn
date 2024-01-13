@@ -1,6 +1,49 @@
-[gd_scene load_steps=2 format=3 uid="uid://e6ggebnvmmgi"]
+[gd_scene load_steps=14 format=3 uid="uid://e6ggebnvmmgi"]
 
 [ext_resource type="Theme" uid="uid://bhk63fxawy7ix" path="res://styles/btch_theme.tres" id="1_aggfm"]
+[ext_resource type="FontFile" uid="uid://dq2ohcfu3aq3p" path="res://assets/fonts/glacial_indifference/GlacialIndifference-Bold.otf" id="2_420bw"]
+[ext_resource type="Texture2D" uid="uid://ccgm7nwyystm3" path="res://assets/random_selection.png" id="3_khdyg"]
+[ext_resource type="Texture2D" uid="uid://4ix6ct743ruu" path="res://assets/floaty_64.png" id="4_t2vpo"]
+[ext_resource type="Material" uid="uid://dd180hwgjelw7" path="res://effects/particle_process_material_fog_up.tres" id="4_t6q5y"]
+[ext_resource type="Material" uid="uid://vt22ticp82so" path="res://effects/particle_process_material_fog_down.tres" id="6_isx1b"]
+
+[sub_resource type="CanvasItemMaterial" id="14"]
+blend_mode = 1
+particles_animation = true
+particles_anim_h_frames = 3
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_vsgiw"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_xy7ve"]
+gradient = SubResource("Gradient_vsgiw")
+
+[sub_resource type="Curve" id="17"]
+_data = [Vector2(0, 0.463636), 0.0, 1.90083, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="18"]
+width = 2048
+curve = SubResource("17")
+
+[sub_resource type="ParticleProcessMaterial" id="19"]
+emission_shape = 3
+emission_box_extents = Vector3(10, 1, 1)
+gravity = Vector3(0, 0, 0)
+angle_max = 360.0
+scale_min = 0.8
+scale_curve = SubResource("18")
+color_ramp = SubResource("GradientTexture1D_xy7ve")
+hue_variation_max = 1.0
+anim_offset_max = 1.0
+
+[sub_resource type="CanvasItemMaterial" id="2"]
+blend_mode = 1
+particles_animation = true
+particles_anim_h_frames = 7
+particles_anim_v_frames = 7
+particles_anim_loop = false
 
 [node name="end_scene" type="CanvasLayer"]
 
@@ -21,28 +64,93 @@ theme_override_constants/margin_top = 40
 theme_override_constants/margin_right = 40
 theme_override_constants/margin_bottom = 40
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme = ExtResource("1_aggfm")
+alignment = 1
+
+[node name="YouWinLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("1_aggfm")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("2_420bw")
+theme_override_font_sizes/font_size = 50
+text = "You Win!"
+horizontal_alignment = 1
+
+[node name="GPUParticles2D_rays" type="GPUParticles2D" parent="MarginContainer/VBoxContainer/YouWinLabel"]
+visible = false
+modulate = Color(0.478431, 0.580392, 0.956863, 1)
+material = SubResource("14")
+position = Vector2(92, 38)
+amount = 10
+process_material = SubResource("19")
+texture = ExtResource("3_khdyg")
+randomness = 1.0
+
+[node name="GPUParticles2D_fog" type="GPUParticles2D" parent="MarginContainer/VBoxContainer/YouWinLabel"]
+material = SubResource("2")
+position = Vector2(86, 47)
+amount = 40
+process_material = ExtResource("4_t6q5y")
+texture = ExtResource("4_t2vpo")
+lifetime = 1.5
+explosiveness = 0.07
+
+[node name="YouLoseLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("1_aggfm")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("2_420bw")
+theme_override_font_sizes/font_size = 50
+text = "You Lose"
+horizontal_alignment = 1
+
+[node name="GPUParticles2D_rays" type="GPUParticles2D" parent="MarginContainer/VBoxContainer/YouLoseLabel"]
+visible = false
+modulate = Color(0.478431, 0.580392, 0.956863, 1)
+material = SubResource("14")
+position = Vector2(92, 38)
+amount = 10
+process_material = SubResource("19")
+texture = ExtResource("3_khdyg")
+randomness = 1.0
+
+[node name="GPUParticles2D_fog" type="GPUParticles2D" parent="MarginContainer/VBoxContainer/YouLoseLabel"]
+material = SubResource("2")
+position = Vector2(86, 47)
+amount = 40
+process_material = ExtResource("6_isx1b")
+texture = ExtResource("4_t2vpo")
+lifetime = 1.5
+explosiveness = 0.07
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/TextureRect"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Label" type="Label" parent="MarginContainer/TextureRect/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/TextureRect/VBoxContainer/Label"]
-layout_mode = 0
-offset_right = 149.0
-offset_bottom = 27.0
-
-[node name="ReplayButton" type="Button" parent="MarginContainer/TextureRect/VBoxContainer/Label/HBoxContainer"]
+[node name="ReplayButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme = ExtResource("1_aggfm")
 text = "Replay"
 
-[node name="NewGameButton" type="Button" parent="MarginContainer/TextureRect/VBoxContainer/Label/HBoxContainer"]
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="NewGameButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme = ExtResource("1_aggfm")
 text = "New Game"
