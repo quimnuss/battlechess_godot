@@ -13,8 +13,6 @@ extends CanvasLayer
             you_win_label.visible = false
         you_won = new_you_won
         
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
     pass # Replace with function body.
 
