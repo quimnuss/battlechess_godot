@@ -276,10 +276,10 @@ func _input(event):
             if selected_tile != null_selected_tile and tile_clicked in possible_tiles:
                 prints('Moving',selected_tile,'to',tile_clicked)
 
-                var board_string : String = await btch_server.move(selected_tile, tile_clicked)
-                if board_string:
+                var board_situation : Dictionary = await btch_server.move(selected_tile, tile_clicked)
+                if board_situation:
                     place_piece_by_clicks(selected_tile, tile_clicked)
-                    update_board(board_string)
+                    update_board(board_situation['board'])
             else:
                 selected_tile = tile_clicked
                 possible_tiles = await btch_server.get_moves(tile_clicked)

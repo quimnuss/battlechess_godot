@@ -32,16 +32,15 @@ signal game_joined(uuid : String, is_white : bool)
 signal turn_changed(new_turn : ChessConstants.PlayerColor)
 
 # refresh board
-signal move_accepted
+signal move_accepted(board_situation : Dictionary)
 
 func _ready():
     BtchCommon.connection_status_changed.connect(forward_connection_status)
 
     white_username_update.emit(player.username)
 
-    # wait for user creation/login on the apiG
+    # wait for user creation/login on the api
     await get_tree().create_timer(2).timeout
-    prints("Does sleeping show the non-ready player is the culprit?", player.test_ready_awaits)
     if BtchCommon.token == "":
         connection_status_updated.emit(false)
         prints("[Error] Token is empty. Won't try to join game without a token...")
@@ -111,7 +110,18 @@ func get_moves(tile_coords : Vector2i) -> Array[Vector2i]:
 
     return possible_tiles
 
-func move(tile_start : Vector2i, tile_end : Vector2i) -> String:
+# TODO maybe we should return winner information in turn return or gamesnap
+# we could also add a new schema gamesnapshort specific for gamesnap return
+# during gameplay with board, taken, turn and winner
+func winner(taken : String) -> ChessConstants.PlayerColor:
+    if 'K' in taken:
+        return ChessConstants.PlayerColor.BLACK
+    elif 'k' in taken:
+        return ChessConstants.PlayerColor.WHITE
+    else:
+        return ChessConstants.PlayerColor.EMPTY
+
+func move(tile_start : Vector2i, tile_end : Vector2i) -> Dictionary:
     var endpoint : String = '/games/' + self.game.uuid + '/move'
     var square_start : String = tile_to_notation(tile_start)
     var square_end : String = tile_to_notation(tile_end)
@@ -120,12 +130,14 @@ func move(tile_start : Vector2i, tile_end : Vector2i) -> String:
     var response_data : Dictionary = await BtchCommon.btch_standard_data_request(endpoint, {'move': move_notation}, seq_request, HTTPClient.METHOD_POST)
 
     if response_data['status_code'] == BtchCommon.HTTPStatus.OK:
+        var winner : ChessConstants.PlayerColor = winner(response_data['taken'])
+        var board_situation : Dictionary = {'board' : response_data['board'], 'taken' : response_data['taken'], 'winner': winner}
         var board_string : String = response_data['board']
-        move_accepted.emit()
-        return board_string
+        move_accepted.emit(board_situation)
+        return board_situation
     else:
         prints("move was not accepted",tile_start, tile_end)
-        return ""
+        return {}
 
 func get_board() -> String:
     var endpoint : String = '/games/' + self.game.uuid + '/snap'
@@ -142,7 +154,7 @@ func get_turn() -> ChessConstants.PlayerColor:
     var response_data : Dictionary = await BtchCommon.btch_standard_data_request(endpoint, {}, seq_request, HTTPClient.METHOD_GET)
 
     if response_data['status_code'] == BtchCommon.HTTPStatus.OK:
-        var turn : String = response_data['data']
+        var turn = response_data['data']
         if not turn:
             return ChessConstants.PlayerColor.EMPTY
 

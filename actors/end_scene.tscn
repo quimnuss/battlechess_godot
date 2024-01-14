@@ -1,42 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://e6ggebnvmmgi"]
+[gd_scene load_steps=9 format=3 uid="uid://e6ggebnvmmgi"]
 
 [ext_resource type="Theme" uid="uid://bhk63fxawy7ix" path="res://styles/btch_theme.tres" id="1_aggfm"]
+[ext_resource type="Script" path="res://actors/end_scene.gd" id="1_i70nr"]
 [ext_resource type="FontFile" uid="uid://dq2ohcfu3aq3p" path="res://assets/fonts/glacial_indifference/GlacialIndifference-Bold.otf" id="2_420bw"]
-[ext_resource type="Texture2D" uid="uid://ccgm7nwyystm3" path="res://assets/random_selection.png" id="3_khdyg"]
+[ext_resource type="Texture2D" uid="uid://3yl4gcj42n5e" path="res://assets/brush_stroke.png" id="4_6lksd"]
 [ext_resource type="Texture2D" uid="uid://4ix6ct743ruu" path="res://assets/floaty_64.png" id="4_t2vpo"]
 [ext_resource type="Material" uid="uid://dd180hwgjelw7" path="res://effects/particle_process_material_fog_up.tres" id="4_t6q5y"]
 [ext_resource type="Material" uid="uid://vt22ticp82so" path="res://effects/particle_process_material_fog_down.tres" id="6_isx1b"]
-
-[sub_resource type="CanvasItemMaterial" id="14"]
-blend_mode = 1
-particles_animation = true
-particles_anim_h_frames = 3
-particles_anim_v_frames = 1
-particles_anim_loop = false
-
-[sub_resource type="Gradient" id="Gradient_vsgiw"]
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_xy7ve"]
-gradient = SubResource("Gradient_vsgiw")
-
-[sub_resource type="Curve" id="17"]
-_data = [Vector2(0, 0.463636), 0.0, 1.90083, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="18"]
-width = 2048
-curve = SubResource("17")
-
-[sub_resource type="ParticleProcessMaterial" id="19"]
-emission_shape = 3
-emission_box_extents = Vector3(10, 1, 1)
-gravity = Vector3(0, 0, 0)
-angle_max = 360.0
-scale_min = 0.8
-scale_curve = SubResource("18")
-color_ramp = SubResource("GradientTexture1D_xy7ve")
-hue_variation_max = 1.0
-anim_offset_max = 1.0
 
 [sub_resource type="CanvasItemMaterial" id="2"]
 blend_mode = 1
@@ -46,6 +16,7 @@ particles_anim_v_frames = 7
 particles_anim_loop = false
 
 [node name="end_scene" type="CanvasLayer"]
+script = ExtResource("1_i70nr")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 8
@@ -81,15 +52,21 @@ theme_override_font_sizes/font_size = 50
 text = "You Win!"
 horizontal_alignment = 1
 
-[node name="GPUParticles2D_rays" type="GPUParticles2D" parent="MarginContainer/VBoxContainer/YouWinLabel"]
-visible = false
-modulate = Color(0.478431, 0.580392, 0.956863, 1)
-material = SubResource("14")
-position = Vector2(92, 38)
-amount = 10
-process_material = SubResource("19")
-texture = ExtResource("3_khdyg")
-randomness = 1.0
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/YouWinLabel"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -41.0
+offset_top = -39.0
+offset_right = 65.0
+offset_bottom = 54.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_6lksd")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="GPUParticles2D_fog" type="GPUParticles2D" parent="MarginContainer/VBoxContainer/YouWinLabel"]
 material = SubResource("2")
@@ -111,17 +88,24 @@ theme_override_font_sizes/font_size = 50
 text = "You Lose"
 horizontal_alignment = 1
 
-[node name="GPUParticles2D_rays" type="GPUParticles2D" parent="MarginContainer/VBoxContainer/YouLoseLabel"]
-visible = false
-modulate = Color(0.478431, 0.580392, 0.956863, 1)
-material = SubResource("14")
-position = Vector2(92, 38)
-amount = 10
-process_material = SubResource("19")
-texture = ExtResource("3_khdyg")
-randomness = 1.0
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/YouLoseLabel"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -41.0
+offset_top = -39.0
+offset_right = 65.0
+offset_bottom = 54.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_6lksd")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="GPUParticles2D_fog" type="GPUParticles2D" parent="MarginContainer/VBoxContainer/YouLoseLabel"]
+show_behind_parent = true
 material = SubResource("2")
 position = Vector2(86, 47)
 amount = 40

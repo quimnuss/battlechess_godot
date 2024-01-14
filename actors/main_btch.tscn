@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://l2wnr4401kqx"]
+[gd_scene load_steps=8 format=3 uid="uid://l2wnr4401kqx"]
 
 [ext_resource type="PackedScene" uid="uid://c76ybxdwy7mbk" path="res://actors/player_control.tscn" id="1_1ddh3"]
 [ext_resource type="Script" path="res://actors/phone_operator.gd" id="1_kq3wj"]
 [ext_resource type="PackedScene" uid="uid://rlxycfbs6rgr" path="res://actors/scene_board.tscn" id="1_t4sml"]
 [ext_resource type="Script" path="res://actors/main_btch.gd" id="1_xxlde"]
+[ext_resource type="PackedScene" uid="uid://e6ggebnvmmgi" path="res://actors/end_scene.tscn" id="2_nujfv"]
 [ext_resource type="PackedScene" uid="uid://dqa6kk2vyqay" path="res://actors/btch_server.tscn" id="3_bxw6y"]
 [ext_resource type="Script" path="res://actors/game_container.gd" id="4_658t2"]
 
@@ -62,8 +63,13 @@ layout_mode = 2
 player_name = "bar"
 player_area_color = 1
 
+[node name="end_scene" parent="." instance=ExtResource("2_nujfv")]
+visible = false
+you_won = true
+
 [connection signal="black_username_update" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer/TopPlayerControl" method="_set_label_text"]
 [connection signal="game_joined" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer" method="_on_btch_server_game_joined"]
+[connection signal="move_accepted" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="." method="_on_btch_server_move_accepted"]
 [connection signal="turn_changed" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer/TopPlayerControl" method="_on_btch_server_turn_changed"]
 [connection signal="turn_changed" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/SceneBoard" method="_on_btch_server_turn_changed"]
 [connection signal="turn_changed" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer/BottomPlayerControl" method="_on_btch_server_turn_changed"]
