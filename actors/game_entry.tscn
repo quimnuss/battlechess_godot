@@ -1,26 +1,39 @@
-[gd_scene load_steps=7 format=3 uid="uid://clsp2sewdmdkn"]
+[gd_scene load_steps=10 format=3 uid="uid://clsp2sewdmdkn"]
 
 [ext_resource type="Texture2D" uid="uid://chc1rrq1afcnu" path="res://assets/icon.png" id="1_5qr70"]
+[ext_resource type="Script" path="res://actors/game_entry.gd" id="1_qkqp5"]
 [ext_resource type="Theme" uid="uid://bhk63fxawy7ix" path="res://styles/btch_theme.tres" id="2_kjgql"]
+[ext_resource type="Texture2D" uid="uid://bicoxjh4p0gks" path="res://assets/black_and_white_pawn.png" id="3_5tkb0"]
 [ext_resource type="Texture2D" uid="uid://g3e00sftfv8j" path="res://assets/hourclock_fons_trans.png" id="3_wa6vw"]
 [ext_resource type="Texture2D" uid="uid://cjga8hyv7qabw" path="res://assets/blackhorse.png" id="4_0j46d"]
 [ext_resource type="Texture2D" uid="uid://y0shyr0c8n27" path="res://assets/whitehorse.png" id="5_xjj8r"]
 [ext_resource type="Texture2D" uid="uid://bpicvowc3j1u2" path="res://assets/play_button.png" id="6_2g042"]
+[ext_resource type="Texture2D" uid="uid://nn04afa15mt5" path="res://assets/finished_icon.png" id="6_cmqqv"]
 
 [node name="GameEntry" type="Control"]
+custom_minimum_size = Vector2(410, 57)
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qkqp5")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 custom_minimum_size = Vector2(500, 57)
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0.588235, 0.494118, 1, 1)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 0
-offset_right = 500.0
+offset_right = 410.0
 offset_bottom = 57.0
 
 [node name="GameIcon" type="TextureRect" parent="HBoxContainer"]
@@ -36,10 +49,26 @@ size_flags_horizontal = 3
 theme = ExtResource("2_kjgql")
 text = "Game number 12"
 
-[node name="GameState" type="TextureRect" parent="HBoxContainer"]
+[node name="GameStateStarted" type="TextureRect" parent="HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture = ExtResource("3_5tkb0")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="GameStateWaiting" type="TextureRect" parent="HBoxContainer"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 texture = ExtResource("3_wa6vw")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="GameStateFinished" type="TextureRect" parent="HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture = ExtResource("6_cmqqv")
 expand_mode = 3
 stretch_mode = 5
 
