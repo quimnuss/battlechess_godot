@@ -1,0 +1,79 @@
+[gd_scene load_steps=7 format=3 uid="uid://clsp2sewdmdkn"]
+
+[ext_resource type="Texture2D" uid="uid://chc1rrq1afcnu" path="res://assets/icon.png" id="1_5qr70"]
+[ext_resource type="Theme" uid="uid://bhk63fxawy7ix" path="res://styles/btch_theme.tres" id="2_kjgql"]
+[ext_resource type="Texture2D" uid="uid://g3e00sftfv8j" path="res://assets/hourclock_fons_trans.png" id="3_wa6vw"]
+[ext_resource type="Texture2D" uid="uid://cjga8hyv7qabw" path="res://assets/blackhorse.png" id="4_0j46d"]
+[ext_resource type="Texture2D" uid="uid://y0shyr0c8n27" path="res://assets/whitehorse.png" id="5_xjj8r"]
+[ext_resource type="Texture2D" uid="uid://bpicvowc3j1u2" path="res://assets/play_button.png" id="6_2g042"]
+
+[node name="GameEntry" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(500, 57)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.588235, 0.494118, 1, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 500.0
+offset_bottom = 57.0
+
+[node name="GameIcon" type="TextureRect" parent="HBoxContainer"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture = ExtResource("1_5qr70")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="GameUUID" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_kjgql")
+text = "Game number 12"
+
+[node name="GameState" type="TextureRect" parent="HBoxContainer"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture = ExtResource("3_wa6vw")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="Player1HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Player1Icon" type="TextureRect" parent="HBoxContainer/VBoxContainer/Player1HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_0j46d")
+expand_mode = 3
+
+[node name="Player1Name" type="Label" parent="HBoxContainer/VBoxContainer/Player1HBoxContainer"]
+layout_mode = 2
+text = "Ursu"
+
+[node name="Player2HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Player2Icon" type="TextureRect" parent="HBoxContainer/VBoxContainer/Player2HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_xjj8r")
+expand_mode = 3
+
+[node name="Player2Name" type="Label" parent="HBoxContainer/VBoxContainer/Player2HBoxContainer"]
+layout_mode = 2
+text = "Pol"
+
+[node name="Button" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+icon = ExtResource("6_2g042")
+flat = true
+icon_alignment = 1
+expand_icon = true
