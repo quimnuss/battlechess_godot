@@ -4,9 +4,9 @@
 [ext_resource type="Script" path="res://actors/phone_operator.gd" id="1_kq3wj"]
 [ext_resource type="PackedScene" uid="uid://rlxycfbs6rgr" path="res://actors/scene_board.tscn" id="1_t4sml"]
 [ext_resource type="Script" path="res://actors/main_btch.gd" id="1_xxlde"]
-[ext_resource type="PackedScene" uid="uid://e6ggebnvmmgi" path="res://actors/end_scene.tscn" id="2_nujfv"]
 [ext_resource type="PackedScene" uid="uid://dqa6kk2vyqay" path="res://actors/btch_server.tscn" id="3_bxw6y"]
 [ext_resource type="Script" path="res://actors/game_container.gd" id="4_658t2"]
+[ext_resource type="PackedScene" uid="uid://e6ggebnvmmgi" path="res://ui/end_scene.tscn" id="7_0ycva"]
 
 [node name="main_btch" type="Control"]
 layout_mode = 3
@@ -63,7 +63,7 @@ layout_mode = 2
 player_name = "bar"
 player_area_color = 1
 
-[node name="end_scene" parent="." instance=ExtResource("2_nujfv")]
+[node name="end_scene" parent="." instance=ExtResource("7_0ycva")]
 visible = false
 you_won = true
 

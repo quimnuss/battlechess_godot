@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://clsp2sewdmdkn"]
 
 [ext_resource type="Texture2D" uid="uid://chc1rrq1afcnu" path="res://assets/icon.png" id="1_5qr70"]
-[ext_resource type="Script" path="res://actors/game_entry.gd" id="1_qkqp5"]
+[ext_resource type="Script" path="res://ui/game_entry.gd" id="1_qkqp5"]
 [ext_resource type="Theme" uid="uid://bhk63fxawy7ix" path="res://styles/btch_theme.tres" id="2_kjgql"]
 [ext_resource type="Texture2D" uid="uid://bicoxjh4p0gks" path="res://assets/black_and_white_pawn.png" id="3_5tkb0"]
 [ext_resource type="Texture2D" uid="uid://g3e00sftfv8j" path="res://assets/hourclock_fons_trans.png" id="3_wa6vw"]

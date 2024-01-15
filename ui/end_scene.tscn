@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://e6ggebnvmmgi"]
 
 [ext_resource type="Theme" uid="uid://bhk63fxawy7ix" path="res://styles/btch_theme.tres" id="1_aggfm"]
-[ext_resource type="Script" path="res://actors/end_scene.gd" id="1_i70nr"]
+[ext_resource type="Script" path="res://ui/end_scene.gd" id="1_i70nr"]
 [ext_resource type="FontFile" uid="uid://dq2ohcfu3aq3p" path="res://assets/fonts/glacial_indifference/GlacialIndifference-Bold.otf" id="2_420bw"]
 [ext_resource type="Texture2D" uid="uid://3yl4gcj42n5e" path="res://assets/brush_stroke.png" id="4_6lksd"]
 [ext_resource type="Texture2D" uid="uid://4ix6ct743ruu" path="res://assets/floaty_64.png" id="4_t2vpo"]
