@@ -1,18 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://cq3htlg317blt"]
+[gd_scene load_steps=5 format=3 uid="uid://tg8emhgi8een"]
 
-[ext_resource type="Texture2D" uid="uid://y6npssa3umbx" path="res://assets/sunset.jpg" id="1_khsdl"]
-[ext_resource type="Theme" uid="uid://bhk63fxawy7ix" path="res://styles/btch_theme.tres" id="3_whwmk"]
+[ext_resource type="Script" path="res://ui/menu_main.gd" id="1_ecuul"]
+[ext_resource type="Texture2D" uid="uid://y6npssa3umbx" path="res://assets/sunset.jpg" id="2_h6o82"]
+[ext_resource type="Theme" uid="uid://bhk63fxawy7ix" path="res://styles/btch_theme.tres" id="3_15c4f"]
 
-[sub_resource type="SystemFont" id="SystemFont_phwy2"]
+[sub_resource type="SystemFont" id="SystemFont_0tx4f"]
 font_names = PackedStringArray("Arial")
 
-[node name="MainMenu" type="Control"]
+[node name="MenuMain" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_ecuul")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
@@ -21,7 +23,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_khsdl")
+texture = ExtResource("2_h6o82")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -43,7 +45,7 @@ theme_override_constants/margin_bottom = 25
 
 [node name="Label" type="Label" parent="MarginContainer/TitleMarginContainer"]
 layout_mode = 2
-theme = ExtResource("3_whwmk")
+theme = ExtResource("3_15c4f")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 24
@@ -74,14 +76,14 @@ text = "placeholder error"
 custom_minimum_size = Vector2(200, 40)
 layout_mode = 2
 size_flags_stretch_ratio = 1.2
-theme = ExtResource("3_whwmk")
+theme = ExtResource("3_15c4f")
 placeholder_text = "username"
 
 [node name="PasswordLineEdit" type="LineEdit" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(200, 40)
 layout_mode = 2
 size_flags_stretch_ratio = 1.2
-theme = ExtResource("3_whwmk")
+theme = ExtResource("3_15c4f")
 placeholder_text = "password"
 secret = true
 
@@ -93,7 +95,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(120, 26)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_fonts/font = SubResource("SystemFont_phwy2")
+theme_override_fonts/font = SubResource("SystemFont_0tx4f")
 theme_override_font_sizes/font_size = 18
 text = "Login"
 
@@ -101,7 +103,7 @@ text = "Login"
 custom_minimum_size = Vector2(120, 26)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_fonts/font = SubResource("SystemFont_phwy2")
+theme_override_fonts/font = SubResource("SystemFont_0tx4f")
 theme_override_font_sizes/font_size = 14
 text = "Sign Up"
 
@@ -109,7 +111,7 @@ text = "Sign Up"
 custom_minimum_size = Vector2(120, 26)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_fonts/font = SubResource("SystemFont_phwy2")
+theme_override_fonts/font = SubResource("SystemFont_0tx4f")
 theme_override_font_sizes/font_size = 14
 text = "Exit Game"
 

@@ -1,6 +1,5 @@
 extends Control
 
-const main_menu : PackedScene = preload("res://ui/main_menu.tscn")
 const lobby : PackedScene = preload("res://ui/lobby.tscn")
 
 @onready var username_line_edit : LineEdit = $MarginContainer/HBoxContainer/VBoxContainer/UsernameLineEdit
@@ -35,4 +34,5 @@ func _on_sign_up_pressed():
         get_tree().change_scene_to_packed(lobby)
 
 func _on_back_button_pressed():
+    var main_menu : PackedScene = load("res://ui/menu_main.tscn")
     get_tree().change_scene_to_packed(main_menu)

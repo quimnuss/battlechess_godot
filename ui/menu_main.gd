@@ -1,4 +1,3 @@
-class_name Mainmenu
 extends Control
 
 @onready var start_button : Button = $MarginContainer/HBoxContainer/VBoxContainer/StartButton
