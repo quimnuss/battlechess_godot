@@ -1,20 +1,21 @@
-[gd_scene load_steps=5 format=3 uid="uid://c6dbumjsoe1jw"]
+[gd_scene load_steps=6 format=3 uid="uid://clfbhf4qvk0jb"]
 
-[ext_resource type="Texture2D" uid="uid://y6npssa3umbx" path="res://assets/sunset.jpg" id="1_khsdl"]
-[ext_resource type="Script" path="res://ui/main_menu.gd" id="1_yhxcf"]
-[ext_resource type="Theme" uid="uid://bhk63fxawy7ix" path="res://styles/btch_theme.tres" id="3_whwmk"]
+[ext_resource type="Script" path="res://ui/menu_signup.gd" id="1_g41j1"]
+[ext_resource type="Texture2D" uid="uid://y6npssa3umbx" path="res://assets/sunset.jpg" id="2_37ebn"]
+[ext_resource type="Theme" uid="uid://bhk63fxawy7ix" path="res://styles/btch_theme.tres" id="3_eb2cu"]
+[ext_resource type="Script" path="res://actors/btch_user.gd" id="4_it38e"]
 
 [sub_resource type="SystemFont" id="SystemFont_phwy2"]
 font_names = PackedStringArray("Arial")
 
-[node name="Main_Menu" type="Control"]
+[node name="SignupMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_yhxcf")
+script = ExtResource("1_g41j1")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
@@ -23,7 +24,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_khsdl")
+texture = ExtResource("2_37ebn")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -45,7 +46,7 @@ theme_override_constants/margin_bottom = 25
 
 [node name="Label" type="Label" parent="MarginContainer/TitleMarginContainer"]
 layout_mode = 2
-theme = ExtResource("3_whwmk")
+theme = ExtResource("3_eb2cu")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 24
@@ -62,42 +63,50 @@ alignment = 1
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 8
-theme_override_constants/separation = 15
+theme_override_constants/separation = 10
 alignment = 1
 
 [node name="ErrorLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(0.878431, 0, 0.113725, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 12
 text = "placeholder error"
 
 [node name="UsernameLineEdit" type="LineEdit" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(200, 40)
 layout_mode = 2
 size_flags_stretch_ratio = 1.2
-theme = ExtResource("3_whwmk")
+theme = ExtResource("3_eb2cu")
 placeholder_text = "username"
+
+[node name="EmailLineEdit" type="LineEdit" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 40)
+layout_mode = 2
+size_flags_stretch_ratio = 1.2
+theme = ExtResource("3_eb2cu")
+placeholder_text = "e-mail"
+secret = true
 
 [node name="PasswordLineEdit" type="LineEdit" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(200, 40)
 layout_mode = 2
 size_flags_stretch_ratio = 1.2
-theme = ExtResource("3_whwmk")
+theme = ExtResource("3_eb2cu")
 placeholder_text = "password"
+secret = true
+
+[node name="FullNameLineEdit" type="LineEdit" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 40)
+layout_mode = 2
+size_flags_stretch_ratio = 1.2
+theme = ExtResource("3_eb2cu")
+placeholder_text = "full name (optional)"
 secret = true
 
 [node name="Separator2" type="Control" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
-
-[node name="StartButton" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-custom_minimum_size = Vector2(120, 26)
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_fonts/font = SubResource("SystemFont_phwy2")
-theme_override_font_sizes/font_size = 18
-text = "Login"
 
 [node name="SignUp" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(120, 26)
@@ -107,15 +116,22 @@ theme_override_fonts/font = SubResource("SystemFont_phwy2")
 theme_override_font_sizes/font_size = 14
 text = "Sign Up"
 
-[node name="ExitButton" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="BackButton" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(120, 26)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = SubResource("SystemFont_phwy2")
 theme_override_font_sizes/font_size = 14
-text = "Exit Game
+text = "Back
 "
 
-[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[node name="BtchUser" type="Node" parent="."]
+script = ExtResource("4_it38e")
+
+[node name="UserSeqRequests" type="HTTPRequest" parent="BtchUser"]
+
+[node name="_Timer_196354" type="Timer" parent="BtchUser/UserSeqRequests"]
+one_shot = true
+
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/SignUp" to="." method="_on_sign_up_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]

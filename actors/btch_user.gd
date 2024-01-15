@@ -9,15 +9,22 @@ var auth_endpoint : String = "%s/token" % BtchCommon.BASE_URL
 @export var email : String = 'steve@example.com'
 @export var plain_password : String = 'foo'
 @export var hash_password : String = ''
+@export var full_name : String = ''
 
 var avatar_url : String
 
 var config : ConfigFile = ConfigFile.new()
 # NOTE on linux user:// is .local/share/godot/app_userdata/battlechess/
 
-var player_section : String = "Player"
+var player_section : String = Globals.PLAYER_SECTION
 
-var test_ready_awaits : bool = false
+static func New(username : String, email : String, password : String, full_name : String = '') -> BtchUser:
+    var btch_user : BtchUser = BtchUser.new()
+    btch_user.username = username
+    btch_user.email = email
+    btch_user.plain_password = password
+    btch_user.full_name = full_name
+    return btch_user   
 
 func _ready():
 
@@ -35,6 +42,8 @@ func _ready():
     plain_password = config.get_value(player_section, "plain_password", plain_password)
     hash_password = config.get_value(player_section, "hash_password", "")
 
+    # Maybe this should only be necessary when run as instanced scene
+    #if OS.has_feature("debug"):
     var ok : int = await create_user(username, email, plain_password)
     if ok != OK and ok != ERR_ALREADY_EXISTS:
         prints("failed remote creating user",username)
@@ -42,7 +51,14 @@ func _ready():
         prints("user",username,"OK.","exists?",ok==ERR_ALREADY_EXISTS)
         auth()
 
-    test_ready_awaits = true
+func validate() -> bool:
+    if username == '':
+        return false
+    if plain_password == '':
+        return false
+    if email == '':
+        return false
+    return true
 
 func auth():
     var result : BtchCommon.HTTPStatus = await BtchCommon.auth(username, plain_password)
