@@ -6,3 +6,4 @@ const CONFIG_FILE_DEV1 : String = "user://btch_dev1.cfg"
 const CONFIG_FILE_DEV2 : String = "user://btch_dev2.cfg"
 
 const PLAYER_SECTION : String = "Player"
+const MAIN_SECTION : String = "Server"

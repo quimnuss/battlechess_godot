@@ -68,7 +68,7 @@ enum BtchError {
 func _ready():
     add_child(common_request)
     config.load(Globals.CONFIG_FILE_ACTIVE)
-    BASE_URL = config.get_value('server','btch_base_url', BASE_URL)
+    BASE_URL = config.get_value(Globals.MAIN_SECTION,'btch_base_url', BASE_URL)
 
 func auth(username : String, password : String) -> HTTPStatus:
     var auth_endpoint : String = BASE_URL + "/token"

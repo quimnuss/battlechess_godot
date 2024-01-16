@@ -18,11 +18,11 @@ var config : ConfigFile = ConfigFile.new()
 
 var player_section : String = Globals.PLAYER_SECTION
 
-static func New(username : String, email : String, password : String, full_name : String = '') -> BtchUser:
+static func New(username : String, password : String, email : String, full_name : String = '') -> BtchUser:
     var btch_user : BtchUser = BtchUser.new()
     btch_user.username = username
-    btch_user.email = email
     btch_user.plain_password = password
+    btch_user.email = email
     btch_user.full_name = full_name
     return btch_user   
 
@@ -60,14 +60,9 @@ func validate() -> bool:
         return false
     return true
 
-func auth():
+func auth() -> BtchCommon.HTTPStatus:
     var result : BtchCommon.HTTPStatus = await BtchCommon.auth(username, plain_password)
-    match result:
-        BtchCommon.HTTPStatus.OK:
-            return
-        _:
-            prints("Error while player auth", result)
-            return
+    return result
 
 func init_config_file():
     if OS.has_feature("debug"):

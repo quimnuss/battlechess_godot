@@ -22,7 +22,7 @@ func _on_sign_up_pressed():
     var email = email_line_edit.text
     var full_name = full_name_line_edit.text
     
-    var btch_user : BtchUser = BtchUser.New(username, email, password, full_name)
+    var btch_user : BtchUser = BtchUser.New(username, password, email, full_name)
     if not btch_user.validate():
         error_label.text = "fields cannot be empty"
         error_label.visible = true
