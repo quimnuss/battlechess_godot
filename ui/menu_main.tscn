@@ -91,7 +91,7 @@ secret = true
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
-[node name="StartButton" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="LoginButton" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(120, 26)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -99,7 +99,7 @@ theme_override_fonts/font = SubResource("SystemFont_0tx4f")
 theme_override_font_sizes/font_size = 18
 text = "Login"
 
-[node name="SignUp" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="SignUpButton" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(120, 26)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -115,6 +115,8 @@ theme_override_fonts/font = SubResource("SystemFont_0tx4f")
 theme_override_font_sizes/font_size = 14
 text = "Exit Game"
 
-[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/SignUp" to="." method="_on_sign_up_pressed"]
+[connection signal="text_submitted" from="MarginContainer/HBoxContainer/VBoxContainer/UsernameLineEdit" to="." method="_on_login_button_pressed"]
+[connection signal="text_submitted" from="MarginContainer/HBoxContainer/VBoxContainer/PasswordLineEdit" to="." method="_on_password_line_edit_text_submitted"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/LoginButton" to="." method="_on_login_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/SignUpButton" to="." method="_on_sign_up_button_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
