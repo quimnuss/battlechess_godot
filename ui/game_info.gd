@@ -31,8 +31,8 @@ static func from_dict(game_info_dict : Dictionary):
     var game_info : GameInfo = GameInfo.new()
     game_info.uuid = game_info_dict['uuid']
     game_info.game_owner = game_info_dict['owner'].get('username','')
-    game_info.white = game_info_dict['white'].get('username','')
-    game_info.black = game_info_dict['black'].get('username', '')
+    game_info.white = game_info_dict['white'].get('username','') if game_info_dict['white'] else ''
+    game_info.black = game_info_dict['black'].get('username', '') if game_info_dict['black'] else ''
     match game_info_dict['status']:
         'waiting':
             game_info.status = GameInfo.GameStatus.WAITING

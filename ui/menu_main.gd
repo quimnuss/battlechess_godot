@@ -27,16 +27,18 @@ func _on_login_button_pressed():
   
     var username = username_line_edit.text
     var password = password_line_edit.text
-    #TODO login doesn't need e-mail :/ How should we deal with incomplete btch user?
-    var btch_user : BtchUser = BtchUser.New(username, password, '')
     if not username and not password:
         error_label.text = "fields cannot be empty"
         error_label.visible = true
     else:
+        #TODO login doesn't need e-mail :/ How should we deal with incomplete btch user?
+        var btch_user : BtchUser = BtchUser.New(username, password, '')
+
         error_label.visible = false
-    
-        config.set_value(Globals.PLAYER_SECTION, 'username', username)    
-        config.set_value(Globals.PLAYER_SECTION, 'password', password)
+        
+        BtchCommon.username = username
+        BtchCommon.password = password
+        
         var request_status : BtchCommon.HTTPStatus = await btch_user.auth()
         match request_status:
             BtchCommon.HTTPStatus.OK:

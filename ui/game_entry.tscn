@@ -53,6 +53,8 @@ text = "Game number 12"
 visible = false
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
+tooltip_text = "Game in Progress"
+theme = ExtResource("2_kjgql")
 texture = ExtResource("3_5tkb0")
 expand_mode = 3
 stretch_mode = 5
@@ -60,6 +62,8 @@ stretch_mode = 5
 [node name="GameStateWaiting" type="TextureRect" parent="HBoxContainer"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
+tooltip_text = "Game Waiting Players"
+theme = ExtResource("2_kjgql")
 texture = ExtResource("3_wa6vw")
 expand_mode = 3
 stretch_mode = 5
@@ -68,6 +72,8 @@ stretch_mode = 5
 visible = false
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
+tooltip_text = "Game Finished"
+theme = ExtResource("2_kjgql")
 texture = ExtResource("6_cmqqv")
 expand_mode = 3
 stretch_mode = 5
@@ -99,10 +105,12 @@ expand_mode = 3
 layout_mode = 2
 text = "Pol"
 
-[node name="Button" type="Button" parent="HBoxContainer"]
+[node name="PlayGameButton" type="Button" parent="HBoxContainer"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 icon = ExtResource("6_2g042")
 flat = true
 icon_alignment = 1
 expand_icon = true
+
+[connection signal="pressed" from="HBoxContainer/PlayGameButton" to="." method="_on_play_game_button_pressed"]

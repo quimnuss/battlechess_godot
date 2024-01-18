@@ -3,7 +3,26 @@ extends Node
 var BASE_URL : String = "http://localhost:8000"
 var token : String = ""
 
+var username : String : 
+    get:
+        return username
+    set(new_username):
+        config.set_value(Globals.PLAYER_SECTION, 'username', new_username)
+        username = new_username
+        username_changed.emit(username)
+        
+var password : String :
+    get:
+        return password
+    set(new_password):
+        config.set_value(Globals.PLAYER_SECTION, 'password', new_password)
+        password = new_password
+
+var avatar : Texture2D
+
 var config : ConfigFile = ConfigFile.new()
+
+signal username_changed(new_username : String)
 
 signal connection_status_changed(new_status : bool)
 var connection_status : bool = false:
@@ -12,7 +31,6 @@ var connection_status : bool = false:
     set(new_connection_status):
         connection_status_changed.emit(new_connection_status)
         connection_status = new_connection_status
-
 
 var common_request : HTTPRequest = HTTPRequest.new()
 
@@ -69,10 +87,16 @@ func _ready():
     add_child(common_request)
     config.load(Globals.CONFIG_FILE_ACTIVE)
     BASE_URL = config.get_value(Globals.MAIN_SECTION,'btch_base_url', BASE_URL)
+    username = config.get_value(Globals.PLAYER_SECTION, 'username', 'Steve')
+    password = config.get_value(Globals.PLAYER_SECTION, 'password', 'foo')
 
-func auth(username : String, password : String) -> HTTPStatus:
+func auth(p_username : String = '', p_password : String = '') -> HTTPStatus:
+    if p_username == '':
+        p_username = self.username
+    if p_password == '':
+        p_password = self.password
     var auth_endpoint : String = BASE_URL + "/token"
-    var credentials : Dictionary = {'username': username, 'password': password}
+    var credentials : Dictionary = {'username': p_username, 'password': p_password}
     var query_string : String = _http_client.query_string_from_dict(credentials)
     var payload : String = JSON.stringify(credentials)
     prints(query_string)
@@ -103,30 +127,6 @@ func auth(username : String, password : String) -> HTTPStatus:
         token = json['access_token']
         connection_status = true
         return HTTPStatus.OK
-
-
-func request_error_handle(result, response_code) -> bool:
-    var ok : bool = false
-    match result:
-        HTTPRequest.RESULT_SUCCESS:
-            prints("request success... let's see response...")
-
-        HTTPRequest.RESULT_CANT_CONNECT:
-            prints("request cant connect")
-            return false
-        _:
-            prints("request err unknown")
-            return false
-
-    match response_code:
-        200:
-            prints("response ok!")
-            return true
-        _:
-            prints("response not ok",response_code)
-            return false
-    return false
-
 
 func btch_standard_request(endpoint : String, payload : Dictionary, req : HTTPRequest, method : HTTPClient.Method = HTTPClient.METHOD_GET) -> HTTPStatus:
     var response_data : Dictionary = await btch_standard_data_request(endpoint, payload, req, method)

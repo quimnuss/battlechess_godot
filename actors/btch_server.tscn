@@ -8,16 +8,6 @@
 [node name="BtchServer" type="Node2D"]
 script = ExtResource("1_armag")
 
-[node name="GameRequests" type="HTTPRequest" parent="."]
-
-[node name="@Timer@196351" type="Timer" parent="GameRequests"]
-one_shot = true
-
-[node name="AdminRequests" type="HTTPRequest" parent="."]
-
-[node name="@Timer@196352" type="Timer" parent="AdminRequests"]
-one_shot = true
-
 [node name="SeqRequests" type="HTTPRequest" parent="."]
 
 [node name="@Timer@196353" type="Timer" parent="SeqRequests"]
@@ -46,7 +36,5 @@ script = ExtResource("3_kw7fr")
 
 [node name="TurnTimer" type="Timer" parent="."]
 
-[connection signal="request_completed" from="GameRequests" to="." method="_on_http_request_request_completed"]
-[connection signal="request_completed" from="AdminRequests" to="." method="_on_admin_requests_request_completed"]
 [connection signal="game_joined" from="BtchGame" to="." method="_on_btch_game_game_joined"]
 [connection signal="timeout" from="TurnTimer" to="." method="_on_check_turn_timer_timeout"]

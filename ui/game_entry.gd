@@ -8,12 +8,10 @@ class_name GameEntry
 @onready var game_state_waiting = $HBoxContainer/GameStateWaiting
 @onready var game_state_finished = $HBoxContainer/GameStateFinished
 
+signal play_game(uuid : String)
 
-#	add_game('asdf', 'foo', 'foo', 'bar', GameInfo.GameStatus.WAITING)
-#	add_game('qwer', 'bar', 'foo', 'bar', GameInfo.GameStatus.STARTED)
-#	add_game('ghkj', 'foo', 'foo', 'bar', GameInfo.GameStatus.FINISHED)
-#	add_game('tyui', 'bar', 'bar', 'foo', GameInfo.GameStatus.WAITING)
-#	add_game('zxcv', 'foo', 'foo', 'bar', GameInfo.GameStatus.WAITING)
+func _ready():
+    game_uuid.text = 'foogame'
 
 func from_info(game_info : GameInfo):
     game_uuid.text = game_info.uuid
@@ -33,12 +31,6 @@ func from_info(game_info : GameInfo):
             game_state_waiting.visible = false
             game_state_started.visible = false
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-    game_uuid.text = '#ßaksjdfhaklsjdfh'
-    pass # Replace with function body.
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-    pass
+func _on_play_game_button_pressed():
+    play_game.emit(game_uuid.text)

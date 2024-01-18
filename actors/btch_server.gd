@@ -2,8 +2,6 @@ extends Node2D
 
 class_name BtchServer
 
-@onready var request : HTTPRequest = $GameRequests
-@onready var admin_request : HTTPRequest = $AdminRequests
 @onready var seq_request : HTTPRequest = $SeqRequests
 
 @onready var player : BtchUser = $Player
@@ -12,7 +10,7 @@ class_name BtchServer
 
 @onready var turn_timer = $TurnTimer
 
-const TURN_CHECK_RATE = 3
+const TURN_CHECK_RATE = 2
 
 const ENDPOINT : String = "/games"
 
@@ -79,10 +77,6 @@ func btch_request(endpoint : String, payload : Dictionary, req : HTTPRequest) ->
             return BtchCommon.HTTPStatus.SERVICEUNAVAILABLE
 
     return await BtchCommon.btch_standard_request(endpoint, payload, req)
-
-func test_request():
-    var move_payload : Dictionary = {}
-    btch_request(ENDPOINT, move_payload, request)
 
 func tile_to_notation(tile_coords : Vector2i) -> String:
     var square : String = char(tile_coords.x + 'a'.unicode_at(0)) + str(8 - tile_coords.y)
@@ -174,19 +168,6 @@ func _on_check_turn_timer_timeout():
         self.turn = new_turn
         turn_changed.emit(new_turn)
         
-
-# Poll server for moves
-func _process(delta):
-    pass
-
-func _on_http_request_request_completed(result, response_code, headers, body):
-    var json = JSON.parse_string(body.get_string_from_utf8())
-    prints("http response", response_code, result, json)
-    var ok = BtchCommon.request_error_handle(result, response_code)
-    if ok:
-        prints("all ok, do something")
-        #TODO handle responses
-
 func _on_btch_game_game_joined(uuid):
     prints("game",uuid,"joined")
     if player == self.game.white_player:

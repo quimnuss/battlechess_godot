@@ -1,29 +1,30 @@
 extends Node
-@onready var v_box_container = $MarginContainer/VBoxContainer
+@onready var v_box_container = %GameListVBoxContainer
+@onready var player_name_label = $MarginContainer/MainVBoxContainer/HBoxContainer/PlayerNameLabel
+@onready var error_label = $MarginContainer/MainVBoxContainer/HBoxContainer/ErrorLabel
 
 var game_list : Array[GameInfo]
 
 var config : ConfigFile = ConfigFile.new()
 
 func _ready():
-    var err = config.load(Globals.CONFIG_FILE_ACTIVE)
-    if err != OK:
-        prints("User config",Globals.CONFIG_FILE_ACTIVE,"failed to load.")
-    else:
-        var username = config.get_value(Globals.PLAYER_SECTION,'username')
-        var password = config.get_value(Globals.PLAYER_SECTION,'password')
-        
-        var is_connected : bool = false
-        if not BtchCommon.token:
-            var result : BtchCommon.HTTPStatus = await BtchCommon.auth(username, password)
-            if result != BtchCommon.HTTPStatus.OK:
-                prints("error authenticating",result)
-            else:
-                is_connected = true
+    
+    player_name_label.text = BtchCommon.username
+    
+    var is_connected : bool = false
+    if not BtchCommon.token:
+        var result : BtchCommon.HTTPStatus = await BtchCommon.auth()
+        if result != BtchCommon.HTTPStatus.OK:
+            prints("error authenticating",result)
+            error_label.text = "Error authenticating"
+            error_label.visible = true
         else:
             is_connected = true
-        if is_connected:
-            refresh_games()
+    else:
+        is_connected = true
+        
+    if is_connected:
+        refresh_games()
 
 func refresh_games():
     var response_data : Dictionary = await BtchCommon.btch_standard_data_request('/games',{}, BtchCommon.common_request)
@@ -33,7 +34,6 @@ func refresh_games():
         for game in games:
             var game_info : GameInfo = GameInfo.from_dict(game)
             add_game(game_info)
-        
 
 func placeholder_fill():
     add_game(GameInfo.New('asdf', 'foo', 'foo', 'bar', GameInfo.GameStatus.WAITING))
@@ -48,6 +48,11 @@ func remove_game(uuid : String):
 
 func add_game(game_info : GameInfo):
     game_list.append(game_info)
-    var game_entry = load('res://ui/game_entry.tscn').instantiate()
+    var game_entry : GameEntry = load('res://ui/game_entry.tscn').instantiate()
     v_box_container.add_child(game_entry)
+    # children need to exist to from_info
     game_entry.from_info(game_info)
+    game_entry.play_game.connect(play_game)
+    
+func play_game(uuid : String):
+    prints("TODO Implement playing game " + uuid)
