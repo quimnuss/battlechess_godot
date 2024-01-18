@@ -92,7 +92,10 @@ func auth(username : String, password : String) -> HTTPStatus:
     prints("auth response", result, response_code, headers)
     print(JSON.stringify(json,'  '))
 
-    if response_code != HTTPStatus.OK:
+    if result != Error.OK:
+        connection_status = false
+        return HTTPStatus.BADGATEWAY
+    elif response_code != HTTPStatus.OK:
         # TODO translate codes to something btch
         connection_status = false
         return response_code

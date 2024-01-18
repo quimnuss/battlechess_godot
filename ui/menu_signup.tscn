@@ -86,7 +86,6 @@ layout_mode = 2
 size_flags_stretch_ratio = 1.2
 theme = ExtResource("3_eb2cu")
 placeholder_text = "e-mail"
-secret = true
 
 [node name="PasswordLineEdit" type="LineEdit" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(200, 40)
@@ -102,7 +101,6 @@ layout_mode = 2
 size_flags_stretch_ratio = 1.2
 theme = ExtResource("3_eb2cu")
 placeholder_text = "full name (optional)"
-secret = true
 
 [node name="Separator2" type="Control" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
