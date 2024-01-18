@@ -1,7 +1,7 @@
 extends Control
 
 @onready var scene_board = $CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/SceneBoard
-@onready var end_scene = $end_scene
+@onready var end_scene = $EndSceneLayer
 
 func _ready():
     var process_id : int = OS.get_process_id()

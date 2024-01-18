@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://l2wnr4401kqx"]
+[gd_scene load_steps=9 format=3 uid="uid://l2wnr4401kqx"]
 
 [ext_resource type="PackedScene" uid="uid://c76ybxdwy7mbk" path="res://actors/player_control.tscn" id="1_1ddh3"]
 [ext_resource type="Script" path="res://actors/phone_operator.gd" id="1_kq3wj"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dqa6kk2vyqay" path="res://actors/btch_server.tscn" id="3_bxw6y"]
 [ext_resource type="Script" path="res://actors/game_container.gd" id="4_658t2"]
 [ext_resource type="PackedScene" uid="uid://e6ggebnvmmgi" path="res://ui/end_scene.tscn" id="7_0ycva"]
+[ext_resource type="PackedScene" uid="uid://b7togtnxg15ho" path="res://ui/menu_ingame.tscn" id="8_2noe1"]
 
 [node name="main_btch" type="Control"]
 layout_mode = 3
@@ -63,9 +64,14 @@ layout_mode = 2
 player_name = "bar"
 player_area_color = 1
 
-[node name="end_scene" parent="." instance=ExtResource("7_0ycva")]
+[node name="EndSceneLayer" parent="." instance=ExtResource("7_0ycva")]
 visible = false
 you_won = true
+
+[node name="MenuLayer" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="MenuIngame" parent="MenuLayer" instance=ExtResource("8_2noe1")]
 
 [connection signal="black_username_update" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer/TopPlayerControl" method="_set_label_text"]
 [connection signal="game_joined" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer" method="_on_btch_server_game_joined"]
