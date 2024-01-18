@@ -92,7 +92,7 @@ func _test_running_setup():
 
 	set_all_fonts("CourierPrime")
 	set_font_size(30)
-	
+
 	_ctrls.output.queue_redraw()
 	load_file('user://.gut_editor.bbcode')
 	await get_tree().process_frame
@@ -115,7 +115,7 @@ func _ready():
 
 	if(get_parent() == get_tree().root):
 		_test_running_setup()
-		
+
 
 func _on_caret_changed():
 	var txt = str("line:",_ctrls.output.get_caret_line(), ' col:', _ctrls.output.get_caret_column())
@@ -275,7 +275,7 @@ func _set_font(font_name, custom_name):
 
 func set_all_fonts(base_name):
 	_font_name = GutUtils.nvl(base_name, 'Default')
-	
+
 	if(base_name == 'Default'):
 		_set_font(null, 'font')
 		_set_font(null, 'normal_font')

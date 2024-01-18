@@ -11,7 +11,7 @@ extends Control
 var config : ConfigFile = ConfigFile.new()
 
 func _ready():
-    
+
     var err = config.load(Globals.CONFIG_FILE_ACTIVE)
     if err != OK:
         prints("User config",Globals.CONFIG_FILE_ACTIVE,"failed to load.")
@@ -24,7 +24,7 @@ func _ready():
             password_line_edit.text = password
 
 func _on_login_button_pressed():
-  
+
     var username = username_line_edit.text
     var password = password_line_edit.text
     if not username and not password:
@@ -35,10 +35,10 @@ func _on_login_button_pressed():
         var btch_user : BtchUser = BtchUser.New(username, password, '')
 
         error_label.visible = false
-        
+
         BtchCommon.username = username
         BtchCommon.password = password
-        
+
         var request_status : BtchCommon.HTTPStatus = await btch_user.auth()
         match request_status:
             BtchCommon.HTTPStatus.OK:

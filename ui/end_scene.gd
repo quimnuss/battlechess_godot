@@ -12,7 +12,7 @@ extends CanvasLayer
             you_lose_label.visible = true
             you_win_label.visible = false
         you_won = new_you_won
-        
+
 func _ready():
     pass # Replace with function body.
 

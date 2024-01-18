@@ -24,7 +24,7 @@ static func New(username : String, password : String, email : String, full_name 
     btch_user.plain_password = password
     btch_user.email = email
     btch_user.full_name = full_name
-    return btch_user   
+    return btch_user
 
 func _ready():
 

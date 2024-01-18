@@ -15,7 +15,7 @@ func _ready():
 
 func from_info(game_info : GameInfo):
     game_uuid.text = game_info.uuid
-    player_1_name.text = game_info.black 
+    player_1_name.text = game_info.black
     player_2_name.text = game_info.white
     match game_info.status:
         GameInfo.GameStatus.WAITING:

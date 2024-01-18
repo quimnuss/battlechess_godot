@@ -11,7 +11,7 @@ const lobby : PackedScene = preload("res://ui/lobby.tscn")
 var config : ConfigFile = ConfigFile.new()
 
 func _ready():
-    
+
     var err = config.load(Globals.CONFIG_FILE_ACTIVE)
     if err != OK:
         prints("User config",Globals.CONFIG_FILE_ACTIVE,"failed to load.")
@@ -21,15 +21,15 @@ func _on_sign_up_pressed():
     var password = password_line_edit.text
     var email = email_line_edit.text
     var full_name = full_name_line_edit.text
-    
+
     var btch_user : BtchUser = BtchUser.New(username, password, email, full_name)
     if not btch_user.validate():
         error_label.text = "fields cannot be empty"
         error_label.visible = true
     else:
         error_label.visible = false
-    
-        config.set_value(Globals.PLAYER_SECTION, 'username', username)    
+
+        config.set_value(Globals.PLAYER_SECTION, 'username', username)
         config.set_value(Globals.PLAYER_SECTION, 'password', password)
         get_tree().change_scene_to_packed(lobby)
 

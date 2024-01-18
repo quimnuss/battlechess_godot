@@ -8,9 +8,9 @@ var game_list : Array[GameInfo]
 var config : ConfigFile = ConfigFile.new()
 
 func _ready():
-    
+
     player_name_label.text = BtchCommon.username
-    
+
     var is_connected : bool = false
     if not BtchCommon.token:
         var result : BtchCommon.HTTPStatus = await BtchCommon.auth()
@@ -22,13 +22,13 @@ func _ready():
             is_connected = true
     else:
         is_connected = true
-        
+
     if is_connected:
         refresh_games()
 
 func refresh_games():
     var response_data : Dictionary = await BtchCommon.btch_standard_data_request('/games',{}, BtchCommon.common_request)
-    
+
     if response_data['status_code'] == BtchCommon.HTTPStatus.OK:
         var games = response_data['data']
         for game in games:
@@ -53,6 +53,6 @@ func add_game(game_info : GameInfo):
     # children need to exist to from_info
     game_entry.from_info(game_info)
     game_entry.play_game.connect(play_game)
-    
+
 func play_game(uuid : String):
     prints("TODO Implement playing game " + uuid)

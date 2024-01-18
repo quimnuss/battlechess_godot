@@ -167,7 +167,7 @@ func _on_check_turn_timer_timeout():
         prints("turn changed!",self.turn,'->',new_turn)
         self.turn = new_turn
         turn_changed.emit(new_turn)
-        
+
 func _on_btch_game_game_joined(uuid):
     prints("game",uuid,"joined")
     if player == self.game.white_player:
@@ -184,4 +184,4 @@ func _on_btch_game_game_joined(uuid):
     var is_white : bool = (player == self.game.white_player)
     turn_timer.start(TURN_CHECK_RATE)
     game_joined.emit(uuid, is_white)
-    
+

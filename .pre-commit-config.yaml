@@ -3,7 +3,6 @@ repos:
     rev: v4.4.0 # Use the ref you want to point at
     hooks:
       - id: trailing-whitespace
-        exclude_types: [text] # exclude golden files
       - id: check-added-large-files
         args: [--maxkb=500]
       - id: check-case-conflict

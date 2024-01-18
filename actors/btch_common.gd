@@ -3,14 +3,14 @@ extends Node
 var BASE_URL : String = "http://localhost:8000"
 var token : String = ""
 
-var username : String : 
+var username : String :
     get:
         return username
     set(new_username):
         config.set_value(Globals.PLAYER_SECTION, 'username', new_username)
         username = new_username
         username_changed.emit(username)
-        
+
 var password : String :
     get:
         return password
