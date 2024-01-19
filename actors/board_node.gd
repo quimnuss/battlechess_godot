@@ -10,11 +10,13 @@ class_name Board
 #@onready var x_start = ((get_window().size.x / 2.0) - ((width/2.0) * offset ) + (offset / 2))
 #@onready var y_start = ((get_window().size.y / 2.0) + ((height/2.0) * offset ) - (offset / 2))
 
+@export var btch_server: BtchServer
 @export var empty_spaces: PackedVector2Array
+
 @onready var highlight: Sprite2D = $BoardTileMap/Highlight
 @onready var board_tilemap: TileMap = $BoardTileMap
-@export var btch_server: BtchServer
-var TILE_SIZE = 40
+
+const TILE_SIZE = 40
 
 var play_area_rect: Rect2 = Rect2(0, 0, 8 * TILE_SIZE, 8 * TILE_SIZE)
 var picked_piece: ChessPiece = null
@@ -308,12 +310,12 @@ func _input(event):
 #                picked_piece.selected = true
 
 
-func _process(delta):
+func _process(_delta):
 	var mouse: Vector2 = get_local_mouse_position()
 	if _out_of_bounds(mouse):
 		return
 	hover_highlight_tile(mouse)
 
 
-func _on_btch_server_turn_changed(new_turn):
+func _on_btch_server_turn_changed(_new_turn):
 	refresh_board()
