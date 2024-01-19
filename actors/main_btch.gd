@@ -9,7 +9,7 @@ func _ready():
 	prints("my process_id:", process_id)
 
 
-func _input(ev):
+func _input(_ev):
 	if OS.has_feature("debug"):
 		if Input.is_key_pressed(KEY_K):
 			end_scene.you_won = true
