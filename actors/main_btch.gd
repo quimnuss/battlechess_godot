@@ -10,9 +10,6 @@ class_name MainBtch
 
 
 func _ready():
-    var process_id: int = OS.get_process_id()
-    prints("my process_id:", process_id)
-
     var is_root_scene: bool = self == get_tree().current_scene
     prints("Am I", self.name, "the main scene?", is_root_scene)
 

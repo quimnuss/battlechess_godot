@@ -85,13 +85,37 @@ enum BtchError {
     OK,
 }
 
+var is_two_players: bool = true
+
 
 func _ready():
     add_child(common_request)
-    config.load(Globals.CONFIG_FILE_ACTIVE)
+    var err: Error = config.load(Globals.CONFIG_FILE_ACTIVE)
+    if err != OK:
+        prints("User config", ProjectSettings.globalize_path(Globals.CONFIG_FILE_ACTIVE), "failed to load.")
+    else:
+        prints("User config", ProjectSettings.globalize_path(Globals.CONFIG_FILE_ACTIVE), "exists.")
     BASE_URL = config.get_value(Globals.MAIN_SECTION, "btch_base_url", BASE_URL)
+
     username = config.get_value(Globals.PLAYER_SECTION, "username", "Steve")
+    #TODO it looks like we have to store the password in plain?
+    #or could we use the hashed we got the first time?
+    #or must the client hash it themselves as they see fit?
     password = config.get_value(Globals.PLAYER_SECTION, "password", "foo")
+    if is_two_players:
+        two_players()
+    prints("I am player", username, "with pass", password)
+
+
+func two_players():
+    var process_id: int = OS.get_process_id()
+    prints("my process_id:", process_id)
+    if process_id % 2 == 1:
+        username = config.get_value(Globals.PLAYER_SECTION, "username", "Steve")
+        password = config.get_value(Globals.PLAYER_SECTION, "password", "foo")
+    else:
+        username = config.get_value(Globals.PLAYER2_SECTION, "username", "Maya")
+        password = config.get_value(Globals.PLAYER2_SECTION, "password", "bar")
 
 
 func auth(p_username: String = "", p_password: String = "") -> HTTPStatus:
