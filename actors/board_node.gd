@@ -16,6 +16,10 @@ class_name Board
 @onready var highlight: Sprite2D = $BoardTileMap/Highlight
 @onready var board_tilemap: TileMap = $BoardTileMap
 
+signal taken_changed(taken: String)
+
+var last_game_data: BtchGameSnap = null
+
 const TILE_SIZE = 40
 
 var play_area_rect: Rect2 = Rect2(0, 0, 8 * TILE_SIZE, 8 * TILE_SIZE)
@@ -54,14 +58,14 @@ func _ready():
     print("init board")
 
     var board_string = '''
-        RNBKQBNR
+        RNBQKBNR
         PPPPPPPP
         ________
         ________
         ________
         ________
         pppppppp
-        rnbkqbnr'''
+        rnbqkbnr'''
 
     board_string = board_string.replace(" ", "")
     board_string = board_string.replace("\t", "")
@@ -271,10 +275,15 @@ func update_board(board_string: String) -> void:
     update_fog()
 
 
-func refresh_board() -> void:
-    var board_string: String = await btch_server.get_board()
-    if board_string:
-        update_board(board_string)
+func refresh_board_from_data(btch_game_data: BtchGameSnap) -> void:
+    if btch_game_data:
+        update_board(btch_game_data.board)
+        if btch_game_data.winner != ChessConstants.PlayerColor.EMPTY:
+            prints(btch_game_data.winner, "won")
+
+        if not last_game_data or last_game_data.taken != btch_game_data.taken:
+            taken_changed.emit(btch_game_data.taken)
+        last_game_data = btch_game_data
 
 
 func _input(event):
@@ -290,10 +299,12 @@ func _input(event):
             if selected_tile != null_selected_tile and tile_clicked in possible_tiles:
                 prints("Moving", selected_tile, "to", tile_clicked)
 
-                var board_situation: Dictionary = await btch_server.move(selected_tile, tile_clicked)
-                if board_situation:
-                    place_piece_by_clicks(selected_tile, tile_clicked)
-                    update_board(board_situation["board"])
+                # siblings by signal violation
+                var btch_game_data: BtchGameSnap = await btch_server.move(selected_tile, tile_clicked)
+                if btch_game_data:
+                    #place_piece_by_clicks(selected_tile, tile_clicked)
+                    clear_highlight_tiles()
+                    selected_tile = null_selected_tile
             else:
                 selected_tile = tile_clicked
                 possible_tiles = await btch_server.get_moves(tile_clicked)
@@ -317,5 +328,6 @@ func _process(_delta):
     hover_highlight_tile(mouse)
 
 
-func _on_btch_server_turn_changed(_new_turn):
-    refresh_board()
+func _on_btch_server_move_accepted(btch_game_data):
+    if btch_game_data:
+        refresh_board_from_data(btch_game_data)

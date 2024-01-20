@@ -28,4 +28,3 @@ func _on_btch_server_game_joined(uuid: String, is_white: bool):
         scene_board.player_color = ChessConstants.PlayerColor.WHITE
     else:
         scene_board.player_color = ChessConstants.PlayerColor.BLACK
-    scene_board.refresh_board()

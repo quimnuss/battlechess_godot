@@ -30,7 +30,7 @@ signal game_joined(uuid: String, is_white: bool)
 signal turn_changed(new_turn: ChessConstants.PlayerColor)
 
 # refresh board
-signal move_accepted(board_situation: Dictionary)
+signal move_accepted(btch_game_data: BtchGameSnap)
 
 
 func _ready():
@@ -121,19 +121,7 @@ func get_moves(tile_coords: Vector2i) -> Array[Vector2i]:
     return possible_tiles
 
 
-# TODO maybe we should return winner information in turn return or gamesnap
-# we could also add a new schema gamesnapshort specific for gamesnap return
-# during gameplay with board, taken, turn and winner
-func winner(taken: String) -> ChessConstants.PlayerColor:
-    if "K" in taken:
-        return ChessConstants.PlayerColor.BLACK
-    elif "k" in taken:
-        return ChessConstants.PlayerColor.WHITE
-    else:
-        return ChessConstants.PlayerColor.EMPTY
-
-
-func move(tile_start: Vector2i, tile_end: Vector2i) -> Dictionary:
+func move(tile_start: Vector2i, tile_end: Vector2i) -> BtchGameSnap:
     var endpoint: String = "/games/" + self.game.uuid + "/move"
     var square_start: String = tile_to_notation(tile_start)
     var square_end: String = tile_to_notation(tile_end)
@@ -144,28 +132,27 @@ func move(tile_start: Vector2i, tile_end: Vector2i) -> Dictionary:
     )
 
     if response_data["status_code"] == BtchCommon.HTTPStatus.OK:
-        var winner: ChessConstants.PlayerColor = winner(response_data["taken"])
-        var board_situation: Dictionary = {"board": response_data["board"], "taken": response_data["taken"], "winner": winner}
-        var board_string: String = response_data["board"]
-        move_accepted.emit(board_situation)
-        return board_situation
+        var btch_game_data: BtchGameSnap = BtchGameSnap.New(response_data)
+        move_accepted.emit(btch_game_data)
+        return btch_game_data
     else:
         prints("move was not accepted", tile_start, tile_end)
-        return {}
+        return null
 
 
-func get_board() -> String:
+func get_board() -> BtchGameSnap:
     var endpoint: String = "/games/" + self.game.uuid + "/snap"
     var response_data: Dictionary = await BtchCommon.btch_standard_data_request(endpoint, {}, seq_request, HTTPClient.METHOD_GET)
 
-    if response_data["status_code"] == BtchCommon.HTTPStatus.OK and response_data["board"]:
-        var board_string: String = response_data["board"]
-        return board_string
+    if response_data["status_code"] == BtchCommon.HTTPStatus.OK:
+        var btch_game_data: BtchGameSnap = BtchGameSnap.New(response_data)
+        return btch_game_data
+    else:
+        prints("error getting board", response_data)
+    return null
 
-    return ""
 
-
-func get_turn() -> ChessConstants.PlayerColor:
+func get_turn() -> Variant:  #-> ChessConstants.PlayerColor:
     var endpoint: String = "/games/" + self.game.uuid + "/turn"
     var response_data: Dictionary = await BtchCommon.btch_standard_data_request(endpoint, {}, seq_request, HTTPClient.METHOD_GET)
 
@@ -181,15 +168,23 @@ func get_turn() -> ChessConstants.PlayerColor:
                 return ChessConstants.PlayerColor.BLACK
             _:
                 return ChessConstants.PlayerColor.EMPTY
-    return ChessConstants.PlayerColor.EMPTY
+    return null
 
 
 func _on_check_turn_timer_timeout():
     var new_turn: ChessConstants.PlayerColor = await get_turn()
-    if self.turn != new_turn:
-        prints("turn changed!", self.turn, "->", new_turn)
-        self.turn = new_turn
-        turn_changed.emit(new_turn)
+    if new_turn != null:
+        if self.turn != new_turn:
+            prints("turn changed!", self.turn, "->", new_turn)
+            self.turn = new_turn
+            var btch_game_data: BtchGameSnap = await get_board()
+            turn_changed.emit(new_turn)
+            if btch_game_data:
+                move_accepted.emit(btch_game_data)
+            else:
+                prints("something went wrong no btch_game_data!")
+    else:
+        prints("Error reading turn")
 
 
 func _on_btch_game_game_joined(uuid: String, is_white: bool):
@@ -209,3 +204,5 @@ func _on_btch_game_game_joined(uuid: String, is_white: bool):
     var is_white_local: bool = player == self.game.white_player
     turn_timer.start(TURN_CHECK_RATE)
     game_joined.emit(uuid, is_white_local)
+    var btch_game_data: BtchGameSnap = await get_board()
+    move_accepted.emit(btch_game_data)

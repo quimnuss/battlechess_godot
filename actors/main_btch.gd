@@ -34,9 +34,9 @@ func _input(_ev):
             end_scene.visible = false
 
 
-func _on_btch_server_move_accepted(board_situation: Dictionary):
-    if board_situation["winner"] != ChessConstants.PlayerColor.EMPTY:
-        end_scene.you_won = board_situation["winner"] == scene_board.player_color
+func _on_btch_server_move_accepted(btch_game_data: BtchGameSnap):
+    if btch_game_data.winner != ChessConstants.PlayerColor.EMPTY:
+        end_scene.you_won = btch_game_data.winner == scene_board.player_color
         end_scene.visible = true
 
-    prints("TODO: show taken pieces:", board_situation["taken"])
+    prints("TODO: show taken pieces:", btch_game_data.taken)

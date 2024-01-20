@@ -20,6 +20,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_xxlde")
+autojoin_on_start = null
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -76,7 +77,7 @@ visible = false
 [connection signal="black_username_update" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer/TopPlayerControl" method="_set_label_text"]
 [connection signal="game_joined" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer" method="_on_btch_server_game_joined"]
 [connection signal="move_accepted" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="." method="_on_btch_server_move_accepted"]
+[connection signal="move_accepted" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/SceneBoard" method="_on_btch_server_move_accepted"]
 [connection signal="turn_changed" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer/TopPlayerControl" method="_on_btch_server_turn_changed"]
-[connection signal="turn_changed" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/SceneBoard" method="_on_btch_server_turn_changed"]
 [connection signal="turn_changed" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer/BottomPlayerControl" method="_on_btch_server_turn_changed"]
 [connection signal="white_username_update" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer/BottomPlayerControl" method="_set_label_text"]
