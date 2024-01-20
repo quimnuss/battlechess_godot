@@ -30,3 +30,10 @@ graph LR
     game_over -- no --> game
     game_over -- yes --> game_over_button --> games_menu
 ```
+
+# TODOs
+
+[ ] Remove full games not owned by player from list
+[ ] Add show/hide finished games button
+[ ] Add replay game scene
+[ ] Add back button on game or show menu/game list to go to lobby
