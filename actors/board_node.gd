@@ -287,38 +287,7 @@ func refresh_board_from_data(btch_game_data: BtchGameSnap) -> void:
 
 
 func _input(event):
-    if event is InputEventMouseButton:
-        var mouse_pos: Vector2 = get_local_mouse_position()
-        var tile_clicked: Vector2i = board_tilemap.local_to_map(mouse_pos)
-        print("clicked tile", tile_clicked)
-        # TODO point and click logic
-
-        # drag-and-drop logic
-        # TODO maybe check we dont already have a piece?
-        if event.button_index == MOUSE_BUTTON_LEFT and not _out_of_bounds(tile_clicked):
-            if selected_tile != null_selected_tile and tile_clicked in possible_tiles:
-                prints("Moving", selected_tile, "to", tile_clicked)
-
-                # siblings by signal violation
-                var btch_game_data: BtchGameSnap = await btch_server.move(selected_tile, tile_clicked)
-                if btch_game_data:
-                    #place_piece_by_clicks(selected_tile, tile_clicked)
-                    clear_highlight_tiles()
-                    selected_tile = null_selected_tile
-            else:
-                selected_tile = tile_clicked
-                possible_tiles = await btch_server.get_moves(tile_clicked)
-                prints("possible_tiles", possible_tiles)
-                clear_highlight_tiles()
-                highlight_tiles(possible_tiles)
-
-        # let's switch to click and click instead of drag and drop for now
-
-
-#            var piece : ChessPiece = pick_up_piece(tile_clicked)
-#            if piece:
-#                picked_piece = piece
-#                picked_piece.selected = true
+    pass
 
 
 func _process(_delta):

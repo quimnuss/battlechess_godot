@@ -2,18 +2,13 @@ extends Node
 
 @onready var opponent_btch_player = $AspectRatioContainer/CanvasLayer/Game/BtchServer/OpponentPlayer
 @onready var me_btch_player = $AspectRatioContainer/CanvasLayer/Game/BtchServer/Player
-@onready var top_player_control = $TopPlayerControl
-@onready var bottom_player_control = $BottomPlayerControl
 @onready var btch_server = $AspectRatioContainer/CanvasLayer/Game/BtchServer
 @onready var game_title = $GameTitle
 @onready var scene_board = $AspectRatioContainer/CanvasLayer/Game/SceneBoard
 
 
 func _ready():
-    var bottom_connection_status: CheckButton = bottom_player_control.get_node("PlayerMarginContainer/PlayerHBoxContainer/PlayerCheckButton")
-    var top_connection_status: CheckButton = top_player_control.get_node("PlayerMarginContainer/PlayerHBoxContainer/PlayerCheckButton")
-    btch_server.connection_status_updated.connect(bottom_connection_status.set_pressed_no_signal)
-    btch_server.connection_status_updated.connect(top_connection_status.set_pressed_no_signal)
+    pass
 
 
 func _on_btch_server_game_joined(uuid: String, is_white: bool):

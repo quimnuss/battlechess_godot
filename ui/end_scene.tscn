@@ -138,3 +138,6 @@ custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme = ExtResource("1_aggfm")
 text = "New Game"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/ReplayButton" to="." method="_on_replay_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/NewGameButton" to="." method="_on_new_game_button_pressed"]

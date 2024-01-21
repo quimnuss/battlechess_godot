@@ -7,6 +7,7 @@ class_name MainBtch
 @onready var scene_board = $CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/SceneBoard
 @onready var end_scene = $EndSceneLayer
 @onready var btch_server: BtchServer = $CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer
+@onready var menu_layer = $MenuLayer
 
 
 func _ready():
@@ -40,3 +41,12 @@ func _on_btch_server_move_accepted(btch_game_data: BtchGameSnap):
         end_scene.visible = true
 
     prints("TODO: show taken pieces:", btch_game_data.taken)
+
+
+func _on_navigation_layer_menu_pressed():
+    menu_layer.visible = not menu_layer.visible
+
+
+func _on_navigation_layer_back_pressed():
+    var lobby_scene = load("res://ui/lobby.tscn")
+    get_tree().change_scene_to_packed(lobby_scene)

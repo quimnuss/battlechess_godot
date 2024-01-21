@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://b81wxo2et2dpp"]
+
+[ext_resource type="Script" path="res://ui/navigation_layer.gd" id="1_3ub1j"]
+[ext_resource type="Texture2D" uid="uid://bdn3oicjeje2r" path="res://assets/triangle_back.png" id="1_na7tb"]
+[ext_resource type="Texture2D" uid="uid://5pt8k0h2hkxg" path="res://assets/menu_icon.png" id="2_ld3px"]
+
+[node name="NavigationLayer" type="CanvasLayer"]
+script = ExtResource("1_3ub1j")
+
+[node name="BackButton" type="Button" parent="."]
+custom_minimum_size = Vector2(60, 60)
+offset_right = 60.0
+offset_bottom = 68.0
+icon = ExtResource("1_na7tb")
+flat = true
+expand_icon = true
+
+[node name="MenuButton" type="Button" parent="."]
+custom_minimum_size = Vector2(60, 60)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -60.0
+offset_bottom = 68.0
+grow_horizontal = 0
+icon = ExtResource("2_ld3px")
+flat = true
+icon_alignment = 2
+expand_icon = true
+
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="MenuButton" to="." method="_on_menu_button_pressed"]

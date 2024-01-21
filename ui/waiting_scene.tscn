@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://ui/waiting_scene.gd" id="1_kq5ih"]
 [ext_resource type="Texture2D" uid="uid://y6npssa3umbx" path="res://assets/sunset.jpg" id="2_2cady"]
-[ext_resource type="Texture2D" uid="uid://bdn3oicjeje2r" path="res://assets/triangle_back.png" id="3_xoblw"]
+[ext_resource type="PackedScene" uid="uid://b81wxo2et2dpp" path="res://ui/navigation_layer.tscn" id="3_82d8p"]
 [ext_resource type="Texture2D" uid="uid://bu8xa1fpx116" path="res://assets/board_green.png" id="5_41ip3"]
 [ext_resource type="PackedScene" uid="uid://b7togtnxg15ho" path="res://ui/menu_ingame.tscn" id="9_vhbxt"]
 
@@ -31,35 +31,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_2cady")
 
-[node name="NavigationHBoxContainer" type="HBoxContainer" parent="."]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -250.0
-offset_top = -250.0
-offset_right = -182.0
-offset_bottom = -182.0
-grow_horizontal = 0
-grow_vertical = 0
-alignment = 1
-
-[node name="BackButton" type="Button" parent="NavigationHBoxContainer"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-icon = ExtResource("3_xoblw")
-flat = true
-
-[node name="TextureRect" type="TextureRect" parent="NavigationHBoxContainer/BackButton"]
-visible = false
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-texture = ExtResource("3_xoblw")
+[node name="NavigationLayer" parent="." instance=ExtResource("3_82d8p")]
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -120,5 +92,6 @@ visible = false
 wait_time = 5.0
 autostart = true
 
-[connection signal="pressed" from="NavigationHBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="back_pressed" from="NavigationLayer" to="." method="_on_back_button_pressed"]
+[connection signal="menu_pressed" from="NavigationLayer" to="." method="_on_menu_button_pressed"]
 [connection signal="timeout" from="CheckStateTimer" to="." method="_on_check_state_timer_timeout"]

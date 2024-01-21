@@ -2,6 +2,7 @@ extends Node
 @onready var game_list_container = %GameListVBoxContainer
 @onready var player_name_label = $MarginContainer/MainVBoxContainer/HBoxContainer/PlayerNameLabel
 @onready var error_label = $MarginContainer/MainVBoxContainer/HBoxContainer/ErrorLabel
+@onready var menu_layer = $MenuLayer
 
 var game_list: Array[GameInfo]
 
@@ -100,3 +101,7 @@ func _on_error(status_code, msg):
 
 func _on_refresh_button_pressed():
     refresh_games()
+
+
+func _on_navigation_layer_menu_pressed():
+    menu_layer.visible = not menu_layer.visible

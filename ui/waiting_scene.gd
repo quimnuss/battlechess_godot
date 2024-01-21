@@ -5,6 +5,7 @@ class_name WaitingScene
 @onready var top_player_label = $CenterContainer/VBoxContainer/TopMarginContainer/TopPlayerLabel
 @onready var bottom_player_label = $CenterContainer/VBoxContainer/BottomMarginContainer/BottomPlayerLabel
 @onready var game_title = $CenterContainer/VBoxContainer/GameTitle
+@onready var menu_layer = $MenuLayer
 
 var player_name: String
 var game_uuid: String
@@ -84,3 +85,7 @@ func _on_check_state_timer_timeout():
 func _on_back_button_pressed():
     var lobby_scene = load("res://ui/lobby.tscn")
     get_tree().change_scene_to_packed(lobby_scene)
+
+
+func _on_menu_button_pressed():
+    menu_layer.visible = not menu_layer.visible

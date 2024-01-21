@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://b7togtnxg15ho"]
+[gd_scene load_steps=5 format=3 uid="uid://b7togtnxg15ho"]
 
+[ext_resource type="Script" path="res://ui/menu_ingame.gd" id="1_arjro"]
 [ext_resource type="Texture2D" uid="uid://y6npssa3umbx" path="res://assets/sunset.jpg" id="1_ixahg"]
 [ext_resource type="Theme" uid="uid://bhk63fxawy7ix" path="res://styles/btch_theme.tres" id="2_07wsj"]
 
@@ -14,6 +15,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_arjro")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
@@ -39,7 +41,7 @@ theme_override_constants/margin_bottom = 25
 [node name="TitleMarginContainer" type="MarginContainer" parent="MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 0
-theme_override_constants/margin_top = 25
+theme_override_constants/margin_top = 50
 theme_override_constants/margin_bottom = 25
 
 [node name="Label" type="Label" parent="MarginContainer/TitleMarginContainer"]
@@ -79,3 +81,5 @@ size_flags_horizontal = 4
 theme_override_fonts/font = SubResource("SystemFont_eu7yu")
 theme_override_font_sizes/font_size = 14
 text = "Exit Game"
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
