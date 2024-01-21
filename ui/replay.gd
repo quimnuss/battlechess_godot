@@ -5,6 +5,9 @@ class_name Replay
 @onready var scene_board = $CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/SceneBoard
 @onready var btch_server: BtchServer = $CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer
 @onready var menu_layer = $MenuLayer
+@onready var game = %Game
+
+@export var debug_alone = false
 
 
 func _ready():
@@ -13,6 +16,14 @@ func _ready():
 
     if BtchCommon.game_uuid:
         pass
+    elif BtchCommon.game_uuid == "" and debug_alone:
+        BtchCommon.game_uuid = "cfhsgy"
+    else:
+        prints("Error, game_uuid is not set")
+        return
+
+    # load first snap and setup ui accordingly
+    var game_info: GameInfo = game.get_game_info()
 
 
 func _on_navigation_layer_menu_pressed():
