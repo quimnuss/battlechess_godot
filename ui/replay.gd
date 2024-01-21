@@ -23,7 +23,7 @@ func _ready():
         return
 
     # load first snap and setup ui accordingly
-    var game_info: GameInfo = game.get_game_info()
+    var game_info: GameInfo = await game.get_game_info()
 
 
 func _on_navigation_layer_menu_pressed():

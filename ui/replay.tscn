@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://ctaq0epk1e340"]
+[gd_scene load_steps=12 format=3 uid="uid://ctaq0epk1e340"]
 
 [ext_resource type="Script" path="res://ui/replay.gd" id="1_xig34"]
 [ext_resource type="Texture2D" uid="uid://y6npssa3umbx" path="res://assets/sunset.jpg" id="2_e0ak2"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://rlxycfbs6rgr" path="res://actors/scene_board.tscn" id="6_6f3xm"]
 [ext_resource type="Script" path="res://actors/replay_game.gd" id="8_bjul1"]
 [ext_resource type="Texture2D" uid="uid://bdn3oicjeje2r" path="res://assets/triangle_back.png" id="8_jk7vq"]
+[ext_resource type="Script" path="res://actors/replay_board.gd" id="9_21k07"]
 [ext_resource type="Texture2D" uid="uid://b63rv6fvdn1j1" path="res://assets/triangle.png" id="9_n120w"]
 [ext_resource type="PackedScene" uid="uid://b7togtnxg15ho" path="res://ui/menu_ingame.tscn" id="9_p1fy2"]
 [ext_resource type="PackedScene" uid="uid://b81wxo2et2dpp" path="res://ui/navigation_layer.tscn" id="10_a2wts"]
@@ -22,6 +23,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_xig34")
+debug_alone = true
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
@@ -101,6 +103,7 @@ unique_name_in_owner = true
 script = ExtResource("8_bjul1")
 
 [node name="SceneBoard" parent="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game" instance=ExtResource("6_6f3xm")]
+script = ExtResource("9_21k07")
 
 [node name="BottomPlayerControl" parent="CenterContainer/VBoxContainer" instance=ExtResource("4_aw3ld")]
 custom_minimum_size = Vector2(320, 40)
