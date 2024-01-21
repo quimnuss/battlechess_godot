@@ -32,24 +32,34 @@ grow_vertical = 2
 texture = ExtResource("2_2cady")
 
 [node name="NavigationHBoxContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -232.644
-offset_top = -225.645
-offset_right = -148.644
-offset_bottom = -141.645
+offset_left = -250.0
+offset_top = -250.0
+offset_right = -182.0
+offset_bottom = -182.0
 grow_horizontal = 0
 grow_vertical = 0
+alignment = 1
 
 [node name="BackButton" type="Button" parent="NavigationHBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
-size_flags_horizontal = 4
 icon = ExtResource("3_xoblw")
 flat = true
+
+[node name="TextureRect" type="TextureRect" parent="NavigationHBoxContainer/BackButton"]
+visible = false
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_xoblw")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
