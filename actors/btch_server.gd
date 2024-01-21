@@ -147,6 +147,9 @@ func get_board() -> BtchGameSnap:
     if response_data["status_code"] == BtchCommon.HTTPStatus.OK:
         var btch_game_data: BtchGameSnap = BtchGameSnap.New(response_data)
         return btch_game_data
+    elif response_data["status_code"] == BtchCommon.HTTPStatus.PRECONDITIONFAILED:
+        prints("Game", self.game.uuid, "has not started yet")
+        return null
     else:
         prints("error getting board", response_data)
     return null
@@ -172,7 +175,7 @@ func get_turn() -> Variant:  #-> ChessConstants.PlayerColor:
 
 
 func _on_check_turn_timer_timeout():
-    var new_turn: ChessConstants.PlayerColor = await get_turn()
+    var new_turn: Variant = await get_turn()
     if new_turn != null:
         if self.turn != new_turn:
             prints("turn changed!", self.turn, "->", new_turn)
@@ -204,5 +207,9 @@ func _on_btch_game_game_joined(uuid: String, is_white: bool):
     var is_white_local: bool = player == self.game.white_player
     turn_timer.start(TURN_CHECK_RATE)
     game_joined.emit(uuid, is_white_local)
-    var btch_game_data: BtchGameSnap = await get_board()
-    move_accepted.emit(btch_game_data)
+    if self.game.game_status != GameInfo.GameStatus.WAITING:
+        var btch_game_data: BtchGameSnap = await get_board()
+        if btch_game_data:
+            move_accepted.emit(btch_game_data)
+        else:
+            prints("btch_game_data was empty. ")

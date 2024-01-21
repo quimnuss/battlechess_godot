@@ -10,14 +10,16 @@ const game_endpoint: String = "/games"
 @onready var opponent_player = $"../OpponentPlayer"
 
 signal game_joined(uuid: String, is_white: bool)
+signal play_game(uuid: String)
+signal error(status_code: BtchCommon.HTTPStatus, msg: String)
 
 var uuid: String
 
 var game_owner
 var white_player
 var black_player
-var game_status
-var player_turn
+var game_status: GameInfo.GameStatus
+var player_turn: ChessConstants.PlayerColor
 var last_move_time
 var is_public_game: bool
 var winner
@@ -67,7 +69,18 @@ func join_open_game() -> BtchCommon.HTTPStatus:
         return game["status_code"]
 
 
-func create_and_join_game() -> BtchCommon.HTTPStatus:
+func create_and_join_without_build() -> BtchCommon.HTTPStatus:
+    var response_data: Dictionary = await BtchCommon.btch_standard_data_request(game_endpoint, {"public": true}, http_request, HTTPClient.METHOD_POST)
+    var status_code = response_data["status_code"]
+    if status_code != BtchCommon.HTTPStatus.OK:
+        error.emit(status_code, "Error " + status_code + " on game creation")
+        return status_code
+    var game_uuid: String = response_data["uuid"]
+    play_game.emit(game_uuid)
+    return status_code
+
+
+func create_game() -> BtchCommon.HTTPStatus:
     var response_data: Dictionary = await BtchCommon.btch_standard_data_request(game_endpoint, {"public": true}, http_request, HTTPClient.METHOD_POST)
     if response_data["status_code"] != BtchCommon.HTTPStatus.OK:
         return response_data["status_code"]
@@ -76,7 +89,7 @@ func create_and_join_game() -> BtchCommon.HTTPStatus:
     return response_data["status_code"]
 
 
-static func join_game_without_create(game_uuid: String) -> BtchCommon.HTTPStatus:
+static func join_game_without_build(game_uuid: String) -> BtchCommon.HTTPStatus:
     var response_data: Dictionary = await BtchCommon.btch_standard_data_request(
         game_endpoint + "/" + game_uuid + "/join", {}, null, HTTPClient.METHOD_GET
     )
@@ -137,11 +150,13 @@ func _from_dict(game_dict: Dictionary):
         black_player = opponent_player
         opponent_player.from_dict(game_dict["black"])
 
-    game_status = game_dict["status"]
-    player_turn = game_dict["turn"]
+    game_status = GameInfo.game_status_from_str(game_dict["status"])
+    player_turn = ChessConstants.playercolor_from_str(game_dict["turn"])
     last_move_time = game_dict["last_move_time"]
     is_public_game = game_dict["public"]
 
+    # TODO maybe winner should just be a color, that makes it independent from having a player
+    # although we actually need a player/opponent if the game isn't waiting
     if game_dict["winner"] == null:
         winner = null
     elif player.username == game_dict["winner"]:

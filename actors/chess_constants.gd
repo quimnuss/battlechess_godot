@@ -4,6 +4,17 @@ enum PieceType { EMPTY, KW, KB, QW, QB, RW, RB, BW, BB, NW, NB, PW, PB }
 
 enum PlayerColor { BLACK, WHITE, EMPTY }
 
+
+static func playercolor_from_str(player_color) -> PlayerColor:
+    match player_color:
+        "white":
+            return ChessConstants.PlayerColor.WHITE
+        "black":
+            return ChessConstants.PlayerColor.BLACK
+        _:
+            return ChessConstants.PlayerColor.EMPTY
+
+
 var piece_to_emoji: Dictionary = {
     PieceType.EMPTY: "_",
     PieceType.KW: "♛",

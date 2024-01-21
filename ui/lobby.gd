@@ -63,7 +63,7 @@ func play_game(uuid: String):
     prints("Playing game", uuid)
     prints("Setting game uuid", uuid, "to singleton")
     # TODO assuming we can join the game! we should join the game and _then_ switch to main btch
-    var response_status: BtchCommon.HTTPStatus = await BtchGame.join_game_without_create(uuid)
+    var response_status: BtchCommon.HTTPStatus = await BtchGame.join_game_without_build(uuid)
     match response_status:
         BtchCommon.HTTPStatus.OK:
             BtchCommon.game_uuid = uuid
@@ -78,3 +78,12 @@ func play_game(uuid: String):
         _:
             error_label.text = "Error " + str(response_status) + " when joining"
             error_label.visible = true
+
+
+func _on_btch_game_play_game(uuid):
+    play_game(uuid)
+
+
+func _on_error(status_code, msg):
+    error_label.text = msg
+    error_label.visible = true

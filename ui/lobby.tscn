@@ -81,5 +81,15 @@ clip_contents = true
 layout_mode = 2
 alignment = 1
 
+[node name="CreateGameButton" type="Button" parent="MarginContainer/MainVBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "New Game"
+
 [node name="BtchGame" type="Node" parent="."]
 script = ExtResource("3_i5ckn")
+
+[connection signal="pressed" from="MarginContainer/MainVBoxContainer/CreateGameButton" to="BtchGame" method="create_and_join_without_build"]
+[connection signal="error" from="BtchGame" to="." method="_on_error"]
+[connection signal="play_game" from="BtchGame" to="." method="_on_btch_game_play_game"]
