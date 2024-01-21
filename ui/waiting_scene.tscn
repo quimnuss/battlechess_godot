@@ -1,0 +1,96 @@
+[gd_scene load_steps=10 format=3 uid="uid://dks0qxa07ra3d"]
+
+[ext_resource type="Script" path="res://ui/waiting_scene.gd" id="1_kq5ih"]
+[ext_resource type="Texture2D" uid="uid://y6npssa3umbx" path="res://assets/sunset.jpg" id="2_2cady"]
+[ext_resource type="Script" path="res://actors/phone_operator.gd" id="3_cwu0q"]
+[ext_resource type="PackedScene" uid="uid://c76ybxdwy7mbk" path="res://actors/player_control.tscn" id="4_h3cxb"]
+[ext_resource type="Script" path="res://actors/game_container.gd" id="5_xk7aq"]
+[ext_resource type="PackedScene" uid="uid://rlxycfbs6rgr" path="res://actors/scene_board.tscn" id="6_5mgeq"]
+[ext_resource type="PackedScene" uid="uid://dqa6kk2vyqay" path="res://actors/btch_server.tscn" id="7_qbudy"]
+[ext_resource type="PackedScene" uid="uid://e6ggebnvmmgi" path="res://ui/end_scene.tscn" id="8_myexx"]
+[ext_resource type="PackedScene" uid="uid://b7togtnxg15ho" path="res://ui/menu_ingame.tscn" id="9_vhbxt"]
+
+[node name="WatingScene" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_kq5ih")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -400.0
+offset_top = -600.0
+offset_right = 400.0
+offset_bottom = 600.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_2cady")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+script = ExtResource("3_cwu0q")
+
+[node name="GameTitle" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Game "
+horizontal_alignment = 1
+
+[node name="TopPlayerControl" parent="CenterContainer/VBoxContainer" instance=ExtResource("4_h3cxb")]
+layout_mode = 2
+player_area_color = 0
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(320, 320)
+layout_mode = 2
+script = ExtResource("5_xk7aq")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="CenterContainer/VBoxContainer/AspectRatioContainer"]
+offset = Vector2(90, 90)
+transform = Transform2D(1, 0, 0, 1, 90, 90)
+
+[node name="Game" type="Node2D" parent="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer"]
+
+[node name="SceneBoard" parent="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game" node_paths=PackedStringArray("btch_server") instance=ExtResource("6_5mgeq")]
+btch_server = NodePath("../BtchServer")
+
+[node name="BtchServer" parent="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game" instance=ExtResource("7_qbudy")]
+
+[node name="BottomPlayerControl" parent="CenterContainer/VBoxContainer" instance=ExtResource("4_h3cxb")]
+layout_mode = 2
+player_name = "bar"
+player_area_color = 1
+
+[node name="EndSceneLayer" parent="." instance=ExtResource("8_myexx")]
+visible = false
+you_won = true
+
+[node name="MenuLayer" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="MenuIngame" parent="MenuLayer" instance=ExtResource("9_vhbxt")]
+
+[connection signal="black_username_update" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer/TopPlayerControl" method="_set_label_text"]
+[connection signal="game_joined" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer" method="_on_btch_server_game_joined"]
+[connection signal="move_accepted" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="." method="_on_btch_server_move_accepted"]
+[connection signal="move_accepted" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/SceneBoard" method="_on_btch_server_move_accepted"]
+[connection signal="turn_changed" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer/TopPlayerControl" method="_on_btch_server_turn_changed"]
+[connection signal="turn_changed" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer/BottomPlayerControl" method="_on_btch_server_turn_changed"]
+[connection signal="white_username_update" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer" to="CenterContainer/VBoxContainer/BottomPlayerControl" method="_set_label_text"]
