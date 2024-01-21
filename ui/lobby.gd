@@ -1,5 +1,5 @@
 extends Node
-@onready var v_box_container = %GameListVBoxContainer
+@onready var game_list_container = %GameListVBoxContainer
 @onready var player_name_label = $MarginContainer/MainVBoxContainer/HBoxContainer/PlayerNameLabel
 @onready var error_label = $MarginContainer/MainVBoxContainer/HBoxContainer/ErrorLabel
 
@@ -27,10 +27,18 @@ func _ready():
         refresh_games()
 
 
+func clear_games():
+    game_list.clear()
+    for game_entry in game_list_container.get_children():
+        game_list_container.remove_child(game_entry)
+        game_entry.queue_free()
+
+
 func refresh_games():
     var response_data: Dictionary = await BtchCommon.btch_standard_data_request("/games", {}, BtchCommon.common_request)
 
     if response_data["status_code"] == BtchCommon.HTTPStatus.OK:
+        clear_games()
         var games = response_data["data"]
         for game in games:
             var game_info: GameInfo = GameInfo.from_dict(game)
@@ -53,7 +61,7 @@ func remove_game(uuid: String):
 func add_game(game_info: GameInfo):
     game_list.append(game_info)
     var game_entry: GameEntry = load("res://ui/game_entry.tscn").instantiate()
-    v_box_container.add_child(game_entry)
+    game_list_container.add_child(game_entry)
     # children need to exist to from_info
     game_entry.from_info(game_info)
     game_entry.play_game.connect(play_game)
@@ -62,13 +70,14 @@ func add_game(game_info: GameInfo):
 func play_game(uuid: String):
     prints("Playing game", uuid)
     prints("Setting game uuid", uuid, "to singleton")
-    # TODO assuming we can join the game! we should join the game and _then_ switch to main btch
     var response_status: BtchCommon.HTTPStatus = await BtchGame.join_game_without_build(uuid)
     match response_status:
         BtchCommon.HTTPStatus.OK:
             BtchCommon.game_uuid = uuid
-            var main_btch_scene = load("res://ui/main_btch.tscn")
-            get_tree().change_scene_to_packed(main_btch_scene)
+            #var next_btch_scene = load("res://ui/main_btch.tscn")
+            # TODO check if game is waiting or not
+            var next_btch_scene = load("res://ui/waiting_scene.tscn")
+            get_tree().change_scene_to_packed(next_btch_scene)
         BtchCommon.HTTPStatus.CONFLICT:
             error_label.text = "Game " + uuid + " is full"
             error_label.visible = true
@@ -87,3 +96,7 @@ func _on_btch_game_play_game(uuid):
 func _on_error(status_code, msg):
     error_label.text = msg
     error_label.visible = true
+
+
+func _on_refresh_button_pressed():
+    refresh_games()

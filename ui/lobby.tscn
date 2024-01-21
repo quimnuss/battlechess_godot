@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://ckdmpjff3gl3j"]
+[gd_scene load_steps=6 format=3 uid="uid://ckdmpjff3gl3j"]
 
 [ext_resource type="Script" path="res://ui/lobby.gd" id="1_pe60c"]
 [ext_resource type="Texture2D" uid="uid://y6npssa3umbx" path="res://assets/sunset.jpg" id="2_7mjkg"]
+[ext_resource type="StyleBox" uid="uid://dp1e8271w3445" path="res://styles/style_box_flat_only_borders_style.tres" id="3_1lq2m"]
+[ext_resource type="Texture2D" uid="uid://dw1uck7mdnqlp" path="res://assets/refresh_icon.png" id="3_c3blf"]
 [ext_resource type="Script" path="res://actors/btch_game.gd" id="3_i5ckn"]
 
 [node name="Lobby" type="Control"]
@@ -51,7 +53,7 @@ size_flags_vertical = 0
 text = "Player foo"
 horizontal_alignment = 1
 
-[node name="VSeparator" type="VSeparator" parent="MarginContainer/MainVBoxContainer/HBoxContainer"]
+[node name="SpacerControl" type="Control" parent="MarginContainer/MainVBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -71,9 +73,30 @@ size_flags_vertical = 0
 text = "Game list"
 horizontal_alignment = 1
 
+[node name="RefreshButton" type="Button" parent="MarginContainer/MainVBoxContainer/GameListLabel"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -84.0
+offset_top = -42.0
+offset_bottom = 42.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+pivot_offset = Vector2(42, 42)
+theme_override_styles/focus = ExtResource("3_1lq2m")
+icon = ExtResource("3_c3blf")
+flat = true
+
 [node name="VScrollBar" type="ScrollContainer" parent="MarginContainer/MainVBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+follow_focus = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
 
 [node name="GameListVBoxContainer" type="VBoxContainer" parent="MarginContainer/MainVBoxContainer/VScrollBar"]
 unique_name_in_owner = true
@@ -90,6 +113,7 @@ text = "New Game"
 [node name="BtchGame" type="Node" parent="."]
 script = ExtResource("3_i5ckn")
 
+[connection signal="pressed" from="MarginContainer/MainVBoxContainer/GameListLabel/RefreshButton" to="." method="_on_refresh_button_pressed"]
 [connection signal="pressed" from="MarginContainer/MainVBoxContainer/CreateGameButton" to="BtchGame" method="create_and_join_without_build"]
 [connection signal="error" from="BtchGame" to="." method="_on_error"]
 [connection signal="play_game" from="BtchGame" to="." method="_on_btch_game_play_game"]

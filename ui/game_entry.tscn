@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://clsp2sewdmdkn"]
+[gd_scene load_steps=11 format=3 uid="uid://clsp2sewdmdkn"]
 
 [ext_resource type="Texture2D" uid="uid://chc1rrq1afcnu" path="res://assets/icon.png" id="1_5qr70"]
 [ext_resource type="Script" path="res://ui/game_entry.gd" id="1_qkqp5"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://y0shyr0c8n27" path="res://assets/whitehorse.png" id="5_xjj8r"]
 [ext_resource type="Texture2D" uid="uid://bpicvowc3j1u2" path="res://assets/play_button.png" id="6_2g042"]
 [ext_resource type="Texture2D" uid="uid://nn04afa15mt5" path="res://assets/finished_icon.png" id="6_cmqqv"]
+[ext_resource type="StyleBox" uid="uid://dp1e8271w3445" path="res://styles/style_box_flat_only_borders_style.tres" id="9_8q0jx"]
 
 [node name="GameEntry" type="Control"]
 custom_minimum_size = Vector2(410, 57)
@@ -108,6 +109,7 @@ text = "Pol"
 [node name="PlayGameButton" type="Button" parent="HBoxContainer"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
+theme_override_styles/focus = ExtResource("9_8q0jx")
 icon = ExtResource("6_2g042")
 flat = true
 icon_alignment = 1

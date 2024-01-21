@@ -15,11 +15,6 @@ func _ready():
     btch_server.connection_status_updated.connect(bottom_connection_status.set_pressed_no_signal)
     btch_server.connection_status_updated.connect(top_connection_status.set_pressed_no_signal)
 
-    var last_known_connection_status = btch_server.connection_status
-
-
-#    player_connection_status.set_pressed_no_signal(last_known_connection_status)
-
 
 func _on_btch_server_game_joined(uuid: String, is_white: bool):
     var color: String = "white" if is_white else "black"

@@ -159,14 +159,16 @@ func auth(p_username: String = "", p_password: String = "") -> HTTPStatus:
         return HTTPStatus.OK
 
 
-func btch_standard_request(endpoint: String, payload: Dictionary, req: HTTPRequest, method: HTTPClient.Method = HTTPClient.METHOD_GET) -> HTTPStatus:
+func btch_standard_request(
+    endpoint: String, payload: Dictionary, req: HTTPRequest = null, method: HTTPClient.Method = HTTPClient.METHOD_GET
+) -> HTTPStatus:
     var response_data: Dictionary = await btch_standard_data_request(endpoint, payload, req, method)
 
     return response_data["status_code"]
 
 
 func btch_standard_data_request(
-    endpoint: String, payload: Dictionary, req: HTTPRequest, method: HTTPClient.Method = HTTPClient.METHOD_GET
+    endpoint: String, payload: Dictionary, req: HTTPRequest = null, method: HTTPClient.Method = HTTPClient.METHOD_GET
 ) -> Dictionary:
     if not req:
         req = common_request
