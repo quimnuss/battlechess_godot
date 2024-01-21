@@ -67,7 +67,7 @@ func play_game(uuid: String):
     match response_status:
         BtchCommon.HTTPStatus.OK:
             BtchCommon.game_uuid = uuid
-            var main_btch_scene = load("res://actors/main_btch.tscn")
+            var main_btch_scene = load("res://ui/main_btch.tscn")
             get_tree().change_scene_to_packed(main_btch_scene)
         BtchCommon.HTTPStatus.CONFLICT:
             error_label.text = "Game " + uuid + " is full"

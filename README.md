@@ -42,6 +42,7 @@ It's better to switch to main_btch scene when everything is ready to start, othe
 [ ] Add show/hide finished games button
 [ ] Add back button on game or show menu/game list to go to lobby
 [ ] Create game button
+[ ] Add a refresh game list button
 
 ## Next
 [ ] Taken (e.g. via flex box of textureatlas instances)
