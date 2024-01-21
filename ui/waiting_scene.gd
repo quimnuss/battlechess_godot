@@ -79,3 +79,8 @@ func start_game():
 
 func _on_check_state_timer_timeout():
     get_game_state()
+
+
+func _on_back_button_pressed():
+    var lobby_scene = load("res://ui/lobby.tscn")
+    get_tree().change_scene_to_packed(lobby_scene)
