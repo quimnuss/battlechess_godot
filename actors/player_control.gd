@@ -20,6 +20,10 @@ func _set_label_text(name: String):
         label.text = name
 
 
+func set_connection_status(connected: bool):
+    check.set_pressed_no_signal(connected)
+
+
 func set_player_info(name: String, connected: bool):
     label.text = name
     check.set_pressed_no_signal(connected)

@@ -182,9 +182,7 @@ func btch_standard_data_request(
         connection_status = false
         return {"status_code": HTTPStatus.BADGATEWAY}
 
-    prints("awaiting request...")
     var response_pack = await req.request_completed
-    prints("done!")
 
     var result = response_pack[0]
     var response_code: HTTPStatus = response_pack[1]

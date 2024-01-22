@@ -1,10 +1,8 @@
 extends Control
 
 class_name Replay
+
 @onready var scene_board = $Camera2D/Game/SceneBoard
-
-#@onready var scene_board = $CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/SceneBoard
-
 @onready var menu_layer = $MenuLayer
 @onready var game: ReplayGame = %Game
 @onready var bottom_player_control = $CenterContainer/VBoxContainer/BottomPlayerControl

@@ -4,10 +4,11 @@ class_name MainBtch
 
 @export var autojoin_on_start: bool = false
 
-@onready var scene_board = $CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/SceneBoard
+@onready var scene_board = $Camera2D/Game/SceneBoard
 @onready var end_scene = $EndSceneLayer
-@onready var btch_server: BtchServer = $CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer
+@onready var btch_server: BtchServer = $Camera2D/Game/BtchServer
 @onready var menu_layer = $MenuLayer
+@onready var game_title = $CenterContainer/VBoxContainer/GameTitle
 
 
 func _ready():
@@ -50,3 +51,12 @@ func _on_navigation_layer_menu_pressed():
 func _on_navigation_layer_back_pressed():
     var lobby_scene = load("res://ui/lobby.tscn")
     get_tree().change_scene_to_packed(lobby_scene)
+
+
+func _on_btch_server_game_joined(uuid: String, is_white: bool):
+    var color: String = "white" if is_white else "black"
+    game_title.set_text("Game " + uuid + " - you're " + color)
+    if is_white:
+        scene_board.player_color = ChessConstants.PlayerColor.WHITE
+    else:
+        scene_board.player_color = ChessConstants.PlayerColor.BLACK

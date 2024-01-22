@@ -1,10 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://ctaq0epk1e340"]
+[gd_scene load_steps=17 format=3 uid="uid://ctaq0epk1e340"]
 
 [ext_resource type="Script" path="res://ui/replay.gd" id="1_xig34"]
 [ext_resource type="Texture2D" uid="uid://y6npssa3umbx" path="res://assets/sunset.jpg" id="2_e0ak2"]
 [ext_resource type="StyleBox" uid="uid://dp1e8271w3445" path="res://styles/style_box_flat_only_borders_style.tres" id="3_vfeqd"]
 [ext_resource type="PackedScene" uid="uid://c76ybxdwy7mbk" path="res://actors/player_control.tscn" id="4_aw3ld"]
-[ext_resource type="Script" path="res://actors/game_container.gd" id="5_a78io"]
 [ext_resource type="PackedScene" uid="uid://rlxycfbs6rgr" path="res://actors/scene_board.tscn" id="6_6f3xm"]
 [ext_resource type="Texture2D" uid="uid://y0shyr0c8n27" path="res://assets/whitehorse.png" id="7_tv4m5"]
 [ext_resource type="Script" path="res://actors/replay_game.gd" id="8_bjul1"]
@@ -120,7 +119,6 @@ texture = ExtResource("7_tv4m5")
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(320, 320)
 layout_mode = 2
-script = ExtResource("5_a78io")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="CenterContainer/VBoxContainer/AspectRatioContainer"]
 
