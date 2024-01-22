@@ -28,7 +28,7 @@ func from_info(game_info: GameInfo):
             game_state_started.visible = true
             game_state_waiting.visible = false
             game_state_finished.visible = false
-        GameInfo.GameStatus.FINISHED:
+        GameInfo.GameStatus.OVER:
             game_state_finished.visible = true
             game_state_waiting.visible = false
             game_state_started.visible = false

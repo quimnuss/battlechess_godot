@@ -34,19 +34,12 @@ graph LR
 # TODOs
 
 ## Now
-[ ] Create a scene for "waiting game to start"
-
-It's better to switch to main_btch scene when everything is ready to start, otherwise spaghetti
 
 [ ] Remove full games not owned by player from list
 [ ] Add show/hide finished games button
-[ ] Add back button on game or show menu/game list to go to lobby
-[ ] Create game button
-[ ] Add a refresh game list button
+[ ] Taken (e.g. via flex box of textureatlas instances)
 
 ## Next
-[ ] Taken (e.g. via flex box of textureatlas instances)
-[ ] Add replay game scene
 [ ] Create game scene
 [ ] signal error on all classes / on singleton + Node that captures erreors and shows on screen
 
@@ -61,3 +54,12 @@ It's better to switch to main_btch scene when everything is ready to start, othe
 it should be [easy to implement with HTTPClient](https://github.com/godotengine/godot/issues/26238#issuecomment-466819999)
 
 ## Done
+
+[x] Create a scene for "waiting game to start"
+
+It's better to switch to main_btch scene when everything is ready to start, otherwise spaghetti
+
+[x] Add back button on game or show menu/game list to go to lobby
+[x] Create game button
+[x] Add a refresh game list button
+[x] Add replay game scene

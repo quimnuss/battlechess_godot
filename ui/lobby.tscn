@@ -49,6 +49,10 @@ layout_mode = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/MainVBoxContainer"]
 layout_mode = 2
 
+[node name="SpacerControl2" type="Control" parent="MarginContainer/MainVBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
 [node name="PlayerNameLabel" type="Label" parent="MarginContainer/MainVBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0

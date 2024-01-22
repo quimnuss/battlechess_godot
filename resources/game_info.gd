@@ -2,7 +2,7 @@ extends Resource
 
 class_name GameInfo
 
-enum GameStatus { EMPTY, WAITING, STARTED, FINISHED }
+enum GameStatus { EMPTY, WAITING, STARTED, OVER }
 
 var uuid: String
 var board: String = ""
@@ -31,8 +31,8 @@ static func game_status_from_str(game_status) -> GameInfo.GameStatus:
             return GameInfo.GameStatus.WAITING
         "started":
             return GameInfo.GameStatus.STARTED
-        "finished":
-            return GameInfo.GameStatus.FINISHED
+        "over":
+            return GameInfo.GameStatus.OVER
         _:
             return GameInfo.GameStatus.EMPTY
 

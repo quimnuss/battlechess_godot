@@ -49,7 +49,7 @@ func refresh_games():
 func placeholder_fill():
     add_game(GameInfo.New("asdf", "foo", "foo", "bar", GameInfo.GameStatus.WAITING))
     add_game(GameInfo.New("qwer", "bar", "foo", "bar", GameInfo.GameStatus.STARTED))
-    add_game(GameInfo.New("ghkj", "foo", "foo", "bar", GameInfo.GameStatus.FINISHED))
+    add_game(GameInfo.New("ghkj", "foo", "foo", "bar", GameInfo.GameStatus.OVER))
     add_game(GameInfo.New("tyui", "bar", "bar", "foo", GameInfo.GameStatus.WAITING))
     add_game(GameInfo.New("zxcv", "foo", "foo", "bar", GameInfo.GameStatus.WAITING))
 
