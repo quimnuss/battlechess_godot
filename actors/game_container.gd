@@ -8,4 +8,4 @@ func _ready():
 
 func _on_main_btch_resized():
     var offset = self.get_screen_position()
-    $CanvasLayer.set_offset(offset)
+    #$CanvasLayer.set_offset(offset)

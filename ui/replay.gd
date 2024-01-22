@@ -1,11 +1,12 @@
 extends Control
 
 class_name Replay
+@onready var scene_board = $Camera2D/Game/SceneBoard
 
-@onready var scene_board = $CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/SceneBoard
-@onready var btch_server: BtchServer = $CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/BtchServer
+#@onready var scene_board = $CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game/SceneBoard
+
 @onready var menu_layer = $MenuLayer
-@onready var game : ReplayGame = %Game
+@onready var game: ReplayGame = %Game
 @onready var bottom_player_control = $CenterContainer/VBoxContainer/BottomPlayerControl
 @onready var top_player_control = $CenterContainer/VBoxContainer/TopPlayerControl
 @onready var game_title = $CenterContainer/VBoxContainer/GameTitle
@@ -48,18 +49,20 @@ func _ready():
             bottom_player_control.set_player_info(game_info.white, false)
         if game_info.black:
             top_player_control.set_player_info(game_info.black, false)
-        
-        scene_board.player_color = get_player_color(game_info)
-    
-    game.go_to_last_snap()     
 
-func get_player_color(game_info : GameInfo):
+        scene_board.player_color = get_player_color(game_info)
+
+    game.go_to_last_snap()
+
+
+func get_player_color(game_info: GameInfo):
     if game_info.white == BtchCommon.username:
         return ChessConstants.PlayerColor.WHITE
     elif game_info.black == BtchCommon.username:
         return ChessConstants.PlayerColor.BLACK
     else:
         return ChessConstants.PlayerColor.EMPTY
+
 
 func _on_navigation_layer_menu_pressed():
     menu_layer.visible = not menu_layer.visible

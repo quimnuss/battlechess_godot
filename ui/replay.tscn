@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://ctaq0epk1e340"]
+[gd_scene load_steps=18 format=3 uid="uid://ctaq0epk1e340"]
 
 [ext_resource type="Script" path="res://ui/replay.gd" id="1_xig34"]
 [ext_resource type="Texture2D" uid="uid://y6npssa3umbx" path="res://assets/sunset.jpg" id="2_e0ak2"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://c76ybxdwy7mbk" path="res://actors/player_control.tscn" id="4_aw3ld"]
 [ext_resource type="Script" path="res://actors/game_container.gd" id="5_a78io"]
 [ext_resource type="PackedScene" uid="uid://rlxycfbs6rgr" path="res://actors/scene_board.tscn" id="6_6f3xm"]
+[ext_resource type="Texture2D" uid="uid://y0shyr0c8n27" path="res://assets/whitehorse.png" id="7_tv4m5"]
 [ext_resource type="Script" path="res://actors/replay_game.gd" id="8_bjul1"]
 [ext_resource type="Texture2D" uid="uid://bdn3oicjeje2r" path="res://assets/triangle_back.png" id="8_jk7vq"]
 [ext_resource type="Script" path="res://actors/replay_board.gd" id="9_21k07"]
@@ -38,6 +39,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_xig34")
+debug_alone = true
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
@@ -107,21 +109,20 @@ custom_minimum_size = Vector2(320, 40)
 layout_mode = 2
 player_area_color = 0
 
+[node name="HFlowContainer" type="HFlowContainer" parent="CenterContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer/VBoxContainer/HFlowContainer"]
+layout_mode = 2
+texture = ExtResource("7_tv4m5")
+
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(320, 320)
 layout_mode = 2
 script = ExtResource("5_a78io")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="CenterContainer/VBoxContainer/AspectRatioContainer"]
-offset = Vector2(90, 90)
-transform = Transform2D(1, 0, 0, 1, 90, 90)
-
-[node name="Game" type="Node2D" parent="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer"]
-unique_name_in_owner = true
-script = ExtResource("8_bjul1")
-
-[node name="SceneBoard" parent="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game" instance=ExtResource("6_6f3xm")]
-script = ExtResource("9_21k07")
 
 [node name="BottomPlayerControl" parent="CenterContainer/VBoxContainer" instance=ExtResource("4_aw3ld")]
 custom_minimum_size = Vector2(320, 40)
@@ -157,10 +158,20 @@ text = "No error"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="HBoxContainer/PreviousMoveButton" to="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game" method="_on_previous_move_button_pressed"]
-[connection signal="pressed" from="HBoxContainer/NextMoveButton" to="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game" method="_on_next_move_button_pressed"]
-[connection signal="at_middle_snap" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game" to="." method="_on_game_at_middle_snap"]
-[connection signal="first_snap_reached" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game" to="." method="_on_game_first_snap_reached"]
-[connection signal="last_snap_reached" from="CenterContainer/VBoxContainer/AspectRatioContainer/CanvasLayer/Game" to="." method="_on_game_last_snap_reached"]
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Game" type="Node2D" parent="Camera2D"]
+unique_name_in_owner = true
+script = ExtResource("8_bjul1")
+
+[node name="SceneBoard" parent="Camera2D/Game" instance=ExtResource("6_6f3xm")]
+position = Vector2(-160, -143)
+script = ExtResource("9_21k07")
+
+[connection signal="pressed" from="HBoxContainer/PreviousMoveButton" to="Camera2D/Game" method="_on_previous_move_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/NextMoveButton" to="Camera2D/Game" method="_on_next_move_button_pressed"]
 [connection signal="back_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_back_pressed"]
 [connection signal="menu_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_menu_pressed"]
+[connection signal="at_middle_snap" from="Camera2D/Game" to="." method="_on_game_at_middle_snap"]
+[connection signal="first_snap_reached" from="Camera2D/Game" to="." method="_on_game_first_snap_reached"]
+[connection signal="last_snap_reached" from="Camera2D/Game" to="." method="_on_game_last_snap_reached"]

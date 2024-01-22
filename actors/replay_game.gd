@@ -17,6 +17,7 @@ signal at_middle_snap
 func _ready():
     pass
 
+
 func get_game_info() -> GameInfo:
     if not BtchCommon.game_uuid:
         print("game_uuid is not set. Won't retrieve state.")
@@ -31,6 +32,7 @@ func get_game_info() -> GameInfo:
         error.emit(response_data["status_code"], "Error retrieving game " + BtchCommon.game_uuid + " info")
         return null
 
+
 func go_to_last_snap():
     var endpoint: String = "/games/" + BtchCommon.game_uuid + "/snap"
     var response_data: Dictionary = await BtchCommon.btch_standard_data_request(endpoint, {})
@@ -40,6 +42,7 @@ func go_to_last_snap():
         if btch_game_data:
             scene_board.refresh_board_from_data(btch_game_data)
 
+
 func go_to_snap(snap_num: int):
     var endpoint: String = "/games/" + BtchCommon.game_uuid + "/snap/" + str(move_num)
     var response_data: Dictionary = await BtchCommon.btch_standard_data_request(endpoint, {})
@@ -47,6 +50,7 @@ func go_to_snap(snap_num: int):
         var btch_game_data: BtchGameSnap = BtchGameSnap.New(response_data)
         if btch_game_data:
             scene_board.refresh_board_from_data(btch_game_data)
+
 
 func _on_next_move_button_pressed():
     if move_num >= last_snap_number:
