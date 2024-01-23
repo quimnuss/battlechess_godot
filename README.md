@@ -39,10 +39,13 @@ graph LR
 [ ] Add show/hide finished games button
 
 ## Next
-[ ] Create game scene
+[ ] aesthetics
 [ ] signal error on all classes / on singleton + Node that captures erreors and shows on screen
 
 ## Later
+[ ] Avatars
+[ ] Sounds
+[ ] Animations
 [ ] Server Send events.
 
 [See theory](https://www.pubnub.com/guides/server-sent-events/).
