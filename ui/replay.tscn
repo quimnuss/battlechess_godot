@@ -36,6 +36,8 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
 mouse_filter = 1
 script = ExtResource("1_xig34")
 debug_alone = true
@@ -53,49 +55,22 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_e0ak2")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="PreviousMoveButton" type="Button" parent="HBoxContainer"]
-custom_minimum_size = Vector2(60, 60)
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_styles/focus = ExtResource("3_vfeqd")
-shortcut = SubResource("Shortcut_cul3s")
-icon = ExtResource("8_jk7vq")
-flat = true
-expand_icon = true
-
-[node name="Control" type="Control" parent="HBoxContainer"]
-custom_minimum_size = Vector2(320, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="NextMoveButton" type="Button" parent="HBoxContainer"]
-custom_minimum_size = Vector2(60, 60)
-layout_mode = 2
-size_flags_horizontal = 10
-theme_override_styles/focus = ExtResource("3_vfeqd")
-shortcut = SubResource("Shortcut_d42yx")
-icon = ExtResource("9_n120w")
-flat = true
-expand_icon = true
-
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -160.0
+offset_top = -267.0
+offset_right = 160.0
+offset_bottom = 267.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
+theme_override_constants/separation = 30
+alignment = 1
 
 [node name="GameTitle" type="Label" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
@@ -104,7 +79,7 @@ text = "Game "
 horizontal_alignment = 1
 
 [node name="TopPlayerControl" parent="CenterContainer/VBoxContainer" instance=ExtResource("4_aw3ld")]
-custom_minimum_size = Vector2(320, 40)
+custom_minimum_size = Vector2(180, 40)
 layout_mode = 2
 player_area_color = 0
 
@@ -119,14 +94,44 @@ texture = ExtResource("7_tv4m5")
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(320, 320)
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
-[node name="CanvasLayer" type="CanvasLayer" parent="CenterContainer/VBoxContainer/AspectRatioContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="BottomPlayerControl" parent="CenterContainer/VBoxContainer" instance=ExtResource("4_aw3ld")]
-custom_minimum_size = Vector2(320, 40)
+[node name="PreviousMoveButton" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/focus = ExtResource("3_vfeqd")
+shortcut = SubResource("Shortcut_cul3s")
+icon = ExtResource("8_jk7vq")
+flat = true
+expand_icon = true
+
+[node name="Control" type="Control" parent="CenterContainer/VBoxContainer/HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BottomPlayerControl" parent="CenterContainer/VBoxContainer/HBoxContainer" instance=ExtResource("4_aw3ld")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(180, 40)
 layout_mode = 2
 player_name = "bar"
 player_area_color = 1
+
+[node name="NextMoveButton" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_styles/focus = ExtResource("3_vfeqd")
+shortcut = SubResource("Shortcut_d42yx")
+icon = ExtResource("9_n120w")
+flat = true
+expand_icon = true
 
 [node name="MenuLayer" type="CanvasLayer" parent="."]
 visible = false
@@ -163,11 +168,11 @@ unique_name_in_owner = true
 script = ExtResource("8_bjul1")
 
 [node name="SceneBoard" parent="Camera2D/Game" instance=ExtResource("6_6f3xm")]
-position = Vector2(-160, -143)
+position = Vector2(-160, -145)
 script = ExtResource("9_21k07")
 
-[connection signal="pressed" from="HBoxContainer/PreviousMoveButton" to="Camera2D/Game" method="_on_previous_move_button_pressed"]
-[connection signal="pressed" from="HBoxContainer/NextMoveButton" to="Camera2D/Game" method="_on_next_move_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/HBoxContainer/PreviousMoveButton" to="Camera2D/Game" method="_on_previous_move_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/HBoxContainer/NextMoveButton" to="Camera2D/Game" method="_on_next_move_button_pressed"]
 [connection signal="back_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_back_pressed"]
 [connection signal="menu_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_menu_pressed"]
 [connection signal="at_middle_snap" from="Camera2D/Game" to="." method="_on_game_at_middle_snap"]

@@ -5,12 +5,12 @@ class_name Replay
 @onready var scene_board = $Camera2D/Game/SceneBoard
 @onready var menu_layer = $MenuLayer
 @onready var game: ReplayGame = %Game
-@onready var bottom_player_control = $CenterContainer/VBoxContainer/BottomPlayerControl
+@onready var bottom_player_control = %BottomPlayerControl
 @onready var top_player_control = $CenterContainer/VBoxContainer/TopPlayerControl
 @onready var game_title = $CenterContainer/VBoxContainer/GameTitle
 @onready var error_label = $NavigationLayer/ErrorLabel
-@onready var previous_move_button = $HBoxContainer/PreviousMoveButton
-@onready var next_move_button = $HBoxContainer/NextMoveButton
+@onready var previous_move_button = $CenterContainer/VBoxContainer/HBoxContainer/PreviousMoveButton
+@onready var next_move_button = $CenterContainer/VBoxContainer/HBoxContainer/NextMoveButton
 
 @export var debug_alone = false
 
