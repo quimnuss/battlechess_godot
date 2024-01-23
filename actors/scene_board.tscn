@@ -34,13 +34,3 @@ centered = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BoardTileMap/PlayArea"]
 position = Vector2(160, 160)
 shape = SubResource("RectangleShape2D_2mei2")
-
-[node name="ReferenceRect" type="ReferenceRect" parent="BoardTileMap"]
-offset_right = 321.0
-offset_bottom = 321.0
-mouse_filter = 1
-
-[node name="Polygon2D" type="Polygon2D" parent="."]
-visible = false
-color = Color(1, 0, 0, 0.368627)
-polygon = PackedVector2Array(-24, -16, 296, -16, 304, 304, -24, 304)
