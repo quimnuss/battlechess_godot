@@ -12,33 +12,50 @@
 [ext_resource type="StyleBox" uid="uid://dp1e8271w3445" path="res://styles/style_box_flat_only_borders_style.tres" id="9_8q0jx"]
 
 [node name="GameEntry" type="Control"]
-custom_minimum_size = Vector2(410, 57)
+custom_minimum_size = Vector2(300, 50)
 layout_mode = 3
-anchors_preset = 15
+anchors_preset = 14
+anchor_top = 0.5
 anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_bottom = 0.5
+offset_top = -25.0
+offset_right = -60.0
+offset_bottom = 25.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 script = ExtResource("1_qkqp5")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-custom_minimum_size = Vector2(500, 57)
+custom_minimum_size = Vector2(320, 57)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = 14
+anchor_top = 0.5
 anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.588235, 0.494118, 1, 1)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 0
-offset_right = 410.0
-offset_bottom = 57.0
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -22.5
+offset_right = 150.0
+offset_bottom = 22.5
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
 
 [node name="GameIcon" type="TextureRect" parent="HBoxContainer"]
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 texture = ExtResource("1_5qr70")
 expand_mode = 3
@@ -47,12 +64,15 @@ stretch_mode = 5
 [node name="GameUUID" type="Label" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 1
 theme = ExtResource("2_kjgql")
-text = "Game number 12"
+theme_override_font_sizes/font_size = 20
+text = "uuid"
+vertical_alignment = 1
 
 [node name="GameStateStarted" type="TextureRect" parent="HBoxContainer"]
 visible = false
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 tooltip_text = "Game in Progress"
 theme = ExtResource("2_kjgql")
@@ -61,7 +81,7 @@ expand_mode = 3
 stretch_mode = 5
 
 [node name="GameStateWaiting" type="TextureRect" parent="HBoxContainer"]
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 tooltip_text = "Game Waiting Players"
 theme = ExtResource("2_kjgql")
@@ -71,7 +91,7 @@ stretch_mode = 5
 
 [node name="GameStateFinished" type="TextureRect" parent="HBoxContainer"]
 visible = false
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 tooltip_text = "Game Finished"
 theme = ExtResource("2_kjgql")
@@ -81,6 +101,7 @@ stretch_mode = 5
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
+alignment = 1
 
 [node name="Player1HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -92,6 +113,7 @@ expand_mode = 3
 
 [node name="Player1Name" type="Label" parent="HBoxContainer/VBoxContainer/Player1HBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 text = "Ursu"
 
 [node name="Player2HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
@@ -104,6 +126,7 @@ expand_mode = 3
 
 [node name="Player2Name" type="Label" parent="HBoxContainer/VBoxContainer/Player2HBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 text = "Pol"
 
 [node name="PlayGameButton" type="Button" parent="HBoxContainer"]

@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://b81wxo2et2dpp" path="res://ui/navigation_layer.tscn" id="10_h40xa"]
 
 [node name="main_btch" type="Node2D"]
+position = Vector2(180, 320)
 script = ExtResource("1_xxlde")
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -84,8 +85,8 @@ btch_server = NodePath("../BtchServer")
 [connection signal="connection_status_updated" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/TopPlayerControl" method="set_connection_status"]
 [connection signal="connection_status_updated" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/BottomPlayerControl" method="set_connection_status"]
 [connection signal="game_joined" from="Camera2D/Game/BtchServer" to="." method="_on_btch_server_game_joined"]
-[connection signal="move_accepted" from="Camera2D/Game/BtchServer" to="Camera2D/Game/SceneBoard" method="_on_btch_server_move_accepted"]
 [connection signal="move_accepted" from="Camera2D/Game/BtchServer" to="." method="_on_btch_server_move_accepted"]
+[connection signal="move_accepted" from="Camera2D/Game/BtchServer" to="Camera2D/Game/SceneBoard" method="_on_btch_server_move_accepted"]
 [connection signal="turn_changed" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/TopPlayerControl" method="_on_btch_server_turn_changed"]
 [connection signal="turn_changed" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/BottomPlayerControl" method="_on_btch_server_turn_changed"]
 [connection signal="white_username_update" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/BottomPlayerControl" method="_set_label_text"]
