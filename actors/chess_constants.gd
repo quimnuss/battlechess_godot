@@ -31,6 +31,22 @@ var piece_to_emoji: Dictionary = {
     PieceType.PB: "♙"
 }
 
+var piece_from_str: Dictionary = {
+    "_": PieceType.EMPTY,
+    "k": PieceType.KW,
+    "K": PieceType.KB,
+    "q": PieceType.QW,
+    "Q": PieceType.QB,
+    "r": PieceType.RW,
+    "R": PieceType.RB,
+    "b": PieceType.BW,
+    "B": PieceType.BB,
+    "n": PieceType.NW,
+    "N": PieceType.NB,
+    "p": PieceType.PW,
+    "P": PieceType.PB
+}
+
 var piece_type_name: Dictionary = {
     PieceType.EMPTY: "empty",
     PieceType.KW: "white_king",

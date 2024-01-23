@@ -1,17 +1,21 @@
-[gd_scene load_steps=17 format=3 uid="uid://ctaq0epk1e340"]
+[gd_scene load_steps=19 format=3 uid="uid://ctaq0epk1e340"]
 
 [ext_resource type="Script" path="res://ui/replay.gd" id="1_xig34"]
 [ext_resource type="Texture2D" uid="uid://y6npssa3umbx" path="res://assets/sunset.jpg" id="2_e0ak2"]
 [ext_resource type="StyleBox" uid="uid://dp1e8271w3445" path="res://styles/style_box_flat_only_borders_style.tres" id="3_vfeqd"]
+[ext_resource type="Script" path="res://ui/taken_container.gd" id="4_5vnuc"]
 [ext_resource type="PackedScene" uid="uid://c76ybxdwy7mbk" path="res://actors/player_control.tscn" id="4_aw3ld"]
+[ext_resource type="Texture2D" uid="uid://75ejfxof0rbo" path="res://assets/pieces_big_2_alpha.png" id="5_crh6b"]
 [ext_resource type="PackedScene" uid="uid://rlxycfbs6rgr" path="res://actors/scene_board.tscn" id="6_6f3xm"]
-[ext_resource type="Texture2D" uid="uid://y0shyr0c8n27" path="res://assets/whitehorse.png" id="7_tv4m5"]
 [ext_resource type="Script" path="res://actors/replay_game.gd" id="8_bjul1"]
 [ext_resource type="Texture2D" uid="uid://bdn3oicjeje2r" path="res://assets/triangle_back.png" id="8_jk7vq"]
 [ext_resource type="Script" path="res://actors/replay_board.gd" id="9_21k07"]
 [ext_resource type="Texture2D" uid="uid://b63rv6fvdn1j1" path="res://assets/triangle.png" id="9_n120w"]
 [ext_resource type="PackedScene" uid="uid://b7togtnxg15ho" path="res://ui/menu_ingame.tscn" id="9_p1fy2"]
 [ext_resource type="PackedScene" uid="uid://b81wxo2et2dpp" path="res://ui/navigation_layer.tscn" id="10_a2wts"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y5nr8"]
+atlas = ExtResource("5_crh6b")
 
 [sub_resource type="InputEventKey" id="InputEventKey_u0msn"]
 device = -1
@@ -73,7 +77,7 @@ grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
-theme_override_constants/separation = 30
+theme_override_constants/separation = 10
 alignment = 1
 
 [node name="GameTitle" type="Label" parent="CenterContainer/VBoxContainer"]
@@ -87,19 +91,30 @@ custom_minimum_size = Vector2(180, 40)
 layout_mode = 2
 player_area_color = 0
 
-[node name="HFlowContainer" type="HFlowContainer" parent="CenterContainer/VBoxContainer"]
-visible = false
+[node name="TopTakenHFlowContainer" type="HFlowContainer" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+theme_override_constants/h_separation = 2
+script = ExtResource("4_5vnuc")
+pieces_atlas = SubResource("AtlasTexture_y5nr8")
+im_black = true
 
-[node name="TextureRect" type="TextureRect" parent="CenterContainer/VBoxContainer/HFlowContainer"]
-layout_mode = 2
-texture = ExtResource("7_tv4m5")
-
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="CenterContainer/VBoxContainer"]
+[node name="AspectRatioContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(320, 320)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="BottomTakenHFlowContainer" type="HFlowContainer" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_constants/h_separation = 2
+script = ExtResource("4_5vnuc")
+pieces_atlas = SubResource("AtlasTexture_y5nr8")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
@@ -172,7 +187,7 @@ unique_name_in_owner = true
 script = ExtResource("8_bjul1")
 
 [node name="SceneBoard" parent="Camera2D/Game" instance=ExtResource("6_6f3xm")]
-position = Vector2(-160, -145)
+position = Vector2(-160, -150)
 script = ExtResource("9_21k07")
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/HBoxContainer/PreviousMoveButton" to="Camera2D/Game" method="_on_previous_move_button_pressed"]
@@ -182,3 +197,5 @@ script = ExtResource("9_21k07")
 [connection signal="at_middle_snap" from="Camera2D/Game" to="." method="_on_game_at_middle_snap"]
 [connection signal="first_snap_reached" from="Camera2D/Game" to="." method="_on_game_first_snap_reached"]
 [connection signal="last_snap_reached" from="Camera2D/Game" to="." method="_on_game_last_snap_reached"]
+[connection signal="taken_changed" from="Camera2D/Game/SceneBoard" to="CenterContainer/VBoxContainer/TopTakenHFlowContainer" method="_on_scene_board_taken_changed"]
+[connection signal="taken_changed" from="Camera2D/Game/SceneBoard" to="CenterContainer/VBoxContainer/BottomTakenHFlowContainer" method="_on_scene_board_taken_changed"]
