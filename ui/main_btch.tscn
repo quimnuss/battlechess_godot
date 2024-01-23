@@ -9,20 +9,10 @@
 [ext_resource type="PackedScene" uid="uid://b7togtnxg15ho" path="res://ui/menu_ingame.tscn" id="8_2noe1"]
 [ext_resource type="PackedScene" uid="uid://b81wxo2et2dpp" path="res://ui/navigation_layer.tscn" id="10_h40xa"]
 
-[node name="main_btch" type="Control"]
-layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 1
+[node name="main_btch" type="Node2D"]
 script = ExtResource("1_xxlde")
 
 [node name="TextureRect" type="TextureRect" parent="."]
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -35,7 +25,6 @@ grow_vertical = 2
 texture = ExtResource("2_jg1s6")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -95,8 +84,8 @@ btch_server = NodePath("../BtchServer")
 [connection signal="connection_status_updated" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/TopPlayerControl" method="set_connection_status"]
 [connection signal="connection_status_updated" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/BottomPlayerControl" method="set_connection_status"]
 [connection signal="game_joined" from="Camera2D/Game/BtchServer" to="." method="_on_btch_server_game_joined"]
-[connection signal="move_accepted" from="Camera2D/Game/BtchServer" to="." method="_on_btch_server_move_accepted"]
 [connection signal="move_accepted" from="Camera2D/Game/BtchServer" to="Camera2D/Game/SceneBoard" method="_on_btch_server_move_accepted"]
+[connection signal="move_accepted" from="Camera2D/Game/BtchServer" to="." method="_on_btch_server_move_accepted"]
 [connection signal="turn_changed" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/TopPlayerControl" method="_on_btch_server_turn_changed"]
 [connection signal="turn_changed" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/BottomPlayerControl" method="_on_btch_server_turn_changed"]
 [connection signal="white_username_update" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/BottomPlayerControl" method="_set_label_text"]
