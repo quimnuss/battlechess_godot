@@ -1,8 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://c76ybxdwy7mbk"]
+[gd_scene load_steps=9 format=3 uid="uid://c76ybxdwy7mbk"]
 
 [ext_resource type="Script" path="res://actors/player_control.gd" id="1_5grjc"]
 [ext_resource type="Texture2D" uid="uid://b11ig3w15rpen" path="res://assets/right_arrow.png" id="2_bddwp"]
-[ext_resource type="Theme" uid="uid://dc4ukkv13sgt0" path="res://styles/FlatUI/kenneyUI-blue.tres" id="3_0qkd5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jmfbr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_14m14"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8aoqt"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s4lsb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cqyc5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g30d1"]
 
 [node name="PlayerControl" type="Control"]
 custom_minimum_size = Vector2(320, 50)
@@ -24,6 +35,7 @@ theme_override_constants/margin_bottom = 10
 
 [node name="PlayerHBoxContainer" type="HBoxContainer" parent="PlayerMarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 10
 alignment = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="PlayerMarginContainer/PlayerHBoxContainer"]
@@ -49,5 +61,11 @@ vertical_alignment = 1
 max_lines_visible = 1
 
 [node name="PlayerCheckButton" type="CheckButton" parent="PlayerMarginContainer/PlayerHBoxContainer"]
+visible = false
 layout_mode = 2
-theme = ExtResource("3_0qkd5")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_jmfbr")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_14m14")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_8aoqt")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_s4lsb")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_cqyc5")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_g30d1")

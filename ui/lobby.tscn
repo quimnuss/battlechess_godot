@@ -117,12 +117,12 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "New Game"
 
-[node name="NavigationLayer" parent="." instance=ExtResource("5_luykx")]
-
 [node name="MenuLayer" type="CanvasLayer" parent="."]
 visible = false
 
 [node name="MenuIngame" parent="MenuLayer" instance=ExtResource("6_v5q1x")]
+
+[node name="NavigationLayer" parent="." instance=ExtResource("5_luykx")]
 
 [node name="BtchGame" type="Node" parent="."]
 script = ExtResource("3_i5ckn")

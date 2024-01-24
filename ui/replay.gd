@@ -67,8 +67,11 @@ func _on_navigation_layer_menu_pressed():
 
 
 func _on_navigation_layer_back_pressed():
-    var lobby_scene = load("res://ui/lobby.tscn")
-    get_tree().change_scene_to_packed(lobby_scene)
+    if menu_layer.visible:
+        menu_layer.visible = false
+    else:
+        var lobby_scene = load("res://ui/lobby.tscn")
+        get_tree().change_scene_to_packed(lobby_scene)
 
 
 func _on_game_first_snap_reached():

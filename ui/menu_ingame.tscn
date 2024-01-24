@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://b7togtnxg15ho"]
+[gd_scene load_steps=6 format=3 uid="uid://b7togtnxg15ho"]
 
 [ext_resource type="Script" path="res://ui/menu_ingame.gd" id="1_arjro"]
 [ext_resource type="Texture2D" uid="uid://y6npssa3umbx" path="res://assets/sunset.jpg" id="1_ixahg"]
 [ext_resource type="Theme" uid="uid://bhk63fxawy7ix" path="res://styles/btch_theme.tres" id="2_07wsj"]
+[ext_resource type="PackedScene" uid="uid://b81wxo2et2dpp" path="res://ui/navigation_layer.tscn" id="2_e22mn"]
 
 [sub_resource type="SystemFont" id="SystemFont_eu7yu"]
 font_names = PackedStringArray("Arial")
@@ -16,6 +17,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_arjro")
+
+[node name="NavigationLayer" parent="." instance=ExtResource("2_e22mn")]
+visible = false
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
@@ -50,7 +54,7 @@ theme = ExtResource("2_07wsj")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 24
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/font_size = 50
 text = "BATTLECHESS
 "
 horizontal_alignment = 1
@@ -82,4 +86,6 @@ theme_override_fonts/font = SubResource("SystemFont_eu7yu")
 theme_override_font_sizes/font_size = 14
 text = "Exit Game"
 
+[connection signal="back_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_back_pressed"]
+[connection signal="menu_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_menu_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
