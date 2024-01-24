@@ -12,6 +12,12 @@ var config: ConfigFile = ConfigFile.new()
 func _ready():
     player_name_label.text = BtchCommon.username
 
+    var is_connected = await btch_connect()
+
+    if is_connected:
+        refresh_games()
+
+func btch_connect() -> bool:
     var is_connected: bool = false
     if not BtchCommon.token:
         var result: BtchCommon.HTTPStatus = await BtchCommon.auth()
@@ -23,10 +29,7 @@ func _ready():
             is_connected = true
     else:
         is_connected = true
-
-    if is_connected:
-        refresh_games()
-
+    return is_connected
 
 func clear_games():
     game_list.clear()
@@ -39,11 +42,20 @@ func refresh_games():
     var response_data: Dictionary = await BtchCommon.btch_standard_data_request("/games", {}, BtchCommon.common_request)
 
     if response_data["status_code"] == BtchCommon.HTTPStatus.OK:
+        error_label.visible = false
         clear_games()
         var games = response_data["data"]
         for game in games:
             var game_info: GameInfo = GameInfo.from_dict(game)
             add_game(game_info)
+    else:
+        prints("Error", response_data["status_code"])
+        match response_data["status_code"]:
+            0:
+                error_label.text = "Server unreachable"
+            _:
+                error_label.text = "Error " + str(response_data["status_code"])
+        error_label.visible = true
 
 
 func placeholder_fill():
@@ -100,7 +112,13 @@ func _on_error(status_code, msg):
 
 
 func _on_refresh_button_pressed():
-    refresh_games()
+    error_label.visible = false
+    if not BtchCommon.token:
+        var is_connected : bool = await btch_connect()
+        if is_connected:
+            refresh_games()
+    else:
+        refresh_games()
 
 
 func _on_navigation_layer_menu_pressed():

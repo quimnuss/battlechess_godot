@@ -73,6 +73,11 @@ text = "No error"
 horizontal_alignment = 2
 vertical_alignment = 1
 
+[node name="SpacerControl3" type="Control" parent="MarginContainer/MainVBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.6
+
 [node name="GameListLabel" type="Label" parent="MarginContainer/MainVBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
