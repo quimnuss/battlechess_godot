@@ -1,13 +1,21 @@
-[gd_scene load_steps=9 format=3 uid="uid://l2wnr4401kqx"]
+[gd_scene load_steps=13 format=3 uid="uid://l2wnr4401kqx"]
 
 [ext_resource type="PackedScene" uid="uid://c76ybxdwy7mbk" path="res://actors/player_control.tscn" id="1_1ddh3"]
 [ext_resource type="PackedScene" uid="uid://rlxycfbs6rgr" path="res://actors/scene_board.tscn" id="1_t4sml"]
 [ext_resource type="Script" path="res://ui/main_btch.gd" id="1_xxlde"]
 [ext_resource type="Texture2D" uid="uid://y6npssa3umbx" path="res://assets/sunset.jpg" id="2_jg1s6"]
 [ext_resource type="PackedScene" uid="uid://dqa6kk2vyqay" path="res://actors/btch_server.tscn" id="3_bxw6y"]
+[ext_resource type="Script" path="res://ui/taken_container.gd" id="4_pcjah"]
+[ext_resource type="Texture2D" uid="uid://75ejfxof0rbo" path="res://assets/pieces_big_2_alpha.png" id="5_kmeb2"]
 [ext_resource type="PackedScene" uid="uid://e6ggebnvmmgi" path="res://ui/end_scene.tscn" id="7_0ycva"]
 [ext_resource type="PackedScene" uid="uid://b7togtnxg15ho" path="res://ui/menu_ingame.tscn" id="8_2noe1"]
 [ext_resource type="PackedScene" uid="uid://b81wxo2et2dpp" path="res://ui/navigation_layer.tscn" id="10_h40xa"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mskuh"]
+atlas = ExtResource("5_kmeb2")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hoeqt"]
+atlas = ExtResource("5_kmeb2")
 
 [node name="main_btch" type="Node2D"]
 position = Vector2(180, 320)
@@ -45,6 +53,14 @@ horizontal_alignment = 1
 layout_mode = 2
 player_area_color = 0
 
+[node name="TopTakenHFlowContainer" type="HFlowContainer" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_constants/h_separation = 2
+script = ExtResource("4_pcjah")
+pieces_atlas = SubResource("AtlasTexture_mskuh")
+im_black = true
+
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(320, 320)
 layout_mode = 2
@@ -52,6 +68,13 @@ layout_mode = 2
 [node name="CanvasLayer" type="CanvasLayer" parent="CenterContainer/VBoxContainer/AspectRatioContainer"]
 offset = Vector2(90, 90)
 transform = Transform2D(1, 0, 0, 1, 90, 90)
+
+[node name="BottomTakenHFlowContainer" type="HFlowContainer" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_constants/h_separation = 2
+script = ExtResource("4_pcjah")
+pieces_atlas = SubResource("AtlasTexture_hoeqt")
 
 [node name="BottomPlayerControl" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_1ddh3")]
 layout_mode = 2
@@ -81,6 +104,8 @@ btch_server = NodePath("../BtchServer")
 
 [connection signal="back_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_back_pressed"]
 [connection signal="menu_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_menu_pressed"]
+[connection signal="taken_changed" from="Camera2D/Game/SceneBoard" to="CenterContainer/VBoxContainer/TopTakenHFlowContainer" method="_on_scene_board_taken_changed"]
+[connection signal="taken_changed" from="Camera2D/Game/SceneBoard" to="CenterContainer/VBoxContainer/BottomTakenHFlowContainer" method="_on_scene_board_taken_changed"]
 [connection signal="black_username_update" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/TopPlayerControl" method="_set_label_text"]
 [connection signal="connection_status_updated" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/TopPlayerControl" method="set_connection_status"]
 [connection signal="connection_status_updated" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/BottomPlayerControl" method="set_connection_status"]

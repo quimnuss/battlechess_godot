@@ -37,7 +37,6 @@ graph LR
 
 [ ] Remove full games not owned by player from list
 [ ] Add show/hide finished games button
-[ ] Taken (e.g. via flex box of textureatlas instances)
 
 ## Next
 [ ] Create game scene
@@ -63,3 +62,4 @@ It's better to switch to main_btch scene when everything is ready to start, othe
 [x] Create game button
 [x] Add a refresh game list button
 [x] Add replay game scene
+[x] Taken (e.g. via flex box of textureatlas instances)
