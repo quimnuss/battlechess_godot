@@ -16,37 +16,46 @@ graph LR
 ```mermaid
 graph LR
     Start --> islogged{is logged in?}
-    islogged -- yes --> games_menu
-    islogged -- no --> login --> games_menu
-    login -- signup --> singup --> games_menu
+    islogged -- yes --> games_lobby
+    islogged -- no --> login --> games_lobby
+    login -- signup --> singup --> games_lobby
 
-    games_menu -- create --> game_lobby
-    games_menu -- join --> game_lobby
+    games_lobby -- create --> waiting_game
+    games_lobby -- join --> waiting_game
 
-    game_lobby -- "both players" --> game
+    waiting_game -- "both players" --> game
 
     game -- move --> game_over{game over?}
 
+    game_over -- back --> games_lobby
     game_over -- no --> game
-    game_over -- yes --> game_over_button --> games_menu
+    game_over -- yes --> game_over_screen
+    game_over_screen -- back --> games_lobby
+    game_over_screen -- replay --> replay_screen
+    game_over_screen -- new_game --> waiting_game
+
+    replay_screen -- back --> games_lobby
 ```
 
 # TODOs
 
 ## Now
-
-[ ] Remove full games not owned by player from list
-[ ] Add show/hide finished games button
+- [ ] Settings on main page : server
+- [ ] Auto login + logout
+- [ ] Refresh animation
+- [ ] Apk
 
 ## Next
-[ ] aesthetics
-[ ] signal error on all classes / on singleton + Node that captures erreors and shows on screen
+- [ ] aesthetics
+- [ ] test slow connections
 
 ## Later
-[ ] Avatars
-[ ] Sounds
-[ ] Animations
-[ ] Server Send events.
+- [ ] signal error on all classes / on singleton + Node that captures erreors and shows on screen
+- [ ] Avatars
+- [ ] Sounds
+- [ ] Animations
+- [ ] Server Send events.
+- [ ] [Save encrypted](https://docs.huihoo.com/godotengine/godot-docs/godot/tutorials/engine/encrypting_save_games.html), especially password
 
 [See theory](https://www.pubnub.com/guides/server-sent-events/).
 
@@ -57,12 +66,14 @@ it should be [easy to implement with HTTPClient](https://github.com/godotengine/
 
 ## Done
 
-[x] Create a scene for "waiting game to start"
+- [x] Create a scene for "waiting game to start"
 
 It's better to switch to main_btch scene when everything is ready to start, otherwise spaghetti
 
-[x] Add back button on game or show menu/game list to go to lobby
-[x] Create game button
-[x] Add a refresh game list button
-[x] Add replay game scene
-[x] Taken (e.g. via flex box of textureatlas instances)
+- [x] Add back button on game or show menu/game list to go to lobby
+- [x] Create game button
+- [x] Add a refresh game list button
+- [x] Add replay game scene
+- [x] Taken (e.g. via flex box of textureatlas instances)
+- [x] Remove full games not owned by player from list
+[x] Add show/hide finished games button
