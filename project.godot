@@ -27,6 +27,8 @@ Globals="*res://actors/globals.gd"
 
 window/size/viewport_width=360
 window/size/viewport_height=640
+window/handheld/orientation=1
+window/ios/hide_status_bar=false
 
 [dotnet]
 
@@ -54,3 +56,4 @@ select={
 [rendering]
 
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
