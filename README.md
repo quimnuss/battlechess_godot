@@ -43,7 +43,7 @@ graph LR
 - [ ] Settings on main page : server
 - [ ] Auto login + logout
 - [ ] Refresh animation
-- [ ] Apk
+- [ ] Android UI adaptations
 
 ## Next
 - [ ] aesthetics
@@ -76,4 +76,5 @@ It's better to switch to main_btch scene when everything is ready to start, othe
 - [x] Add replay game scene
 - [x] Taken (e.g. via flex box of textureatlas instances)
 - [x] Remove full games not owned by player from list
-[x] Add show/hide finished games button
+- [x] Add show/hide finished games button
+- [x] Apk
