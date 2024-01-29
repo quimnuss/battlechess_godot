@@ -113,17 +113,18 @@ texture_pressed = ExtResource("3_1ysf7")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="CheckBox" type="CheckBox" parent="MarginContainer/MainVBoxContainer/ListToolsHBoxContainer"]
+[node name="MineGamesCheckBox" type="CheckBox" parent="MarginContainer/MainVBoxContainer/ListToolsHBoxContainer"]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
-theme_override_icons/checked = ExtResource("4_mkhaa")
-theme_override_icons/unchecked = ExtResource("5_r1mye")
+theme_override_icons/checked = ExtResource("5_r1mye")
+theme_override_icons/unchecked = ExtResource("4_mkhaa")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_byh6b")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_xwrqv")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_d30ay")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_r4o43")
 theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_jx3bb")
 theme_override_styles/focus = ExtResource("3_1lq2m")
+button_pressed = true
 icon_alignment = 1
 expand_icon = true
 
@@ -168,6 +169,8 @@ visible = false
 [node name="BtchGame" type="Node" parent="."]
 script = ExtResource("3_i5ckn")
 
+[connection signal="toggled" from="MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/FinishedGamesButton" to="." method="_on_finished_games_button_toggled"]
+[connection signal="toggled" from="MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/MineGamesCheckBox" to="." method="_on_mine_games_check_box_toggled"]
 [connection signal="pressed" from="MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/RefreshButton" to="." method="_on_refresh_button_pressed"]
 [connection signal="pressed" from="MarginContainer/MainVBoxContainer/CreateGameButton" to="BtchGame" method="create_and_join_without_build"]
 [connection signal="back_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_menu_pressed"]

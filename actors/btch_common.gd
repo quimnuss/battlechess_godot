@@ -7,20 +7,39 @@ var username: String:
     get:
         return username
     set(new_username):
-        config.set_value(Globals.PLAYER_SECTION, "username", new_username)
         username = new_username
+        config.set_value(Globals.PLAYER_SECTION, "username", username)
+        config.save(Globals.CONFIG_FILE_ACTIVE)
         username_changed.emit(username)
 
 var password: String:
     get:
         return password
     set(new_password):
-        config.set_value(Globals.PLAYER_SECTION, "password", new_password)
         password = new_password
+        config.set_value(Globals.PLAYER_SECTION, "password", password)
+        #TODO use save_encrypted_pass or save_encrypted
+        config.save(Globals.CONFIG_FILE_ACTIVE)
 
 var avatar: Texture2D
 
 var game_uuid: String
+
+var filter_show_finished: bool = false:
+    get:
+        return filter_show_finished
+    set(new_filter_show_finished):
+        filter_show_finished = new_filter_show_finished
+        config.set_value(Globals.PLAYER_SECTION, "filter_show_finished", filter_show_finished)
+        config.save(Globals.CONFIG_FILE_ACTIVE)
+
+var filter_only_mine: bool = false:
+    get:
+        return filter_only_mine
+    set(new_filter_only_mine):
+        filter_only_mine = new_filter_only_mine
+        config.set_value(Globals.PLAYER_SECTION, "filter_only_mine", filter_only_mine)
+        config.save(Globals.CONFIG_FILE_ACTIVE)
 
 var config: ConfigFile = ConfigFile.new()
 
@@ -105,6 +124,9 @@ func _ready():
     if is_two_players:
         two_players()
     prints("I am player", username, "with pass", password)
+
+    filter_show_finished = config.get_value(Globals.PLAYER_SECTION, "filter_show_finished", filter_show_finished)
+    filter_only_mine = config.get_value(Globals.PLAYER_SECTION, "filter_only_mine", filter_only_mine)
 
 
 func two_players():

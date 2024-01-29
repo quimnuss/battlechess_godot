@@ -3,6 +3,8 @@ extends Node
 @onready var player_name_label = $MarginContainer/MainVBoxContainer/HBoxContainer/PlayerNameLabel
 @onready var error_label = $MarginContainer/MainVBoxContainer/HBoxContainer/ErrorLabel
 @onready var menu_layer = $MenuLayer
+@onready var finished_games_button = $MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/FinishedGamesButton
+@onready var mine_games_check_box = $MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/MineGamesCheckBox
 
 var game_list: Array[GameInfo]
 
@@ -11,11 +13,14 @@ var config: ConfigFile = ConfigFile.new()
 
 func _ready():
     player_name_label.text = BtchCommon.username
+    finished_games_button.set_pressed_no_signal(BtchCommon.filter_show_finished)
+    mine_games_check_box.set_pressed_no_signal(BtchCommon.filter_only_mine)
 
     var is_connected = await btch_connect()
 
     if is_connected:
         refresh_games()
+
 
 func btch_connect() -> bool:
     var is_connected: bool = false
@@ -30,6 +35,7 @@ func btch_connect() -> bool:
     else:
         is_connected = true
     return is_connected
+
 
 func clear_games():
     game_list.clear()
@@ -48,6 +54,7 @@ func refresh_games():
         for game in games:
             var game_info: GameInfo = GameInfo.from_dict(game)
             add_game(game_info)
+        filter_games(BtchCommon.filter_show_finished, BtchCommon.filter_only_mine)
     else:
         prints("Error", response_data["status_code"])
         match response_data["status_code"]:
@@ -78,6 +85,7 @@ func add_game(game_info: GameInfo):
     # children need to exist to from_info
     game_entry.from_info(game_info)
     game_entry.play_game.connect(play_game)
+    game_entry.add_to_group("GameEntries")
 
 
 func play_game(uuid: String):
@@ -102,6 +110,10 @@ func play_game(uuid: String):
             error_label.visible = true
 
 
+func filter_games(show_finished: bool, filter_only_mine: bool):
+    get_tree().call_group("GameEntries", "filter", show_finished, filter_only_mine)
+
+
 func _on_btch_game_play_game(uuid):
     play_game(uuid)
 
@@ -114,7 +126,7 @@ func _on_error(status_code, msg):
 func _on_refresh_button_pressed():
     error_label.visible = false
     if not BtchCommon.token:
-        var is_connected : bool = await btch_connect()
+        var is_connected: bool = await btch_connect()
         if is_connected:
             refresh_games()
     else:
@@ -123,3 +135,13 @@ func _on_refresh_button_pressed():
 
 func _on_navigation_layer_menu_pressed():
     menu_layer.visible = not menu_layer.visible
+
+
+func _on_finished_games_button_toggled(show_finished):
+    filter_games(show_finished, BtchCommon.filter_only_mine)
+    BtchCommon.filter_show_finished = show_finished
+
+
+func _on_mine_games_check_box_toggled(filter_mine_games):
+    filter_games(BtchCommon.filter_show_finished, filter_mine_games)
+    BtchCommon.filter_only_mine = filter_mine_games
