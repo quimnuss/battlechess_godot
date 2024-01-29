@@ -1,12 +1,26 @@
-[gd_scene load_steps=8 format=3 uid="uid://ckdmpjff3gl3j"]
+[gd_scene load_steps=17 format=3 uid="uid://ckdmpjff3gl3j"]
 
 [ext_resource type="Script" path="res://ui/lobby.gd" id="1_pe60c"]
 [ext_resource type="Texture2D" uid="uid://y6npssa3umbx" path="res://assets/sunset.jpg" id="2_7mjkg"]
 [ext_resource type="StyleBox" uid="uid://dp1e8271w3445" path="res://styles/style_box_flat_only_borders_style.tres" id="3_1lq2m"]
+[ext_resource type="Texture2D" uid="uid://nn04afa15mt5" path="res://assets/finished_icon.png" id="3_1ysf7"]
 [ext_resource type="Texture2D" uid="uid://dw1uck7mdnqlp" path="res://assets/refresh_icon.png" id="3_c3blf"]
 [ext_resource type="Script" path="res://actors/btch_game.gd" id="3_i5ckn"]
+[ext_resource type="Texture2D" uid="uid://brlq33qwoj1xd" path="res://assets/finished_icon_disabled.png" id="3_m1rlr"]
+[ext_resource type="Texture2D" uid="uid://danrco6orxjm4" path="res://assets/people_all_red_outline.png" id="4_mkhaa"]
 [ext_resource type="PackedScene" uid="uid://b81wxo2et2dpp" path="res://ui/navigation_layer.tscn" id="5_luykx"]
+[ext_resource type="Texture2D" uid="uid://chcrt5wqllqnv" path="res://assets/people_me_red_outline.png" id="5_r1mye"]
 [ext_resource type="PackedScene" uid="uid://b7togtnxg15ho" path="res://ui/menu_ingame.tscn" id="6_v5q1x"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_byh6b"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xwrqv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d30ay"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r4o43"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jx3bb"]
 
 [node name="Lobby" type="Control"]
 layout_mode = 3
@@ -84,25 +98,47 @@ size_flags_vertical = 0
 text = "Game list"
 horizontal_alignment = 1
 
-[node name="RefreshButton" type="Button" parent="MarginContainer/MainVBoxContainer/GameListLabel"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -84.0
-offset_top = -42.0
-offset_bottom = 42.0
-grow_horizontal = 0
-grow_vertical = 2
-scale = Vector2(0.5, 0.5)
-pivot_offset = Vector2(42, 42)
+[node name="ListToolsHBoxContainer" type="HBoxContainer" parent="MarginContainer/MainVBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.0
+alignment = 2
+
+[node name="FinishedGamesButton" type="TextureButton" parent="MarginContainer/MainVBoxContainer/ListToolsHBoxContainer"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("3_m1rlr")
+texture_pressed = ExtResource("3_1ysf7")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="CheckBox" type="CheckBox" parent="MarginContainer/MainVBoxContainer/ListToolsHBoxContainer"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_override_icons/checked = ExtResource("4_mkhaa")
+theme_override_icons/unchecked = ExtResource("5_r1mye")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_byh6b")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_xwrqv")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_d30ay")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_r4o43")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_jx3bb")
+theme_override_styles/focus = ExtResource("3_1lq2m")
+icon_alignment = 1
+expand_icon = true
+
+[node name="RefreshButton" type="Button" parent="MarginContainer/MainVBoxContainer/ListToolsHBoxContainer"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_vertical = 4
 theme_override_styles/focus = ExtResource("3_1lq2m")
 icon = ExtResource("3_c3blf")
 flat = true
+icon_alignment = 1
+expand_icon = true
 
 [node name="VScrollBar" type="ScrollContainer" parent="MarginContainer/MainVBoxContainer"]
+custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 size_flags_vertical = 3
 follow_focus = true
@@ -132,7 +168,7 @@ visible = false
 [node name="BtchGame" type="Node" parent="."]
 script = ExtResource("3_i5ckn")
 
-[connection signal="pressed" from="MarginContainer/MainVBoxContainer/GameListLabel/RefreshButton" to="." method="_on_refresh_button_pressed"]
+[connection signal="pressed" from="MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/RefreshButton" to="." method="_on_refresh_button_pressed"]
 [connection signal="pressed" from="MarginContainer/MainVBoxContainer/CreateGameButton" to="BtchGame" method="create_and_join_without_build"]
 [connection signal="back_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_menu_pressed"]
 [connection signal="menu_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_menu_pressed"]
