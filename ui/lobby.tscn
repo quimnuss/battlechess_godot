@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://ckdmpjff3gl3j"]
+[gd_scene load_steps=18 format=3 uid="uid://ckdmpjff3gl3j"]
 
 [ext_resource type="Script" path="res://ui/lobby.gd" id="1_pe60c"]
 [ext_resource type="Texture2D" uid="uid://y6npssa3umbx" path="res://assets/sunset.jpg" id="2_7mjkg"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://b81wxo2et2dpp" path="res://ui/navigation_layer.tscn" id="5_luykx"]
 [ext_resource type="Texture2D" uid="uid://chcrt5wqllqnv" path="res://assets/people_me_red_outline.png" id="5_r1mye"]
 [ext_resource type="PackedScene" uid="uid://b7togtnxg15ho" path="res://ui/menu_ingame.tscn" id="6_v5q1x"]
+[ext_resource type="Script" path="res://ui/spin.gd" id="9_q8pla"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_byh6b"]
 
@@ -137,6 +138,7 @@ icon = ExtResource("3_c3blf")
 flat = true
 icon_alignment = 1
 expand_icon = true
+script = ExtResource("9_q8pla")
 
 [node name="VScrollBar" type="ScrollContainer" parent="MarginContainer/MainVBoxContainer"]
 custom_minimum_size = Vector2(0, 200)
@@ -172,6 +174,7 @@ script = ExtResource("3_i5ckn")
 [connection signal="toggled" from="MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/FinishedGamesButton" to="." method="_on_finished_games_button_toggled"]
 [connection signal="toggled" from="MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/MineGamesCheckBox" to="." method="_on_mine_games_check_box_toggled"]
 [connection signal="pressed" from="MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/RefreshButton" to="." method="_on_refresh_button_pressed"]
+[connection signal="pressed" from="MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/RefreshButton" to="MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/RefreshButton" method="_on_pressed"]
 [connection signal="pressed" from="MarginContainer/MainVBoxContainer/CreateGameButton" to="BtchGame" method="create_and_join_without_build"]
 [connection signal="back_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_menu_pressed"]
 [connection signal="menu_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_menu_pressed"]

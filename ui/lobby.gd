@@ -5,6 +5,7 @@ extends Node
 @onready var menu_layer = $MenuLayer
 @onready var finished_games_button = $MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/FinishedGamesButton
 @onready var mine_games_check_box = $MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/MineGamesCheckBox
+@onready var refresh_button = $MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/RefreshButton
 
 var game_list: Array[GameInfo]
 
@@ -131,6 +132,9 @@ func _on_refresh_button_pressed():
             refresh_games()
     else:
         refresh_games()
+
+    await get_tree().create_timer(1).timeout
+    refresh_button.call_deferred("stop_spinning")
 
 
 func _on_navigation_layer_menu_pressed():
