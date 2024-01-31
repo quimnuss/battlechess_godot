@@ -81,6 +81,14 @@ theme_override_colors/font_color = Color(0.878431, 0, 0.113725, 1)
 theme_override_font_sizes/font_size = 14
 text = "placeholder error"
 
+[node name="ServerLineEdit" type="LineEdit" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 40)
+layout_mode = 2
+size_flags_stretch_ratio = 1.2
+theme = ExtResource("3_15c4f")
+text = "localhost:8000"
+placeholder_text = "server"
+
 [node name="UsernameLineEdit" type="LineEdit" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(200, 40)
 layout_mode = 2
@@ -133,6 +141,7 @@ timeout = 10.0
 [node name="_Timer_196354" type="Timer" parent="BtchUser/UserSeqRequests"]
 one_shot = true
 
+[connection signal="text_submitted" from="MarginContainer/HBoxContainer/VBoxContainer/ServerLineEdit" to="." method="_on_server_line_edit_text_submitted"]
 [connection signal="text_submitted" from="MarginContainer/HBoxContainer/VBoxContainer/UsernameLineEdit" to="." method="_on_login_button_pressed"]
 [connection signal="text_submitted" from="MarginContainer/HBoxContainer/VBoxContainer/PasswordLineEdit" to="." method="_on_password_line_edit_text_submitted"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/LoginButton" to="." method="_on_login_button_pressed"]

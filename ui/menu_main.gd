@@ -1,5 +1,6 @@
 extends Control
 
+@onready var server_line_edit = $MarginContainer/HBoxContainer/VBoxContainer/ServerLineEdit
 @onready var username_line_edit: LineEdit = $MarginContainer/HBoxContainer/VBoxContainer/UsernameLineEdit
 @onready var password_line_edit: LineEdit = $MarginContainer/HBoxContainer/VBoxContainer/PasswordLineEdit
 @onready var error_label: Label = $MarginContainer/HBoxContainer/VBoxContainer/ErrorLabel
@@ -22,6 +23,7 @@ func _ready():
         var password = config.get_value(Globals.PLAYER_SECTION, "password")
         if password:
             password_line_edit.text = password
+        var server = config.get_value(Globals.PLAYER_SECTION, "password")
 
 
 func _on_login_button_pressed():
@@ -66,3 +68,11 @@ func _on_exit_button_pressed():
 # TODO why doesn't it work to connect incompatible functions to signals?
 func _on_password_line_edit_text_submitted(_new_text):
     _on_login_button_pressed()
+
+
+func _on_server_line_edit_text_submitted(new_text):
+    if not new_text.begins_with("http"):
+        new_text = "http://" + new_text
+        server_line_edit.text = new_text
+    prints("Switched to server <", new_text, ">")
+    BtchCommon.BASE_URL = new_text
