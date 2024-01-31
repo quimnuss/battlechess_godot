@@ -60,8 +60,16 @@ vertical_alignment = 1
 layout_mode = 2
 alignment = 1
 
+[node name="ReferenceRect" type="ReferenceRect" parent="MarginContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+border_width = 2.0
+editor_only = false
+
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 8
 theme_override_constants/separation = 15
 alignment = 1
