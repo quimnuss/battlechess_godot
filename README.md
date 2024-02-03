@@ -40,9 +40,7 @@ graph LR
 # TODOs
 
 ## Now
-- [ ] Settings on main page : server
 - [ ] Auto login + logout
-- [ ] Refresh animation
 - [ ] Android UI adaptations
 
 ## Next
@@ -50,12 +48,12 @@ graph LR
 - [ ] test slow connections
 
 ## Later
-- [ ] signal error on all classes / on singleton + Node that captures erreors and shows on screen
 - [ ] Avatars
 - [ ] Sounds
 - [ ] Animations
-- [ ] Server Send events.
 - [ ] [Save encrypted](https://docs.huihoo.com/godotengine/godot-docs/godot/tutorials/engine/encrypting_save_games.html), especially password
+- [ ] signal error on all classes / on singleton + Node that captures erreors and shows on screen
+- [ ] Server Send events.
 
 [See theory](https://www.pubnub.com/guides/server-sent-events/).
 
@@ -67,9 +65,6 @@ it should be [easy to implement with HTTPClient](https://github.com/godotengine/
 ## Done
 
 - [x] Create a scene for "waiting game to start"
-
-It's better to switch to main_btch scene when everything is ready to start, otherwise spaghetti
-
 - [x] Add back button on game or show menu/game list to go to lobby
 - [x] Create game button
 - [x] Add a refresh game list button
@@ -78,3 +73,5 @@ It's better to switch to main_btch scene when everything is ready to start, othe
 - [x] Remove full games not owned by player from list
 - [x] Add show/hide finished games button
 - [x] Apk
+- [x] Settings on main page : server
+- [x] Refresh animation

@@ -78,6 +78,14 @@ theme_override_colors/font_color = Color(0.878431, 0, 0.113725, 1)
 theme_override_font_sizes/font_size = 14
 text = "placeholder error"
 
+[node name="LogOutButton" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(120, 26)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = SubResource("SystemFont_eu7yu")
+theme_override_font_sizes/font_size = 14
+text = "Log Out"
+
 [node name="ExitButton" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(120, 26)
 layout_mode = 2
@@ -88,4 +96,5 @@ text = "Exit Game"
 
 [connection signal="back_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_back_pressed"]
 [connection signal="menu_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_menu_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/LogOutButton" to="." method="_on_log_out_button_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]

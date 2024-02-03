@@ -24,9 +24,12 @@ func _ready():
         if password:
             password_line_edit.text = password
 
-        var server = config.get_value(Globals.PLAYER_SECTION, "server")
+        var server = config.get_value(Globals.PLAYER_SECTION, "server", BtchCommon.base_url)
         if server:
             server_line_edit.text = server
+
+        if username and password and server:
+            call_deferred("_on_login_button_pressed")
 
 
 func _on_login_button_pressed():
