@@ -140,11 +140,11 @@ func two_players():
     var process_id: int = OS.get_process_id()
     prints("my process_id:", process_id)
     if process_id % 2 == 1:
-        username = config.get_value(Globals.PLAYER_SECTION, "username", "Steve")
-        password = config.get_value(Globals.PLAYER_SECTION, "password", "foo")
+        username = "Steve"
+        password = "foo"
     else:
-        username = config.get_value(Globals.PLAYER2_SECTION, "username", "Maya")
-        password = config.get_value(Globals.PLAYER2_SECTION, "password", "bar")
+        username = "Maya"
+        password = "bar"
 
 
 func auth(p_username: String = "", p_password: String = "") -> HTTPStatus:

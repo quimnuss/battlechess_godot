@@ -43,12 +43,13 @@ func _ready():
     game_title.text = "Game " + BtchCommon.game_uuid
     var game_info: GameInfo = await game.get_game_info()
     if game_info:
-        if game_info.white:
-            bottom_player_control.set_player_info(game_info.white, false)
-        if game_info.black:
-            top_player_control.set_player_info(game_info.black, false)
-
         scene_board.player_color = get_player_color(game_info)
+        if scene_board.player_color == game_info.white:
+            bottom_player_control.set_player_info(game_info.white, false)
+            top_player_control.set_player_info(game_info.black, false)
+        else:
+            bottom_player_control.set_player_info(game_info.black, false)
+            top_player_control.set_player_info(game_info.white, false)
 
     game.go_to_last_snap()
 

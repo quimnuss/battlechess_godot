@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://l2wnr4401kqx"]
+[gd_scene load_steps=13 format=3 uid="uid://l2wnr4401kqx"]
 
 [ext_resource type="PackedScene" uid="uid://c76ybxdwy7mbk" path="res://actors/player_control.tscn" id="1_1ddh3"]
 [ext_resource type="PackedScene" uid="uid://rlxycfbs6rgr" path="res://actors/scene_board.tscn" id="1_t4sml"]
@@ -9,7 +9,6 @@
 [ext_resource type="Texture2D" uid="uid://75ejfxof0rbo" path="res://assets/pieces_big_2_alpha.png" id="5_kmeb2"]
 [ext_resource type="PackedScene" uid="uid://e6ggebnvmmgi" path="res://ui/end_scene.tscn" id="7_0ycva"]
 [ext_resource type="PackedScene" uid="uid://b7togtnxg15ho" path="res://ui/menu_ingame.tscn" id="8_2noe1"]
-[ext_resource type="Script" path="res://ui/flip_board.gd" id="9_wksss"]
 [ext_resource type="PackedScene" uid="uid://b81wxo2et2dpp" path="res://ui/navigation_layer.tscn" id="10_h40xa"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mskuh"]
@@ -60,7 +59,6 @@ layout_mode = 2
 theme_override_constants/h_separation = 2
 script = ExtResource("4_pcjah")
 pieces_atlas = SubResource("AtlasTexture_mskuh")
-im_black = true
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(320, 320)
@@ -94,12 +92,12 @@ visible = false
 [node name="NavigationLayer" parent="." instance=ExtResource("10_h40xa")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-script = ExtResource("9_wksss")
+position = Vector2(0, 15)
 
 [node name="Game" type="Node2D" parent="Camera2D"]
 
 [node name="SceneBoard" parent="Camera2D/Game" node_paths=PackedStringArray("btch_server") instance=ExtResource("1_t4sml")]
-position = Vector2(-160, -143)
+position = Vector2(-160, -160)
 btch_server = NodePath("../BtchServer")
 
 [node name="BtchServer" parent="Camera2D/Game" instance=ExtResource("3_bxw6y")]
@@ -108,12 +106,12 @@ btch_server = NodePath("../BtchServer")
 [connection signal="menu_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_menu_pressed"]
 [connection signal="taken_changed" from="Camera2D/Game/SceneBoard" to="CenterContainer/VBoxContainer/TopTakenHFlowContainer" method="_on_scene_board_taken_changed"]
 [connection signal="taken_changed" from="Camera2D/Game/SceneBoard" to="CenterContainer/VBoxContainer/BottomTakenHFlowContainer" method="_on_scene_board_taken_changed"]
-[connection signal="black_username_update" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/TopPlayerControl" method="_set_label_text"]
 [connection signal="connection_status_updated" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/TopPlayerControl" method="set_connection_status"]
 [connection signal="connection_status_updated" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/BottomPlayerControl" method="set_connection_status"]
 [connection signal="game_joined" from="Camera2D/Game/BtchServer" to="." method="_on_btch_server_game_joined"]
 [connection signal="move_accepted" from="Camera2D/Game/BtchServer" to="." method="_on_btch_server_move_accepted"]
 [connection signal="move_accepted" from="Camera2D/Game/BtchServer" to="Camera2D/Game/SceneBoard" method="_on_btch_server_move_accepted"]
+[connection signal="opponent_username_update" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/TopPlayerControl" method="_set_label_text"]
+[connection signal="player_username_update" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/BottomPlayerControl" method="_set_label_text"]
 [connection signal="turn_changed" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/TopPlayerControl" method="_on_btch_server_turn_changed"]
 [connection signal="turn_changed" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/BottomPlayerControl" method="_on_btch_server_turn_changed"]
-[connection signal="white_username_update" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/BottomPlayerControl" method="_set_label_text"]

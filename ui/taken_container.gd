@@ -2,7 +2,8 @@ extends HFlowContainer
 
 @export var pieces_texture: CompressedTexture2D = preload("res://assets/pieces_big_2_alpha.png")
 @export var pieces_atlas: AtlasTexture
-@export var im_black: bool
+
+var im_black: bool
 
 var last_taken: String = "_"
 

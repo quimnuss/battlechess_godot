@@ -9,6 +9,11 @@ class_name MainBtch
 @onready var btch_server: BtchServer = $Camera2D/Game/BtchServer
 @onready var menu_layer = $MenuLayer
 @onready var game_title = $CenterContainer/VBoxContainer/GameTitle
+@onready var camera_2d = $Camera2D
+@onready var top_player_control = $CenterContainer/VBoxContainer/TopPlayerControl
+@onready var bottom_player_control = $CenterContainer/VBoxContainer/BottomPlayerControl
+@onready var top_taken_h_flow_container = $CenterContainer/VBoxContainer/TopTakenHFlowContainer
+@onready var bottom_taken_h_flow_container = $CenterContainer/VBoxContainer/BottomTakenHFlowContainer
 
 
 func _ready():
@@ -59,7 +64,15 @@ func _on_navigation_layer_back_pressed():
 func _on_btch_server_game_joined(uuid: String, is_white: bool):
     var color: String = "white" if is_white else "black"
     game_title.set_text("Game " + uuid + " - you're " + color)
+    top_taken_h_flow_container.im_black = is_white
+    bottom_taken_h_flow_container.im_black = not is_white
+    bottom_player_control._set_label_text(BtchCommon.username)
     if is_white:
         scene_board.player_color = ChessConstants.PlayerColor.WHITE
+        bottom_player_control.player_area_color = ChessConstants.PlayerColor.WHITE
+        top_player_control.player_area_color = ChessConstants.PlayerColor.BLACK
     else:
+        camera_2d.rotate(PI)
         scene_board.player_color = ChessConstants.PlayerColor.BLACK
+        bottom_player_control.player_area_color = ChessConstants.PlayerColor.BLACK
+        top_player_control.player_area_color = ChessConstants.PlayerColor.WHITE

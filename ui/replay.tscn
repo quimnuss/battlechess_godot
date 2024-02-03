@@ -97,7 +97,6 @@ layout_mode = 2
 theme_override_constants/h_separation = 2
 script = ExtResource("4_5vnuc")
 pieces_atlas = SubResource("AtlasTexture_y5nr8")
-im_black = true
 
 [node name="AspectRatioContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(320, 320)
@@ -181,13 +180,14 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, 15)
 
 [node name="Game" type="Node2D" parent="Camera2D"]
 unique_name_in_owner = true
 script = ExtResource("8_bjul1")
 
 [node name="SceneBoard" parent="Camera2D/Game" instance=ExtResource("6_6f3xm")]
-position = Vector2(-160, -150)
+position = Vector2(-160, -160)
 script = ExtResource("9_21k07")
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/HBoxContainer/PreviousMoveButton" to="Camera2D/Game" method="_on_previous_move_button_pressed"]

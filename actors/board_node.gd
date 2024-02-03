@@ -16,7 +16,7 @@ class_name Board
 @onready var highlight: Sprite2D = $BoardTileMap/Highlight
 @onready var board_tilemap: TileMap = $BoardTileMap
 
-@export var flipped : bool = true
+@export var flipped: bool = false
 
 signal taken_changed(taken: String)
 
@@ -30,7 +30,11 @@ var selected_tile: Vector2i = Vector2i(-1, -1)
 var null_selected_tile: Vector2i = Vector2i(-1, -1)
 var possible_tiles: Array[Vector2i] = []
 
-var player_color: ChessConstants.PlayerColor = ChessConstants.PlayerColor.EMPTY
+var player_color: ChessConstants.PlayerColor = ChessConstants.PlayerColor.EMPTY:
+    set(new_player_color):
+        player_color = new_player_color
+        if player_color == ChessConstants.PlayerColor.BLACK:
+            flipped = true
 
 enum TILEMAP_LAYERS { BOARD, FOG, PIECES, EFFECTS }
 
@@ -93,12 +97,12 @@ func board_from_string(board_string: String):
 
 func set_piece_tile_type(board_coords: Vector2i, piece_type: ChessConstants.PieceType):
     #if flipped:
-        #board_coords.y = board_coords.y*-1 + 7
+    #board_coords.y = board_coords.y*-1 + 7
     if piece_type == ChessConstants.PieceType.EMPTY:
         board_tilemap.erase_cell(TILEMAP_LAYERS.PIECES, board_coords)
     else:
         var atlas_coords: Vector2i = ChessConstants.piece_to_frame[piece_type]
-        board_tilemap.set_cell(TILEMAP_LAYERS.PIECES, board_coords, TILEMAP_SOURCES.PIECES, atlas_coords)
+        board_tilemap.set_cell(TILEMAP_LAYERS.PIECES, board_coords, TILEMAP_SOURCES.PIECES, atlas_coords, int(flipped))
 
 
 func spawn_piece(piece_type: ChessConstants.PieceType, board_coords: Vector2i):
@@ -289,13 +293,9 @@ func refresh_board_from_data(btch_game_data: BtchGameSnap) -> void:
             taken_changed.emit(btch_game_data.taken)
         last_game_data = btch_game_data
 
-var alternative_tile : int = 0
+
 func _input(event):
     if event is InputEventMouseButton:
-        if event.button_index == MOUSE_BUTTON_RIGHT:
-            alternative_tile = randi_range(0, 1) 
-            prints("set alternate to", alternative_tile)
-            board_tilemap.set_cell(TILEMAP_LAYERS.PIECES, Vector2i(0,0), TILEMAP_SOURCES.PIECES, Vector2i(randi_range(0, 2),randi_range(0, 2)), alternative_tile)
         var mouse_pos: Vector2 = get_local_mouse_position()
         var tile_clicked: Vector2i = board_tilemap.local_to_map(mouse_pos)
         print("clicked tile", tile_clicked)

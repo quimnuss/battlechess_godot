@@ -20,8 +20,8 @@ var connection_status: bool = false:
 
 var turn: ChessConstants.PlayerColor = ChessConstants.PlayerColor.EMPTY
 
-signal white_username_update(username: String)
-signal black_username_update(username: String)
+signal player_username_update(username: String)
+signal opponent_username_update(username: String)
 
 signal connection_status_updated(connected: bool)
 
@@ -36,7 +36,7 @@ signal move_accepted(btch_game_data: BtchGameSnap)
 func _ready():
     BtchCommon.connection_status_changed.connect(forward_connection_status)
 
-    white_username_update.emit(player.username)
+    player_username_update.emit(player.username)
 
     var is_root_scene: bool = self == get_tree().current_scene
 
@@ -52,10 +52,6 @@ func _ready():
 
 func forward_connection_status(new_connection_status: bool):
     self.connection_status = new_connection_status
-
-
-func _on_game_joined(uuid: String):
-    pass
 
 
 func join_game(uuid: String) -> BtchCommon.HTTPStatus:
@@ -192,21 +188,18 @@ func _on_check_turn_timer_timeout():
 
 func _on_btch_game_game_joined(uuid: String, is_white: bool):
     prints("game", uuid, "joined")
-    if player == self.game.white_player:
-        white_username_update.emit(player.username)
+
+    if is_white:
+        player_username_update.emit(player)
+        if opponent_player.username != null:
+            opponent_username_update.emit(opponent_player.username)
     else:
-        black_username_update.emit(player.username)
+        player_username_update.emit(player)
+        if opponent_player.username != null:
+            opponent_username_update.emit(opponent_player.username)
 
-    if opponent_player.username != null:
-        if opponent_player == self.game.white_player:
-            white_username_update.emit(opponent_player.username)
-        else:
-            black_username_update.emit(opponent_player.username)
-
-    # TODO it's redundant, the signal reports if it's white
-    var is_white_local: bool = player == self.game.white_player
     turn_timer.start(TURN_CHECK_RATE)
-    game_joined.emit(uuid, is_white_local)
+    game_joined.emit(uuid, is_white)
     if self.game.game_status != GameInfo.GameStatus.WAITING:
         var btch_game_data: BtchGameSnap = await get_board()
         if btch_game_data:

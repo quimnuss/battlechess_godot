@@ -26,6 +26,8 @@ var possible_tiles: Array[Vector2i] = []
 
 var player_color: ChessConstants.PlayerColor = ChessConstants.PlayerColor.EMPTY
 
+var flipped: bool = false
+
 enum TILEMAP_LAYERS { BOARD, FOG, PIECES, EFFECTS }
 
 enum TILEMAP_SOURCES { BOARD = 8, FOG = 1, PIECES = 3, EFFECTS = 2 }
@@ -90,7 +92,7 @@ func set_piece_tile_type(board_coords: Vector2i, piece_type: ChessConstants.Piec
         board_tilemap.erase_cell(TILEMAP_LAYERS.PIECES, board_coords)
     else:
         var atlas_coords: Vector2i = ChessConstants.piece_to_frame[piece_type]
-        board_tilemap.set_cell(TILEMAP_LAYERS.PIECES, board_coords, TILEMAP_SOURCES.PIECES, atlas_coords)
+        board_tilemap.set_cell(TILEMAP_LAYERS.PIECES, board_coords, TILEMAP_SOURCES.PIECES, atlas_coords, int(flipped))
 
 
 func spawn_piece(piece_type: ChessConstants.PieceType, board_coords: Vector2i):
