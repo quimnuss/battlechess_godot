@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://l2wnr4401kqx"]
+[gd_scene load_steps=14 format=3 uid="uid://l2wnr4401kqx"]
 
 [ext_resource type="PackedScene" uid="uid://c76ybxdwy7mbk" path="res://actors/player_control.tscn" id="1_1ddh3"]
 [ext_resource type="PackedScene" uid="uid://rlxycfbs6rgr" path="res://actors/scene_board.tscn" id="1_t4sml"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://75ejfxof0rbo" path="res://assets/pieces_big_2_alpha.png" id="5_kmeb2"]
 [ext_resource type="PackedScene" uid="uid://e6ggebnvmmgi" path="res://ui/end_scene.tscn" id="7_0ycva"]
 [ext_resource type="PackedScene" uid="uid://b7togtnxg15ho" path="res://ui/menu_ingame.tscn" id="8_2noe1"]
+[ext_resource type="Script" path="res://ui/flip_board.gd" id="9_wksss"]
 [ext_resource type="PackedScene" uid="uid://b81wxo2et2dpp" path="res://ui/navigation_layer.tscn" id="10_h40xa"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mskuh"]
@@ -93,6 +94,7 @@ visible = false
 [node name="NavigationLayer" parent="." instance=ExtResource("10_h40xa")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("9_wksss")
 
 [node name="Game" type="Node2D" parent="Camera2D"]
 

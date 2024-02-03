@@ -16,6 +16,8 @@ class_name Board
 @onready var highlight: Sprite2D = $BoardTileMap/Highlight
 @onready var board_tilemap: TileMap = $BoardTileMap
 
+@export var flipped : bool = true
+
 signal taken_changed(taken: String)
 
 var last_game_data: BtchGameSnap = null
@@ -90,6 +92,8 @@ func board_from_string(board_string: String):
 
 
 func set_piece_tile_type(board_coords: Vector2i, piece_type: ChessConstants.PieceType):
+    #if flipped:
+        #board_coords.y = board_coords.y*-1 + 7
     if piece_type == ChessConstants.PieceType.EMPTY:
         board_tilemap.erase_cell(TILEMAP_LAYERS.PIECES, board_coords)
     else:
@@ -285,9 +289,13 @@ func refresh_board_from_data(btch_game_data: BtchGameSnap) -> void:
             taken_changed.emit(btch_game_data.taken)
         last_game_data = btch_game_data
 
-
+var alternative_tile : int = 0
 func _input(event):
     if event is InputEventMouseButton:
+        if event.button_index == MOUSE_BUTTON_RIGHT:
+            alternative_tile = randi_range(0, 1) 
+            prints("set alternate to", alternative_tile)
+            board_tilemap.set_cell(TILEMAP_LAYERS.PIECES, Vector2i(0,0), TILEMAP_SOURCES.PIECES, Vector2i(randi_range(0, 2),randi_range(0, 2)), alternative_tile)
         var mouse_pos: Vector2 = get_local_mouse_position()
         var tile_clicked: Vector2i = board_tilemap.local_to_map(mouse_pos)
         print("clicked tile", tile_clicked)
