@@ -1,6 +1,13 @@
 extends Node
 
-var BASE_URL: String = "http://localhost:8000"
+var base_url: String = "http://localhost:8000":
+    get:
+        return base_url
+    set(new_base_url):
+        base_url = new_base_url
+        config.set_value(Globals.PLAYER_SECTION, "btch_url", base_url)
+        config.save(Globals.CONFIG_FILE_ACTIVE)
+
 var token: String = ""
 
 var username: String:
@@ -114,7 +121,7 @@ func _ready():
         prints("User config", ProjectSettings.globalize_path(Globals.CONFIG_FILE_ACTIVE), "failed to load.")
     else:
         prints("User config", ProjectSettings.globalize_path(Globals.CONFIG_FILE_ACTIVE), "exists.")
-    BASE_URL = config.get_value(Globals.MAIN_SECTION, "btch_base_url", BASE_URL)
+    base_url = config.get_value(Globals.MAIN_SECTION, "btch_base_url", base_url)
 
     username = config.get_value(Globals.PLAYER_SECTION, "username", "Steve")
     #TODO it looks like we have to store the password in plain?
@@ -145,7 +152,7 @@ func auth(p_username: String = "", p_password: String = "") -> HTTPStatus:
         p_username = self.username
     if p_password == "":
         p_password = self.password
-    var auth_endpoint: String = BASE_URL + "/token"
+    var auth_endpoint: String = base_url + "/token"
     var credentials: Dictionary = {"username": p_username, "password": p_password}
     var query_string: String = _http_client.query_string_from_dict(credentials)
     var payload: String = JSON.stringify(credentials)
@@ -194,7 +201,7 @@ func btch_standard_data_request(
 ) -> Dictionary:
     if not req:
         req = common_request
-    var url: String = BtchCommon.BASE_URL + endpoint
+    var url: String = BtchCommon.base_url + endpoint
     var reqheaders = ["Authorization: Bearer " + token]
     var payload_json = JSON.stringify(payload)
     prints("request", url, payload_json)

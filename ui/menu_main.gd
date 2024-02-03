@@ -23,10 +23,15 @@ func _ready():
         var password = config.get_value(Globals.PLAYER_SECTION, "password")
         if password:
             password_line_edit.text = password
-        var server = config.get_value(Globals.PLAYER_SECTION, "password")
+
+        var server = config.get_value(Globals.PLAYER_SECTION, "server")
+        if server:
+            server_line_edit.text = server
 
 
 func _on_login_button_pressed():
+    BtchCommon.base_url = server_line_edit.text
+
     var username = username_line_edit.text
     var password = password_line_edit.text
     if not username and not password:
@@ -47,7 +52,7 @@ func _on_login_button_pressed():
                 prints("going to lobby")
                 get_tree().change_scene_to_packed(lobby)
             BtchCommon.HTTPStatus.BADGATEWAY:
-                error_label.text = "Failed to connect to server " + config.get_value(Globals.MAIN_SECTION, "btch_base_url", BtchCommon.BASE_URL)
+                error_label.text = "Failed to connect to server " + config.get_value(Globals.MAIN_SECTION, "btch_base_url", BtchCommon.base_url)
                 error_label.visible = true
             BtchCommon.HTTPStatus.UNAUTHORIZED:
                 error_label.text = "Wrong username or password"
@@ -58,6 +63,9 @@ func _on_login_button_pressed():
 
 
 func _on_sign_up_button_pressed():
+    BtchCommon.username = username_line_edit.text
+    BtchCommon.password = password_line_edit.text
+    BtchCommon.base_url = server_line_edit.text
     get_tree().change_scene_to_packed(menu_signup)
 
 
@@ -75,4 +83,4 @@ func _on_server_line_edit_text_submitted(new_text):
         new_text = "http://" + new_text
         server_line_edit.text = new_text
     prints("Switched to server <", new_text, ">")
-    BtchCommon.BASE_URL = new_text
+    BtchCommon.base_url = new_text

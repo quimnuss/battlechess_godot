@@ -2,6 +2,7 @@ extends Control
 
 const lobby: PackedScene = preload("res://ui/lobby.tscn")
 
+@onready var server_line_edit = $MarginContainer/HBoxContainer/VBoxContainer/ServerLineEdit
 @onready var username_line_edit: LineEdit = $MarginContainer/HBoxContainer/VBoxContainer/UsernameLineEdit
 @onready var email_line_edit: LineEdit = $MarginContainer/HBoxContainer/VBoxContainer/EmailLineEdit
 @onready var password_line_edit: LineEdit = $MarginContainer/HBoxContainer/VBoxContainer/PasswordLineEdit
@@ -17,8 +18,14 @@ func _ready():
     if err != OK:
         prints("User config", Globals.CONFIG_FILE_ACTIVE, "failed to load.")
 
+        username_line_edit.text = config.get_value(Globals.PLAYER_SECTION, "username")
+        password_line_edit.text = config.get_value(Globals.PLAYER_SECTION, "password")
+        server_line_edit.text = config.get_value(Globals.PLAYER_SECTION, "server")
+
 
 func _on_sign_up_pressed():
+    BtchCommon.base_url = server_line_edit.text
+
     btch_user.username = username_line_edit.text
     btch_user.plain_password = password_line_edit.text
     btch_user.email = email_line_edit.text
