@@ -11,6 +11,8 @@ class_name Replay
 @onready var error_label = $NavigationLayer/ErrorLabel
 @onready var previous_move_button = $CenterContainer/VBoxContainer/HBoxContainer/PreviousMoveButton
 @onready var next_move_button = $CenterContainer/VBoxContainer/HBoxContainer/NextMoveButton
+@onready var top_taken_h_flow_container = $CenterContainer/VBoxContainer/TopTakenHFlowContainer
+@onready var bottom_taken_h_flow_container = $CenterContainer/VBoxContainer/BottomTakenHFlowContainer
 
 @export var debug_alone = false
 
@@ -44,12 +46,16 @@ func _ready():
     var game_info: GameInfo = await game.get_game_info()
     if game_info:
         scene_board.player_color = get_player_color(game_info)
-        if scene_board.player_color == game_info.white:
+        if scene_board.player_color == ChessConstants.PlayerColor.WHITE:
             bottom_player_control.set_player_info(game_info.white, false)
             top_player_control.set_player_info(game_info.black, false)
+            top_taken_h_flow_container.im_black = true
+            bottom_taken_h_flow_container.im_black = false
         else:
             bottom_player_control.set_player_info(game_info.black, false)
             top_player_control.set_player_info(game_info.white, false)
+            top_taken_h_flow_container.im_black = false
+            bottom_taken_h_flow_container.im_black = true
 
     game.go_to_last_snap()
 

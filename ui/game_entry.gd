@@ -17,7 +17,7 @@ func _ready():
     game_uuid.text = "foogame"
 
 
-func filter(show_finished: bool, filter_only_mine: bool) -> void:
+func filter(show_finished: bool, filter_only_mine: bool, uuid_partial: String) -> void:
     if not show_finished and self.game_info.status == GameInfo.GameStatus.OVER:
         self.visible = false
         return
@@ -30,6 +30,9 @@ func filter(show_finished: bool, filter_only_mine: bool) -> void:
             or self.game_info.white == BtchCommon.username
         )
     ):
+        self.visible = false
+        return
+    if uuid_partial and not self.game_info.uuid.contains(uuid_partial):
         self.visible = false
         return
     self.visible = true

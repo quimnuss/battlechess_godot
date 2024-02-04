@@ -24,7 +24,9 @@ func _ready():
 
 
 func _on_sign_up_pressed():
-    BtchCommon.base_url = server_line_edit.text
+    if not server_line_edit.text.begins_with("http"):
+        server_line_edit.text = "http://" + server_line_edit.text
+        BtchCommon.base_url = server_line_edit.text
 
     btch_user.username = username_line_edit.text
     btch_user.plain_password = password_line_edit.text

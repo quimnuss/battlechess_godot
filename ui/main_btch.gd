@@ -68,11 +68,12 @@ func _on_btch_server_game_joined(uuid: String, is_white: bool):
     bottom_taken_h_flow_container.im_black = not is_white
     bottom_player_control._set_label_text(BtchCommon.username)
     if is_white:
+        camera_2d.rotation = 0
         scene_board.player_color = ChessConstants.PlayerColor.WHITE
         bottom_player_control.player_area_color = ChessConstants.PlayerColor.WHITE
         top_player_control.player_area_color = ChessConstants.PlayerColor.BLACK
     else:
-        camera_2d.rotate(PI)
+        camera_2d.rotation = PI
         scene_board.player_color = ChessConstants.PlayerColor.BLACK
         bottom_player_control.player_area_color = ChessConstants.PlayerColor.BLACK
         top_player_control.player_area_color = ChessConstants.PlayerColor.WHITE

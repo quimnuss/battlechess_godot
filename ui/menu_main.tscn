@@ -86,7 +86,8 @@ custom_minimum_size = Vector2(200, 40)
 layout_mode = 2
 size_flags_stretch_ratio = 1.2
 theme = ExtResource("3_15c4f")
-text = "localhost:8000"
+theme_override_font_sizes/font_size = 14
+text = "http://localhost:8000"
 placeholder_text = "server"
 
 [node name="UsernameLineEdit" type="LineEdit" parent="MarginContainer/HBoxContainer/VBoxContainer"]
@@ -94,6 +95,7 @@ custom_minimum_size = Vector2(200, 40)
 layout_mode = 2
 size_flags_stretch_ratio = 1.2
 theme = ExtResource("3_15c4f")
+theme_override_font_sizes/font_size = 16
 placeholder_text = "username"
 
 [node name="PasswordLineEdit" type="LineEdit" parent="MarginContainer/HBoxContainer/VBoxContainer"]
@@ -101,6 +103,7 @@ custom_minimum_size = Vector2(200, 40)
 layout_mode = 2
 size_flags_stretch_ratio = 1.2
 theme = ExtResource("3_15c4f")
+theme_override_font_sizes/font_size = 16
 placeholder_text = "password"
 secret = true
 

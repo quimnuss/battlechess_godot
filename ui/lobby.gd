@@ -6,6 +6,7 @@ extends Node
 @onready var finished_games_button = $MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/FinishedGamesButton
 @onready var mine_games_check_box = $MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/MineGamesCheckBox
 @onready var refresh_button = $MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/RefreshButton
+@onready var game_code_filter_line_edit = $MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/GameCodeFilterLineEdit
 
 var game_list: Array[GameInfo]
 
@@ -55,7 +56,7 @@ func refresh_games():
         for game in games:
             var game_info: GameInfo = GameInfo.from_dict(game)
             add_game(game_info)
-        filter_games(BtchCommon.filter_show_finished, BtchCommon.filter_only_mine)
+        filter_games(BtchCommon.filter_show_finished, BtchCommon.filter_only_mine, game_code_filter_line_edit.text)
     else:
         prints("Error", response_data["status_code"])
         match response_data["status_code"]:
@@ -111,8 +112,8 @@ func play_game(uuid: String):
             error_label.visible = true
 
 
-func filter_games(show_finished: bool, filter_only_mine: bool):
-    get_tree().call_group("GameEntries", "filter", show_finished, filter_only_mine)
+func filter_games(show_finished: bool, filter_only_mine: bool, uuid_partial: String):
+    get_tree().call_group("GameEntries", "filter", show_finished, filter_only_mine, uuid_partial)
 
 
 func _on_btch_game_play_game(uuid):
@@ -142,10 +143,14 @@ func _on_navigation_layer_menu_pressed():
 
 
 func _on_finished_games_button_toggled(show_finished):
-    filter_games(show_finished, BtchCommon.filter_only_mine)
+    filter_games(show_finished, BtchCommon.filter_only_mine, game_code_filter_line_edit.text)
     BtchCommon.filter_show_finished = show_finished
 
 
 func _on_mine_games_check_box_toggled(filter_mine_games):
-    filter_games(BtchCommon.filter_show_finished, filter_mine_games)
+    filter_games(BtchCommon.filter_show_finished, filter_mine_games, game_code_filter_line_edit.text)
     BtchCommon.filter_only_mine = filter_mine_games
+
+
+func _on_game_code_filter_line_edit_text_changed(uuid_partial: String):
+    filter_games(BtchCommon.filter_show_finished, BtchCommon.filter_only_mine, uuid_partial)

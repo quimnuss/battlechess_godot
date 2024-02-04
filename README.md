@@ -40,7 +40,7 @@ graph LR
 # TODOs
 
 ## Now
-- [ ] Auto login + logout
+- [ ] Bug Hunting
 - [ ] Android UI adaptations
 
 ## Next
@@ -48,6 +48,9 @@ graph LR
 - [ ] test slow connections
 
 ## Later
+- [ ] intead of camera rotate, change coordinates
+- [ ] use filter to filter name as well
+- [ ] pawn promotion choice UI
 - [ ] Avatars
 - [ ] Sounds
 - [ ] Animations
@@ -55,7 +58,7 @@ graph LR
 - [ ] signal error on all classes / on singleton + Node that captures erreors and shows on screen
 - [ ] Server Send events.
 
-[See theory](https://www.pubnub.com/guides/server-sent-events/).
+[See theory of SSE](https://www.pubnub.com/guides/server-sent-events/).
 
 [fastapi sse](https://sysid.github.io/server-sent-events/).
 
@@ -75,3 +78,4 @@ it should be [easy to implement with HTTPClient](https://github.com/godotengine/
 - [x] Apk
 - [x] Settings on main page : server
 - [x] Refresh animation
+- [x] Auto login + logout
