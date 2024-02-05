@@ -1,4 +1,5 @@
 extends Control
+
 class_name GameEntry
 
 @onready var game_uuid = $HBoxContainer/GameUUID
