@@ -53,12 +53,14 @@ func _ready():
             top_player_control.set_player_info(game_info.black, false)
             top_taken_h_flow_container.im_black = true
             bottom_taken_h_flow_container.im_black = false
+            scene_board.flipped = false
         else:
             camera_2d.rotation = PI
             bottom_player_control.set_player_info(game_info.black, false)
             top_player_control.set_player_info(game_info.white, false)
             top_taken_h_flow_container.im_black = false
             bottom_taken_h_flow_container.im_black = true
+            scene_board.flipped = true
 
     game.go_to_last_snap()
 

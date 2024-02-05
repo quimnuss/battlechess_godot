@@ -1,4 +1,5 @@
 extends Node
+
 @onready var game_list_container = %GameListVBoxContainer
 @onready var player_name_label = $MarginContainer/MainVBoxContainer/HBoxContainer/PlayerNameLabel
 @onready var error_label = $MarginContainer/MainVBoxContainer/HBoxContainer/ErrorLabel

@@ -26,7 +26,7 @@ func _ready():
     player_name = BtchCommon.username
     game_uuid = BtchCommon.game_uuid
     if game_uuid:
-        await get_tree().create_timer(2).timeout
+        await get_tree().create_timer(0.5).timeout
         get_game_info()
         game_title.text = "Game " + game_uuid
 

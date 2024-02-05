@@ -21,10 +21,10 @@ func _ready():
     prints("Am I", self.name, "the main scene?", is_root_scene)
 
     if autojoin_on_start:
-        await get_tree().create_timer(2).timeout
+        await get_tree().create_timer(1).timeout
         btch_server.join_or_create_game()
     elif BtchCommon.game_uuid:
-        await get_tree().create_timer(2).timeout
+        await get_tree().create_timer(0.5).timeout
         btch_server.join_game(BtchCommon.game_uuid)
 
 
