@@ -139,7 +139,7 @@ text = "Back
 "
 
 [node name="SpacerShiftControl" type="Control" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 120)
+custom_minimum_size = Vector2(0, 160)
 layout_mode = 2
 script = ExtResource("4_r0jps")
 
