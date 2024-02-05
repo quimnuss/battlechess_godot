@@ -1,6 +1,18 @@
-# battlechess_godot
+# battlechess: The Godot Client
 
-## quickstart a game
+## How to play
+
+To play go to the release pages! Download the apk or the linux version and let's go!
+
+Tell a friend to join you, Sign Up a new user, create a game and play against each other.
+
+Due to the nature of battlechess, writing an AI for it is quite hard, so you'll need a human to play!
+
+# Development
+
+## UX/UI flow
+
+### quickstart a game
 
 ```mermaid
 graph LR
@@ -11,7 +23,7 @@ graph LR
     rnd_game -- no --> create_game --> game_lobby
 ```
 
-## production flow
+### production flow
 
 ```mermaid
 graph LR
@@ -43,7 +55,7 @@ graph LR
 - [ ] [Bug Hunting](https://github.com/quimnuss/battlechess_godot/issues)
 
 ## Next
-- [ ] aesthetics
+- [ ] better aesthetics
 - [ ] test slow connections
 - [ ] Sounds
 
