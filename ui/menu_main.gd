@@ -24,7 +24,7 @@ func _ready():
         if password:
             password_line_edit.text = password
 
-        var server = config.get_value(Globals.PLAYER_SECTION, "server", BtchCommon.base_url)
+        var server = config.get_value(Globals.MAIN_SECTION, "server", BtchCommon.base_url)
         if server:
             server_line_edit.text = server
 
@@ -55,7 +55,7 @@ func _on_login_button_pressed():
                 prints("going to lobby")
                 get_tree().change_scene_to_packed(lobby)
             BtchCommon.HTTPStatus.BADGATEWAY:
-                error_label.text = "Failed to connect to server " + config.get_value(Globals.MAIN_SECTION, "btch_base_url", BtchCommon.base_url)
+                error_label.text = "Failed to connect to server " + config.get_value(Globals.MAIN_SECTION, "server", BtchCommon.base_url)
                 error_label.visible = true
             BtchCommon.HTTPStatus.UNAUTHORIZED:
                 error_label.text = "Wrong username or password"
@@ -87,3 +87,7 @@ func _on_server_line_edit_text_submitted(new_text):
         server_line_edit.text = new_text
     prints("Switched to server <", new_text, ">")
     BtchCommon.base_url = new_text
+
+
+func _on_server_line_edit_focus_entered():
+    pass  # Replace with function body.

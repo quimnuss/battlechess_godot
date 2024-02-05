@@ -78,13 +78,13 @@ func init_config_file():
         config_dev1.set_value("Player", "username", username)
         config_dev1.set_value("Player", "email", email)
         config_dev1.set_value("Player", "plain_password", plain_password)
-        config_dev1.set_value("server", "btch_base_url", BtchCommon.base_url)
+        config_dev1.set_value(Globals.MAIN_SECTION, "server", BtchCommon.base_url)
         config_dev1.save(Globals.CONFIG_FILE_DEV1)
         var config_dev2 = ConfigFile.new()
         config_dev2.set_value("PlayerDev", "username", "Maya")
         config_dev2.set_value("PlayerDev", "email", "maya@example.com")
         config_dev2.set_value("PlayerDev", "plain_password", "bar")
-        config_dev2.set_value("server", "btch_base_url", BtchCommon.base_url)
+        config_dev2.set_value(Globals.MAIN_SECTION, "server", BtchCommon.base_url)
         config_dev2.save(Globals.CONFIG_FILE_DEV2)
 
 

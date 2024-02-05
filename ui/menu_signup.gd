@@ -20,7 +20,7 @@ func _ready():
 
         username_line_edit.text = config.get_value(Globals.PLAYER_SECTION, "username")
         password_line_edit.text = config.get_value(Globals.PLAYER_SECTION, "password")
-        server_line_edit.text = config.get_value(Globals.PLAYER_SECTION, "server")
+        server_line_edit.text = config.get_value(Globals.MAIN_SECTION, "server", BtchCommon.base_url)
 
 
 func _on_sign_up_pressed():

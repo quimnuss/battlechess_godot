@@ -40,8 +40,9 @@ graph LR
 # TODOs
 
 ## Now
-- [ ] Bug Hunting
-- [ ] Android UI adaptations
+- [ ] [Bug Hunting](https://github.com/quimnuss/battlechess_godot/issues)
+- [ ] Android UI adaptations (particulary soft keyboard popup)
+- [ ] [Host web battlechess](https://gist.github.com/nisovin/cf9dd74678641fb70902866c79692b17) -- itchio and gotfmio seem to disallow httprequests
 
 ## Next
 - [ ] aesthetics
@@ -49,7 +50,6 @@ graph LR
 
 ## Later
 - [ ] intead of camera rotate, change coordinates
-- [ ] use filter to filter name as well
 - [ ] pawn promotion choice UI
 - [ ] Avatars
 - [ ] Sounds
@@ -67,15 +67,16 @@ it should be [easy to implement with HTTPClient](https://github.com/godotengine/
 
 ## Done
 
-- [x] Create a scene for "waiting game to start"
-- [x] Add back button on game or show menu/game list to go to lobby
-- [x] Create game button
-- [x] Add a refresh game list button
-- [x] Add replay game scene
-- [x] Taken (e.g. via flex box of textureatlas instances)
-- [x] Remove full games not owned by player from list
-- [x] Add show/hide finished games button
-- [x] Apk
-- [x] Settings on main page : server
-- [x] Refresh animation
+- [x] use filter to filter name as well
 - [x] Auto login + logout
+- [x] Refresh animation
+- [x] Settings on main page : server
+- [x] Apk
+- [x] Add show/hide finished games button
+- [x] Remove full games not owned by player from list
+- [x] Taken (e.g. via flex box of textureatlas instances)
+- [x] Add replay game scene
+- [x] Add a refresh game list button
+- [x] Create game button
+- [x] Add back button on game or show menu/game list to go to lobby
+- [x] Create a scene for "waiting game to start"

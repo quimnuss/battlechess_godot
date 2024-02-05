@@ -1,11 +1,11 @@
 extends Node
 
-var base_url: String = "http://localhost:8000":
+var base_url: String = "http://sxbn.org:8000":
     get:
         return base_url
     set(new_base_url):
         base_url = new_base_url
-        config.set_value(Globals.PLAYER_SECTION, "btch_url", base_url)
+        config.set_value(Globals.MAIN_SECTION, "server", base_url)
         config.save(Globals.CONFIG_FILE_ACTIVE)
 
 var token: String = ""
@@ -111,7 +111,7 @@ enum BtchError {
     OK,
 }
 
-var is_two_players: bool = true
+var is_two_players: bool = false
 
 
 func _ready():
@@ -121,7 +121,7 @@ func _ready():
         prints("User config", ProjectSettings.globalize_path(Globals.CONFIG_FILE_ACTIVE), "failed to load.")
     else:
         prints("User config", ProjectSettings.globalize_path(Globals.CONFIG_FILE_ACTIVE), "exists.")
-    base_url = config.get_value(Globals.MAIN_SECTION, "btch_base_url", base_url)
+    base_url = config.get_value(Globals.MAIN_SECTION, "server", base_url)
 
     username = config.get_value(Globals.PLAYER_SECTION, "username", "Steve")
     #TODO it looks like we have to store the password in plain?
@@ -203,9 +203,14 @@ func btch_standard_data_request(
         req = common_request
     var url: String = BtchCommon.base_url + endpoint
     var reqheaders = ["Authorization: Bearer " + token]
+
     var payload_json = JSON.stringify(payload)
     prints("request", url, payload_json)
-    var error: Error = req.request(url, reqheaders, method, payload_json)
+    var error: Error
+    if payload:
+        error = req.request(url, reqheaders, method, payload_json)
+    else:
+        error = req.request(url, reqheaders, method)
     prints("auth req error?", error, error_string(error))
     if error != Error.OK:
         connection_status = false

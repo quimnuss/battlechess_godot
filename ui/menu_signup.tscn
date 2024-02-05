@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://clfbhf4qvk0jb"]
+[gd_scene load_steps=7 format=3 uid="uid://clfbhf4qvk0jb"]
 
 [ext_resource type="Script" path="res://ui/menu_signup.gd" id="1_g41j1"]
 [ext_resource type="Texture2D" uid="uid://y6npssa3umbx" path="res://assets/sunset.jpg" id="2_37ebn"]
 [ext_resource type="Theme" uid="uid://bhk63fxawy7ix" path="res://styles/btch_theme.tres" id="3_eb2cu"]
 [ext_resource type="Script" path="res://actors/btch_user.gd" id="4_it38e"]
+[ext_resource type="Script" path="res://ui/spacer_shift.gd" id="4_r0jps"]
 
 [sub_resource type="SystemFont" id="SystemFont_phwy2"]
 font_names = PackedStringArray("Arial")
@@ -58,6 +59,7 @@ vertical_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
+focus_mode = 2
 alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
@@ -136,6 +138,10 @@ theme_override_font_sizes/font_size = 14
 text = "Back
 "
 
+[node name="SpacerShiftControl" type="Control" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+script = ExtResource("4_r0jps")
+
 [node name="BtchUser" type="Node" parent="."]
 script = ExtResource("4_it38e")
 
@@ -144,5 +150,20 @@ script = ExtResource("4_it38e")
 [node name="_Timer_196354" type="Timer" parent="BtchUser/UserSeqRequests"]
 one_shot = true
 
+[connection signal="focus_entered" from="MarginContainer/HBoxContainer/VBoxContainer/ServerLineEdit" to="MarginContainer/HBoxContainer/VBoxContainer/SpacerShiftControl" method="handle_virtual_keyboard_show"]
+[connection signal="focus_exited" from="MarginContainer/HBoxContainer/VBoxContainer/ServerLineEdit" to="MarginContainer/HBoxContainer/VBoxContainer/SpacerShiftControl" method="handle_virtual_keyboard_hide"]
+[connection signal="text_submitted" from="MarginContainer/HBoxContainer/VBoxContainer/ServerLineEdit" to="MarginContainer/HBoxContainer/VBoxContainer/SpacerShiftControl" method="handle_virtual_keyboard_hide"]
+[connection signal="focus_entered" from="MarginContainer/HBoxContainer/VBoxContainer/UsernameLineEdit" to="MarginContainer/HBoxContainer/VBoxContainer/SpacerShiftControl" method="handle_virtual_keyboard_show"]
+[connection signal="focus_exited" from="MarginContainer/HBoxContainer/VBoxContainer/UsernameLineEdit" to="MarginContainer/HBoxContainer/VBoxContainer/SpacerShiftControl" method="handle_virtual_keyboard_hide"]
+[connection signal="text_submitted" from="MarginContainer/HBoxContainer/VBoxContainer/UsernameLineEdit" to="MarginContainer/HBoxContainer/VBoxContainer/SpacerShiftControl" method="handle_virtual_keyboard_hide"]
+[connection signal="focus_entered" from="MarginContainer/HBoxContainer/VBoxContainer/PasswordLineEdit" to="MarginContainer/HBoxContainer/VBoxContainer/SpacerShiftControl" method="handle_virtual_keyboard_show"]
+[connection signal="focus_exited" from="MarginContainer/HBoxContainer/VBoxContainer/PasswordLineEdit" to="MarginContainer/HBoxContainer/VBoxContainer/SpacerShiftControl" method="handle_virtual_keyboard_hide"]
+[connection signal="text_submitted" from="MarginContainer/HBoxContainer/VBoxContainer/PasswordLineEdit" to="MarginContainer/HBoxContainer/VBoxContainer/SpacerShiftControl" method="handle_virtual_keyboard_hide"]
+[connection signal="focus_entered" from="MarginContainer/HBoxContainer/VBoxContainer/EmailLineEdit" to="MarginContainer/HBoxContainer/VBoxContainer/SpacerShiftControl" method="handle_virtual_keyboard_show"]
+[connection signal="focus_exited" from="MarginContainer/HBoxContainer/VBoxContainer/EmailLineEdit" to="MarginContainer/HBoxContainer/VBoxContainer/SpacerShiftControl" method="handle_virtual_keyboard_hide"]
+[connection signal="text_submitted" from="MarginContainer/HBoxContainer/VBoxContainer/EmailLineEdit" to="MarginContainer/HBoxContainer/VBoxContainer/SpacerShiftControl" method="handle_virtual_keyboard_hide"]
+[connection signal="focus_entered" from="MarginContainer/HBoxContainer/VBoxContainer/FullNameLineEdit" to="MarginContainer/HBoxContainer/VBoxContainer/SpacerShiftControl" method="handle_virtual_keyboard_show"]
+[connection signal="focus_exited" from="MarginContainer/HBoxContainer/VBoxContainer/FullNameLineEdit" to="MarginContainer/HBoxContainer/VBoxContainer/SpacerShiftControl" method="handle_virtual_keyboard_hide"]
+[connection signal="text_submitted" from="MarginContainer/HBoxContainer/VBoxContainer/FullNameLineEdit" to="MarginContainer/HBoxContainer/VBoxContainer/SpacerShiftControl" method="handle_virtual_keyboard_hide"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/SignUp" to="." method="_on_sign_up_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]

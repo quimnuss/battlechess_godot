@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://tg8emhgi8een"]
+[gd_scene load_steps=7 format=3 uid="uid://tg8emhgi8een"]
 
 [ext_resource type="Script" path="res://ui/menu_main.gd" id="1_ecuul"]
 [ext_resource type="Texture2D" uid="uid://y6npssa3umbx" path="res://assets/sunset.jpg" id="2_h6o82"]
 [ext_resource type="Theme" uid="uid://bhk63fxawy7ix" path="res://styles/btch_theme.tres" id="3_15c4f"]
+[ext_resource type="Script" path="res://ui/spacer_shift.gd" id="4_2arv8"]
 [ext_resource type="Script" path="res://actors/btch_user.gd" id="4_ysk58"]
 
 [sub_resource type="SystemFont" id="SystemFont_0tx4f"]
@@ -58,6 +59,7 @@ vertical_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
+focus_mode = 2
 alignment = 1
 
 [node name="ReferenceRect" type="ReferenceRect" parent="MarginContainer/HBoxContainer"]
@@ -135,6 +137,10 @@ theme_override_fonts/font = SubResource("SystemFont_0tx4f")
 theme_override_font_sizes/font_size = 14
 text = "Exit Game"
 
+[node name="SpacerShiftControl" type="Control" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+script = ExtResource("4_2arv8")
+
 [node name="BtchUser" type="Node" parent="."]
 script = ExtResource("4_ysk58")
 
@@ -144,9 +150,18 @@ timeout = 10.0
 [node name="_Timer_196354" type="Timer" parent="BtchUser/UserSeqRequests"]
 one_shot = true
 
+[connection signal="focus_entered" from="MarginContainer/HBoxContainer/VBoxContainer/ServerLineEdit" to="MarginContainer/HBoxContainer/VBoxContainer/SpacerShiftControl" method="handle_virtual_keyboard_show"]
+[connection signal="focus_exited" from="MarginContainer/HBoxContainer/VBoxContainer/ServerLineEdit" to="MarginContainer/HBoxContainer/VBoxContainer/SpacerShiftControl" method="handle_virtual_keyboard_hide"]
 [connection signal="text_submitted" from="MarginContainer/HBoxContainer/VBoxContainer/ServerLineEdit" to="." method="_on_server_line_edit_text_submitted"]
+[connection signal="text_submitted" from="MarginContainer/HBoxContainer/VBoxContainer/ServerLineEdit" to="MarginContainer/HBoxContainer/VBoxContainer/SpacerShiftControl" method="handle_virtual_keyboard_hide"]
+[connection signal="focus_entered" from="MarginContainer/HBoxContainer/VBoxContainer/UsernameLineEdit" to="MarginContainer/HBoxContainer/VBoxContainer/SpacerShiftControl" method="handle_virtual_keyboard_show"]
+[connection signal="focus_exited" from="MarginContainer/HBoxContainer/VBoxContainer/UsernameLineEdit" to="MarginContainer/HBoxContainer/VBoxContainer/SpacerShiftControl" method="handle_virtual_keyboard_hide"]
 [connection signal="text_submitted" from="MarginContainer/HBoxContainer/VBoxContainer/UsernameLineEdit" to="." method="_on_login_button_pressed"]
+[connection signal="text_submitted" from="MarginContainer/HBoxContainer/VBoxContainer/UsernameLineEdit" to="MarginContainer/HBoxContainer/VBoxContainer/SpacerShiftControl" method="handle_virtual_keyboard_hide"]
+[connection signal="focus_entered" from="MarginContainer/HBoxContainer/VBoxContainer/PasswordLineEdit" to="MarginContainer/HBoxContainer/VBoxContainer/SpacerShiftControl" method="handle_virtual_keyboard_show"]
+[connection signal="focus_exited" from="MarginContainer/HBoxContainer/VBoxContainer/PasswordLineEdit" to="MarginContainer/HBoxContainer/VBoxContainer/SpacerShiftControl" method="handle_virtual_keyboard_hide"]
 [connection signal="text_submitted" from="MarginContainer/HBoxContainer/VBoxContainer/PasswordLineEdit" to="." method="_on_password_line_edit_text_submitted"]
+[connection signal="text_submitted" from="MarginContainer/HBoxContainer/VBoxContainer/PasswordLineEdit" to="MarginContainer/HBoxContainer/VBoxContainer/SpacerShiftControl" method="handle_virtual_keyboard_hide"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/LoginButton" to="." method="_on_login_button_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/SignUpButton" to="." method="_on_sign_up_button_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
