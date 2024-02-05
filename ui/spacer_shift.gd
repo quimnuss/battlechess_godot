@@ -18,10 +18,10 @@ func _ready():
 func handle_virtual_keyboard_show():
     if not enabled:
         return
-    await get_tree().create_timer(0.5).timeout
-    var new_height = DisplayServer.virtual_keyboard_get_height()
-    self.set_custom_minimum_size(Vector2(0, new_height / 2))
-    self.size.y = new_height / 2
+    #await get_tree().create_timer(0.5).timeout
+    #var new_height = DisplayServer.virtual_keyboard_get_height()
+    #self.set_custom_minimum_size(Vector2(0, new_height / 2))
+    #self.size.y = new_height / 2
     self.visible = true
 
 
