@@ -13,6 +13,7 @@ class_name Replay
 @onready var next_move_button = $CenterContainer/VBoxContainer/HBoxContainer/NextMoveButton
 @onready var top_taken_h_flow_container = $CenterContainer/VBoxContainer/TopTakenHFlowContainer
 @onready var bottom_taken_h_flow_container = $CenterContainer/VBoxContainer/BottomTakenHFlowContainer
+@onready var camera_2d = $Camera2D
 
 @export var debug_alone = false
 
@@ -47,11 +48,13 @@ func _ready():
     if game_info:
         scene_board.player_color = get_player_color(game_info)
         if scene_board.player_color == ChessConstants.PlayerColor.WHITE:
+            camera_2d.rotation = 0
             bottom_player_control.set_player_info(game_info.white, false)
             top_player_control.set_player_info(game_info.black, false)
             top_taken_h_flow_container.im_black = true
             bottom_taken_h_flow_container.im_black = false
         else:
+            camera_2d.rotation = PI
             bottom_player_control.set_player_info(game_info.black, false)
             top_player_control.set_player_info(game_info.white, false)
             top_taken_h_flow_container.im_black = false
