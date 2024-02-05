@@ -102,9 +102,9 @@ func dev_run_setup():
 
 
 func create_user() -> Error:
-    var credentials: Dictionary = {"username": self.username, "email": self.email, "plain_password": self.plain_password}
+    var user_data: Dictionary = {"username": self.username, "email": self.email, "plain_password": self.plain_password, "full_name": self.full_name}
 
-    var payload: String = JSON.stringify(credentials)
+    var payload: String = JSON.stringify(user_data)
 
     var endpoint: String = BtchCommon.base_url + "/users"
     var error = user_seq_request.request(endpoint, ["Content-Type: application/json"], HTTPClient.METHOD_POST, payload)

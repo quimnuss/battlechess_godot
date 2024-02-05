@@ -41,18 +41,18 @@ graph LR
 
 ## Now
 - [ ] [Bug Hunting](https://github.com/quimnuss/battlechess_godot/issues)
-- [ ] Android UI adaptations (particulary soft keyboard popup)
-- [ ] [Host web battlechess](https://gist.github.com/nisovin/cf9dd74678641fb70902866c79692b17) -- itchio and gotfmio seem to disallow httprequests
 
 ## Next
 - [ ] aesthetics
 - [ ] test slow connections
+- [ ] Sounds
 
 ## Later
+- [ ] gotm.io and itch.io need https server
+- [ ] [Host web battlechess](https://gist.github.com/nisovin/cf9dd74678641fb70902866c79692b17)
 - [ ] intead of camera rotate, change coordinates
 - [ ] pawn promotion choice UI
 - [ ] Avatars
-- [ ] Sounds
 - [ ] Animations
 - [ ] [Save encrypted](https://docs.huihoo.com/godotengine/godot-docs/godot/tutorials/engine/encrypting_save_games.html), especially password
 - [ ] signal error on all classes / on singleton + Node that captures erreors and shows on screen
@@ -67,6 +67,7 @@ it should be [easy to implement with HTTPClient](https://github.com/godotengine/
 
 ## Done
 
+- [x] Android UI adaptations (particulary soft keyboard popup)
 - [x] use filter to filter name as well
 - [x] Auto login + logout
 - [x] Refresh animation
