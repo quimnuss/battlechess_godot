@@ -8,6 +8,8 @@ Tell a friend to join you, Sign Up a new user, create a game and play against ea
 
 Due to the nature of battlechess, writing an AI for it is quite hard, so you'll need a human to play!
 
+
+
 # Development
 
 ## UX/UI flow
@@ -61,6 +63,8 @@ graph LR
 
 ## Later
 - [ ] gotm.io and itch.io need https server
+[Tutorial](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-20-04)
+OVH has certbot [out-of-the-box](https://help.ovhcloud.com/csm/en-gb-web-hosting-activate-https-website-ssl?id=kb_article_view&sysparm_article=KB0053129)
 - [ ] [Host web battlechess](https://gist.github.com/nisovin/cf9dd74678641fb70902866c79692b17)
 - [ ] intead of camera rotate, change coordinates
 - [ ] pawn promotion choice UI

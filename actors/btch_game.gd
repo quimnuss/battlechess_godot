@@ -105,6 +105,7 @@ func join_game(game_uuid: String) -> BtchCommon.HTTPStatus:
         _from_dict(response_data)
         var is_white: bool = self.player == white_player
         debug_connections()
+        prints("Created game", self.uuid, self)
         game_joined.emit(self.uuid, is_white)
     return response_data["status_code"]
 

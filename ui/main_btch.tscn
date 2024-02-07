@@ -96,10 +96,9 @@ position = Vector2(0, 15)
 
 [node name="Game" type="Node2D" parent="Camera2D"]
 
-[node name="SceneBoard" parent="Camera2D/Game" instance=ExtResource("1_t4sml")]
+[node name="SceneBoard" parent="Camera2D/Game" node_paths=PackedStringArray("btch_server") instance=ExtResource("1_t4sml")]
 position = Vector2(-160, -160)
-btch_server = Object(Node2D,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(0, 0),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"script":Resource("res://actors/btch_server.gd"))
-
+btch_server = NodePath("")
 
 [node name="BtchServer" parent="Camera2D/Game" instance=ExtResource("3_bxw6y")]
 
