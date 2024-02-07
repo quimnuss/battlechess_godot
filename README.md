@@ -8,7 +8,9 @@ Tell a friend to join you, Sign Up a new user, create a game and play against ea
 
 Due to the nature of battlechess, writing an AI for it is quite hard, so you'll need a human to play!
 
+![Lobby](merch/battlechess_lobby.png)
 
+![Play](merch/battlechess_play.gif)
 
 # Development
 
