@@ -195,3 +195,8 @@ script = ExtResource("9_21k07")
 [connection signal="pressed" from="CenterContainer/VBoxContainer/HBoxContainer/NextMoveButton" to="Camera2D/Game" method="_on_next_move_button_pressed"]
 [connection signal="back_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_back_pressed"]
 [connection signal="menu_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_menu_pressed"]
+[connection signal="at_middle_snap" from="Camera2D/Game" to="." method="_on_game_at_middle_snap"]
+[connection signal="first_snap_reached" from="Camera2D/Game" to="." method="_on_game_first_snap_reached"]
+[connection signal="last_snap_reached" from="Camera2D/Game" to="." method="_on_game_last_snap_reached"]
+[connection signal="taken_changed" from="Camera2D/Game/SceneBoard" to="CenterContainer/VBoxContainer/TopTakenHFlowContainer" method="_on_scene_board_taken_changed"]
+[connection signal="taken_changed" from="Camera2D/Game/SceneBoard" to="CenterContainer/VBoxContainer/BottomTakenHFlowContainer" method="_on_scene_board_taken_changed"]

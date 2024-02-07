@@ -176,3 +176,5 @@ script = ExtResource("3_i5ckn")
 [connection signal="pressed" from="MarginContainer/MainVBoxContainer/CreateGameButton" to="BtchGame" method="create_and_join_without_build"]
 [connection signal="back_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_menu_pressed"]
 [connection signal="menu_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_menu_pressed"]
+[connection signal="error" from="BtchGame" to="." method="_on_error"]
+[connection signal="play_game" from="BtchGame" to="." method="_on_btch_game_play_game"]
