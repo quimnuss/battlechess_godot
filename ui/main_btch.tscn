@@ -96,8 +96,9 @@ position = Vector2(0, 15)
 
 [node name="Game" type="Node2D" parent="Camera2D"]
 
-[node name="SceneBoard" parent="Camera2D/Game" instance=ExtResource("1_t4sml")]
+[node name="SceneBoard" parent="Camera2D/Game" node_paths=PackedStringArray("btch_server") instance=ExtResource("1_t4sml")]
 position = Vector2(-160, -160)
+btch_server = NodePath("../BtchServer")
 
 [node name="BtchServer" parent="Camera2D/Game" instance=ExtResource("3_bxw6y")]
 
@@ -112,5 +113,3 @@ position = Vector2(-160, -160)
 [connection signal="move_accepted" from="Camera2D/Game/BtchServer" to="Camera2D/Game/SceneBoard" method="_on_btch_server_move_accepted"]
 [connection signal="opponent_username_update" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/TopPlayerControl" method="_set_label_text"]
 [connection signal="player_username_update" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/BottomPlayerControl" method="_set_label_text"]
-[connection signal="turn_changed" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/TopPlayerControl" method="_on_btch_server_turn_changed"]
-[connection signal="turn_changed" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/BottomPlayerControl" method="_on_btch_server_turn_changed"]

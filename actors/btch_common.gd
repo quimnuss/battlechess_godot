@@ -111,7 +111,7 @@ enum BtchError {
     OK,
 }
 
-var is_two_players: bool = false
+var is_two_players: bool = true
 
 
 func _ready():

@@ -10,7 +10,7 @@ class_name BtchServer
 
 @onready var turn_timer = $TurnTimer
 
-const TURN_CHECK_RATE = 2
+const TURN_CHECK_RATE = 15
 
 const ENDPOINT: String = "/games"
 
@@ -27,7 +27,7 @@ signal connection_status_updated(connected: bool)
 
 signal game_joined(uuid: String, is_white: bool)
 
-signal turn_changed(new_turn: ChessConstants.PlayerColor)
+signal is_player_turn
 
 # refresh board
 signal move_accepted(btch_game_data: BtchGameSnap)
@@ -151,39 +151,47 @@ func get_board() -> BtchGameSnap:
     return null
 
 
-func get_turn() -> Variant:  #-> ChessConstants.PlayerColor:
-    var endpoint: String = "/games/" + self.game.uuid + "/turn"
+func get_my_turn() -> Variant:  #-> bool:
+    var endpoint: String = "/games/" + self.game.uuid + "/turn/me?long_polling=true"
     var response_data: Dictionary = await BtchCommon.btch_standard_data_request(endpoint, {}, seq_request, HTTPClient.METHOD_GET)
 
     if response_data["status_code"] == BtchCommon.HTTPStatus.OK:
-        var turn = response_data["data"]
-        if not turn:
-            return ChessConstants.PlayerColor.EMPTY
-
-        match turn:
-            "white":
-                return ChessConstants.PlayerColor.WHITE
-            "black":
-                return ChessConstants.PlayerColor.BLACK
-            _:
-                return ChessConstants.PlayerColor.EMPTY
+        var is_your_turn = response_data["data"]
+        if is_your_turn is bool:
+            return is_your_turn
+        else:
+            return null
     return null
 
 
-func _on_check_turn_timer_timeout():
-    var new_turn: Variant = await get_turn()
-    if new_turn != null:
-        if self.turn != new_turn:
-            prints("turn changed!", self.turn, "->", new_turn)
-            self.turn = new_turn
+func check_my_turn() -> Variant:  #bool:
+    var is_my_turn: Variant = await get_my_turn()
+    if is_my_turn != null:
+        if is_my_turn:
+            prints("turn changed! it's my turn")
             var btch_game_data: BtchGameSnap = await get_board()
-            turn_changed.emit(new_turn)
             if btch_game_data:
                 move_accepted.emit(btch_game_data)
             else:
                 prints("something went wrong no btch_game_data!")
+            is_player_turn.emit()
+            return true
+        else:
+            return false
     else:
         prints("Error reading turn")
+        return null
+
+
+func long_polling_turn():
+    var is_my_turn: bool = false
+    while not is_my_turn:
+        is_my_turn = await check_my_turn()
+
+
+func _on_check_turn_timer_timeout():
+    long_polling_turn()
+    pass
 
 
 func _on_btch_game_game_joined(uuid: String, is_white: bool):
