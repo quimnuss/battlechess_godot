@@ -74,7 +74,7 @@ OVH has certbot [out-of-the-box](https://help.ovhcloud.com/csm/en-gb-web-hosting
 - [ ] Animations
 - [ ] [Save encrypted](https://docs.huihoo.com/godotengine/godot-docs/godot/tutorials/engine/encrypting_save_games.html), especially password
 - [ ] signal error on all classes / on singleton + Node that captures erreors and shows on screen
-- [ ] Server Send events.
+- [ ] ~Server Send events.~ long polling is a better solution for our use-case
 
 [See theory of SSE](https://www.pubnub.com/guides/server-sent-events/).
 
