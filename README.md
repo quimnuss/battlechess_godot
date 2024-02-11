@@ -57,18 +57,19 @@ graph LR
 
 ## Now
 - [ ] [Bug Hunting](https://github.com/quimnuss/battlechess_godot/issues)
-- [ ] signal error on all classes / on singleton + Node that captures erreors and shows on screen. Implemented on NavigationLayer an _on_error, redirect all errors there
+- [ ] signal error on all classes / on singleton + Node that captures erreors and shows on screen. Implemented on NavigationLayer an `_on_error`, redirect all errors there
+- [ ] ensure there's always a turn request running when not in turn
 
 ## Next
+- [ ] gotm.io and itch.io need https server
+[Tutorial](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-20-04)
+OVH has certbot [out-of-the-box](https://help.ovhcloud.com/csm/en-gb-web-hosting-activate-https-website-ssl?id=kb_article_view&sysparm_article=KB0053129)
+- [ ] [Host web battlechess](https://gist.github.com/nisovin/cf9dd74678641fb70902866c79692b17)
 - [ ] better aesthetics
 - [ ] test slow connections
 - [ ] Sounds
 
 ## Later
-- [ ] gotm.io and itch.io need https server
-[Tutorial](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-20-04)
-OVH has certbot [out-of-the-box](https://help.ovhcloud.com/csm/en-gb-web-hosting-activate-https-website-ssl?id=kb_article_view&sysparm_article=KB0053129)
-- [ ] [Host web battlechess](https://gist.github.com/nisovin/cf9dd74678641fb70902866c79692b17)
 - [ ] intead of camera rotate, change coordinates
 - [ ] pawn promotion choice UI
 - [ ] Avatars
