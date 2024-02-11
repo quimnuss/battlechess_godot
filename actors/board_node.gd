@@ -10,7 +10,7 @@ class_name Board
 #@onready var x_start = ((get_window().size.x / 2.0) - ((width/2.0) * offset ) + (offset / 2))
 #@onready var y_start = ((get_window().size.y / 2.0) + ((height/2.0) * offset ) - (offset / 2))
 
-@export var btch_game: BtchGameTMP
+@export var btch_game: BtchGame
 @export var empty_spaces: PackedVector2Array
 
 @onready var highlight: Sprite2D = $BoardTileMap/Highlight

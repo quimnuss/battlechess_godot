@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://75ejfxof0rbo" path="res://assets/pieces_big_2_alpha.png" id="5_kmeb2"]
 [ext_resource type="PackedScene" uid="uid://e6ggebnvmmgi" path="res://ui/end_scene.tscn" id="7_0ycva"]
 [ext_resource type="PackedScene" uid="uid://b7togtnxg15ho" path="res://ui/menu_ingame.tscn" id="8_2noe1"]
-[ext_resource type="Script" path="res://actors/game.gd" id="9_5iqrh"]
+[ext_resource type="Script" path="res://actors/btch_game.gd" id="9_5iqrh"]
 [ext_resource type="PackedScene" uid="uid://b81wxo2et2dpp" path="res://ui/navigation_layer.tscn" id="10_h40xa"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mskuh"]

@@ -13,7 +13,7 @@ class_name MainBtch
 @onready var bottom_player_control = $CenterContainer/VBoxContainer/BottomPlayerControl
 @onready var top_taken_h_flow_container = $CenterContainer/VBoxContainer/TopTakenHFlowContainer
 @onready var bottom_taken_h_flow_container = $CenterContainer/VBoxContainer/BottomTakenHFlowContainer
-@onready var game: BtchGameTMP = $Camera2D/Game
+@onready var game: BtchGame = $Camera2D/Game
 
 
 func _ready():

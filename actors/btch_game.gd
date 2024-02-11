@@ -1,6 +1,6 @@
 extends Node2D
 
-class_name BtchGameTMP
+class_name BtchGame
 
 const game_endpoint: String = "/games"
 
