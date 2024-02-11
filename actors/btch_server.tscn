@@ -34,9 +34,4 @@ script = ExtResource("3_kw7fr")
 
 [node name="HTTPRequest" type="HTTPRequest" parent="BtchGame"]
 
-[node name="TurnTimer" type="Timer" parent="."]
-wait_time = 15.0
-one_shot = true
-
 [connection signal="game_joined" from="BtchGame" to="." method="_on_btch_game_game_joined"]
-[connection signal="timeout" from="TurnTimer" to="." method="_on_check_turn_timer_timeout"]

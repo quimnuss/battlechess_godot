@@ -91,10 +91,15 @@ func add_game(game_info: GameInfo):
     game_entry.add_to_group("GameEntries")
 
 
+static func join_game(game_uuid: String) -> BtchCommon.HTTPStatus:
+    var status: BtchCommon.HTTPStatus = await BtchCommon.btch_standard_request("/games/" + game_uuid + "/join", {}, null, HTTPClient.METHOD_GET)
+    return status
+
+
 func play_game(uuid: String):
     prints("Playing game", uuid)
     prints("Setting game uuid", uuid, "to singleton")
-    var response_status: BtchCommon.HTTPStatus = await BtchGame.join_game_without_build(uuid)
+    var response_status: BtchCommon.HTTPStatus = await join_game(uuid)
     match response_status:
         BtchCommon.HTTPStatus.OK:
             BtchCommon.game_uuid = uuid

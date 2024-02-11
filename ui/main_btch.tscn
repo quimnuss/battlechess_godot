@@ -4,11 +4,11 @@
 [ext_resource type="PackedScene" uid="uid://rlxycfbs6rgr" path="res://actors/scene_board.tscn" id="1_t4sml"]
 [ext_resource type="Script" path="res://ui/main_btch.gd" id="1_xxlde"]
 [ext_resource type="Texture2D" uid="uid://y6npssa3umbx" path="res://assets/sunset.jpg" id="2_jg1s6"]
-[ext_resource type="PackedScene" uid="uid://dqa6kk2vyqay" path="res://actors/btch_server.tscn" id="3_bxw6y"]
 [ext_resource type="Script" path="res://ui/taken_container.gd" id="4_pcjah"]
 [ext_resource type="Texture2D" uid="uid://75ejfxof0rbo" path="res://assets/pieces_big_2_alpha.png" id="5_kmeb2"]
 [ext_resource type="PackedScene" uid="uid://e6ggebnvmmgi" path="res://ui/end_scene.tscn" id="7_0ycva"]
 [ext_resource type="PackedScene" uid="uid://b7togtnxg15ho" path="res://ui/menu_ingame.tscn" id="8_2noe1"]
+[ext_resource type="Script" path="res://ui/game.gd" id="9_5iqrh"]
 [ext_resource type="PackedScene" uid="uid://b81wxo2et2dpp" path="res://ui/navigation_layer.tscn" id="10_h40xa"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mskuh"]
@@ -94,22 +94,20 @@ visible = false
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, 15)
 
-[node name="Game" type="Node2D" parent="Camera2D"]
-
-[node name="SceneBoard" parent="Camera2D/Game" node_paths=PackedStringArray("btch_server") instance=ExtResource("1_t4sml")]
+[node name="SceneBoard" parent="Camera2D" node_paths=PackedStringArray("btch_game") instance=ExtResource("1_t4sml")]
 position = Vector2(-160, -160)
-btch_server = NodePath("../BtchServer")
+btch_game = NodePath("../Game")
 
-[node name="BtchServer" parent="Camera2D/Game" instance=ExtResource("3_bxw6y")]
+[node name="Game" type="Node2D" parent="Camera2D"]
+script = ExtResource("9_5iqrh")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="Camera2D/Game"]
+
+[node name="TurnHTTPRequest" type="HTTPRequest" parent="Camera2D/Game"]
 
 [connection signal="back_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_back_pressed"]
 [connection signal="menu_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_menu_pressed"]
-[connection signal="taken_changed" from="Camera2D/Game/SceneBoard" to="CenterContainer/VBoxContainer/TopTakenHFlowContainer" method="_on_scene_board_taken_changed"]
-[connection signal="taken_changed" from="Camera2D/Game/SceneBoard" to="CenterContainer/VBoxContainer/BottomTakenHFlowContainer" method="_on_scene_board_taken_changed"]
-[connection signal="connection_status_updated" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/TopPlayerControl" method="set_connection_status"]
-[connection signal="connection_status_updated" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/BottomPlayerControl" method="set_connection_status"]
-[connection signal="game_joined" from="Camera2D/Game/BtchServer" to="." method="_on_btch_server_game_joined"]
-[connection signal="move_accepted" from="Camera2D/Game/BtchServer" to="." method="_on_btch_server_move_accepted"]
-[connection signal="move_accepted" from="Camera2D/Game/BtchServer" to="Camera2D/Game/SceneBoard" method="_on_btch_server_move_accepted"]
-[connection signal="opponent_username_update" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/TopPlayerControl" method="_set_label_text"]
-[connection signal="player_username_update" from="Camera2D/Game/BtchServer" to="CenterContainer/VBoxContainer/BottomPlayerControl" method="_set_label_text"]
+[connection signal="move_accepted" from="Camera2D/SceneBoard" to="." method="_on_scene_board_move_accepted"]
+[connection signal="move_accepted" from="Camera2D/SceneBoard" to="Camera2D/Game" method="_on_scene_board_move_accepted"]
+[connection signal="game_ended" from="Camera2D/Game" to="." method="_on_game_game_ended"]
+[connection signal="is_player_turn" from="Camera2D/Game" to="." method="_on_game_is_player_turn"]

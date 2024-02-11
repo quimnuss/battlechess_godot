@@ -5,7 +5,6 @@
 [ext_resource type="StyleBox" uid="uid://dp1e8271w3445" path="res://styles/style_box_flat_only_borders_style.tres" id="3_1lq2m"]
 [ext_resource type="Texture2D" uid="uid://nn04afa15mt5" path="res://assets/finished_icon.png" id="3_1ysf7"]
 [ext_resource type="Texture2D" uid="uid://dw1uck7mdnqlp" path="res://assets/refresh_icon.png" id="3_c3blf"]
-[ext_resource type="Script" path="res://actors/btch_game.gd" id="3_i5ckn"]
 [ext_resource type="Texture2D" uid="uid://brlq33qwoj1xd" path="res://assets/finished_icon_disabled.png" id="3_m1rlr"]
 [ext_resource type="Texture2D" uid="uid://cin5vykfhkrnq" path="res://assets/search.png" id="3_o5vh4"]
 [ext_resource type="Texture2D" uid="uid://danrco6orxjm4" path="res://assets/people_all_red_outline.png" id="4_mkhaa"]
@@ -14,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://b7togtnxg15ho" path="res://ui/menu_ingame.tscn" id="6_v5q1x"]
 [ext_resource type="Script" path="res://ui/spin.gd" id="9_q8pla"]
 [ext_resource type="Script" path="res://ui/scroll_gesture.gd" id="10_df7pk"]
+[ext_resource type="Script" path="res://ui/create_game.gd" id="12_b4u0t"]
 
 [node name="Lobby" type="Control"]
 layout_mode = 3
@@ -157,6 +157,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "New Game"
+script = ExtResource("12_b4u0t")
 
 [node name="MenuLayer" type="CanvasLayer" parent="."]
 visible = false
@@ -165,16 +166,12 @@ visible = false
 
 [node name="NavigationLayer" parent="." instance=ExtResource("5_luykx")]
 
-[node name="BtchGame" type="Node" parent="."]
-script = ExtResource("3_i5ckn")
-
 [connection signal="text_changed" from="MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/GameCodeFilterLineEdit" to="." method="_on_game_code_filter_line_edit_text_changed"]
 [connection signal="toggled" from="MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/FinishedGamesButton" to="." method="_on_finished_games_button_toggled"]
 [connection signal="toggled" from="MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/MineGamesCheckBox" to="." method="_on_mine_games_check_box_toggled"]
 [connection signal="pressed" from="MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/RefreshButton" to="." method="_on_refresh_button_pressed"]
 [connection signal="pressed" from="MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/RefreshButton" to="MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/RefreshButton" method="_on_pressed"]
-[connection signal="pressed" from="MarginContainer/MainVBoxContainer/CreateGameButton" to="BtchGame" method="create_and_join_without_build"]
+[connection signal="error" from="MarginContainer/MainVBoxContainer/CreateGameButton" to="." method="_on_error"]
+[connection signal="play_game" from="MarginContainer/MainVBoxContainer/CreateGameButton" to="." method="_on_btch_game_play_game"]
 [connection signal="back_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_menu_pressed"]
 [connection signal="menu_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_menu_pressed"]
-[connection signal="error" from="BtchGame" to="." method="_on_error"]
-[connection signal="play_game" from="BtchGame" to="." method="_on_btch_game_play_game"]

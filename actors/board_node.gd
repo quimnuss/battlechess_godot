@@ -10,7 +10,7 @@ class_name Board
 #@onready var x_start = ((get_window().size.x / 2.0) - ((width/2.0) * offset ) + (offset / 2))
 #@onready var y_start = ((get_window().size.y / 2.0) + ((height/2.0) * offset ) - (offset / 2))
 
-@export var btch_server: BtchServer
+@export var btch_game: BtchGameTMP
 @export var empty_spaces: PackedVector2Array
 
 @onready var highlight: Sprite2D = $BoardTileMap/Highlight
@@ -18,9 +18,7 @@ class_name Board
 
 @export var flipped: bool = false
 
-signal taken_changed(taken: String)
-
-var last_game_data: BtchGameSnap = null
+signal move_accepted(btch_game_data: BtchGameSnap)
 
 const TILE_SIZE = 40
 
@@ -286,16 +284,10 @@ func update_board(board_string: String) -> void:
 func refresh_board_from_data(btch_game_data: BtchGameSnap) -> void:
     if btch_game_data:
         update_board(btch_game_data.board)
-        if btch_game_data.winner != ChessConstants.PlayerColor.EMPTY:
-            prints(btch_game_data.winner, "won")
-
-        if not last_game_data or last_game_data.taken != btch_game_data.taken:
-            taken_changed.emit(btch_game_data.taken)
-        last_game_data = btch_game_data
 
 
 func _input(event):
-    if event is InputEventMouseButton:
+    if Input.is_action_just_released("select"):
         var mouse_pos: Vector2 = get_local_mouse_position()
         var tile_clicked: Vector2i = board_tilemap.local_to_map(mouse_pos)
         print("clicked tile", tile_clicked)
@@ -303,19 +295,22 @@ func _input(event):
 
         # drag-and-drop logic
         # TODO maybe check we dont already have a piece?
-        if event.button_index == MOUSE_BUTTON_LEFT and not _out_of_bounds(tile_clicked):
+        if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not _out_of_bounds(tile_clicked):
             if selected_tile != null_selected_tile and tile_clicked in possible_tiles:
                 prints("Moving", selected_tile, "to", tile_clicked)
 
-                # siblings by signal violation
-                var btch_game_data: BtchGameSnap = await btch_server.move(selected_tile, tile_clicked)
+                # siblings by signal violation, because we want signal others and it's convenient
+                var btch_game_data: BtchGameSnap = await btch_game.move(selected_tile, tile_clicked)
                 if btch_game_data:
                     #place_piece_by_clicks(selected_tile, tile_clicked)
                     clear_highlight_tiles()
                     selected_tile = null_selected_tile
+
+                    # move accepted, start waiting for turn in the background
+                    move_accepted.emit(btch_game_data)
             else:
                 selected_tile = tile_clicked
-                possible_tiles = await btch_server.get_moves(tile_clicked)
+                possible_tiles = await btch_game.get_moves(tile_clicked)
                 prints("possible_tiles", possible_tiles)
                 clear_highlight_tiles()
                 highlight_tiles(possible_tiles)
@@ -334,8 +329,3 @@ func _process(_delta):
     if _out_of_bounds(mouse):
         return
     hover_highlight_tile(mouse)
-
-
-func _on_btch_server_move_accepted(btch_game_data):
-    if btch_game_data:
-        refresh_board_from_data(btch_game_data)

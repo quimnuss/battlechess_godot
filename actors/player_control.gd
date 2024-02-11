@@ -29,6 +29,10 @@ func set_player_info(name: String, connected: bool):
     check.set_pressed_no_signal(connected)
 
 
+func set_turn(turn_indicator_visible: bool):
+    turn_indicator.visible = turn_indicator_visible
+
+
 func _on_btch_server_turn_changed(new_turn):
     prints("new_turn", new_turn, "im", player_name, player_area_color)
-    turn_indicator.visible = (new_turn == player_area_color)
+    set_turn(new_turn == player_area_color)

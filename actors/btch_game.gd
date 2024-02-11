@@ -19,7 +19,7 @@ var game_owner
 var white_player
 var black_player
 var game_status: GameInfo.GameStatus
-var player_turn: ChessConstants.PlayerColor
+var is_my_turn: bool
 var last_move_time
 var is_public_game: bool
 var winner
@@ -133,10 +133,12 @@ func _from_dict(game_dict: Dictionary):
     else:
         game_owner = opponent_player
 
+    is_my_turn = false
     if game_dict["white"] == null:
         white_player = null
     elif player.username == game_dict["white"]["username"]:
         white_player = player
+        is_my_turn = game_dict["turn"] == "black"
         player.from_dict(game_dict["white"])
     else:
         white_player = opponent_player
@@ -146,13 +148,13 @@ func _from_dict(game_dict: Dictionary):
         black_player = null
     elif player.username == game_dict["black"]["username"]:
         black_player = player
+        is_my_turn = game_dict["turn"] == "black"
         player.from_dict(game_dict["black"])
     else:
         black_player = opponent_player
         opponent_player.from_dict(game_dict["black"])
 
     game_status = GameInfo.game_status_from_str(game_dict["status"])
-    player_turn = ChessConstants.playercolor_from_str(game_dict["turn"])
     last_move_time = game_dict["last_move_time"]
     is_public_game = game_dict["public"]
 

@@ -25,8 +25,6 @@ signal opponent_username_update(username: String)
 
 signal connection_status_updated(connected: bool)
 
-signal game_joined(uuid: String, is_white: bool)
-
 signal is_player_turn
 
 # refresh board
@@ -37,17 +35,6 @@ func _ready():
     BtchCommon.connection_status_changed.connect(forward_connection_status)
 
     player_username_update.emit(player.username)
-
-    var is_root_scene: bool = self == get_tree().current_scene
-
-    if is_root_scene:
-        # wait for user creation/login on the api
-        await get_tree().create_timer(2).timeout
-        if BtchCommon.token == "":
-            connection_status_updated.emit(false)
-            prints("[Error] Token is empty. Won't try to join game without a token...")
-        else:
-            join_or_create_game()
 
 
 func forward_connection_status(new_connection_status: bool):
@@ -168,30 +155,27 @@ func check_my_turn() -> Variant:  #bool:
     var is_my_turn: Variant = await get_my_turn()
     if is_my_turn != null:
         if is_my_turn:
-            prints("turn changed! it's my turn")
+            prints("it's my turn")
             var btch_game_data: BtchGameSnap = await get_board()
             if btch_game_data:
                 move_accepted.emit(btch_game_data)
             else:
                 prints("something went wrong no btch_game_data!")
+                return false
             is_player_turn.emit()
             return true
         else:
             return false
     else:
-        prints("Error reading turn")
-        return null
+        # TODO handle game finish
+        prints("Error reading turn or game finished")
+        return false
 
 
 func long_polling_turn():
     var is_my_turn: bool = false
     while not is_my_turn:
         is_my_turn = await check_my_turn()
-
-
-func _on_check_turn_timer_timeout():
-    long_polling_turn()
-    pass
 
 
 func _on_btch_game_game_joined(uuid: String, is_white: bool):
@@ -206,7 +190,6 @@ func _on_btch_game_game_joined(uuid: String, is_white: bool):
         if opponent_player.username != null:
             opponent_username_update.emit(opponent_player.username)
 
-    turn_timer.start(TURN_CHECK_RATE)
     game_joined.emit(uuid, is_white)
     if self.game.game_status != GameInfo.GameStatus.WAITING:
         var btch_game_data: BtchGameSnap = await get_board()

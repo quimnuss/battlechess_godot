@@ -99,6 +99,7 @@ enum HTTPStatus {
     UNSUPPORTEDMEDIATYPE = 415,
     REQUESTEDRANGENOTSATISFIABLE = 416,
     EXPECTATIONFAILED = 417,
+    IMATEAPOT = 418,
     INTERNALSERVERERROR = 500,
     NOTIMPLEMENTED = 501,
     BADGATEWAY = 502,
@@ -122,6 +123,7 @@ func _ready():
     else:
         prints("User config", ProjectSettings.globalize_path(Globals.CONFIG_FILE_ACTIVE), "exists.")
     base_url = config.get_value(Globals.MAIN_SECTION, "server", base_url)
+    prints("server", base_url)
 
     username = config.get_value(Globals.PLAYER_SECTION, "username", "Steve")
     #TODO it looks like we have to store the password in plain?
@@ -271,6 +273,7 @@ var httpstatus_to_string: Dictionary = {
     415: "UNSUPPORTEDMEDIATYPE",
     416: "REQUESTEDRANGENOTSATISFIABLE",
     417: "EXPECTATIONFAILED",
+    418: "IMATEAPOT",
     500: "INTERNALSERVERERROR",
     501: "NOTIMPLEMENTED",
     502: "BADGATEWAY",
