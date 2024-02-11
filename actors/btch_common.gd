@@ -213,20 +213,27 @@ func btch_standard_data_request(
         error = req.request(url, reqheaders, method, payload_json)
     else:
         error = req.request(url, reqheaders, method)
-    prints("auth req error?", error, error_string(error))
+    prints("req error?", error, error_string(error))
     if error != Error.OK:
         connection_status = false
         return {"status_code": HTTPStatus.BADGATEWAY}
 
     var response_pack = await req.request_completed
 
-    var result = response_pack[0]
+    var result: HTTPRequest.Result = response_pack[0]
+    match result:
+        HTTPRequest.RESULT_SUCCESS:
+            pass
+        HTTPRequest.RESULT_TIMEOUT:
+            return {"status_code": HTTPStatus.REQUESTTIMEOUT, "error": "HTTPRequest.Result " + str(result)}
+        _:
+            return {"status_code": HTTPStatus.BADGATEWAY, "error": "HTTPRequest.Result " + str(result)}
     var response_code: HTTPStatus = response_pack[1]
     var headers = response_pack[2]
     var body = response_pack[3]
 
     var json = JSON.parse_string(body.get_string_from_utf8())
-    prints("auth response", result, response_code)
+    prints("req response", result, response_code)
     prints("response_data", JSON.stringify(json, "  "))
 
     if json is Dictionary:

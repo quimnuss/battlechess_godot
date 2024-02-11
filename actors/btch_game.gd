@@ -151,8 +151,12 @@ func start_wait_for_turn():
             is_player_turn.emit()
         BtchCommon.HTTPStatus.PRECONDITIONFAILED:
             game_ended.emit()
+        BtchCommon.HTTPStatus.REQUESTTIMEOUT:
+            push_error("error fetching turn", status)
+            error.emit(status, "Timeout fetching turn. Retrying...")
+            start_wait_for_turn.call_deferred()
         _:
-            prints("error fetching turn", status)
+            push_error("error fetching turn", status)
             error.emit(status, "Error fetching turn")
 
 

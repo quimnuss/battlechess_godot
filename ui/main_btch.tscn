@@ -102,12 +102,15 @@ btch_game = NodePath("../Game")
 script = ExtResource("9_5iqrh")
 
 [node name="HTTPRequest" type="HTTPRequest" parent="Camera2D/Game"]
+timeout = 15.0
 
 [node name="TurnHTTPRequest" type="HTTPRequest" parent="Camera2D/Game"]
+timeout = 15.0
 
 [connection signal="back_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_back_pressed"]
 [connection signal="menu_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_menu_pressed"]
 [connection signal="move_accepted" from="Camera2D/SceneBoard" to="." method="_on_scene_board_move_accepted"]
 [connection signal="move_accepted" from="Camera2D/SceneBoard" to="Camera2D/Game" method="_on_scene_board_move_accepted"]
+[connection signal="error" from="Camera2D/Game" to="NavigationLayer" method="_on_game_error"]
 [connection signal="game_ended" from="Camera2D/Game" to="." method="_on_game_game_ended"]
 [connection signal="is_player_turn" from="Camera2D/Game" to="." method="_on_game_is_player_turn"]

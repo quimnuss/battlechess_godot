@@ -57,6 +57,7 @@ graph LR
 
 ## Now
 - [ ] [Bug Hunting](https://github.com/quimnuss/battlechess_godot/issues)
+- [ ] signal error on all classes / on singleton + Node that captures erreors and shows on screen. Implemented on NavigationLayer an _on_error, redirect all errors there
 
 ## Next
 - [ ] better aesthetics
@@ -73,18 +74,9 @@ OVH has certbot [out-of-the-box](https://help.ovhcloud.com/csm/en-gb-web-hosting
 - [ ] Avatars
 - [ ] Animations
 - [ ] [Save encrypted](https://docs.huihoo.com/godotengine/godot-docs/godot/tutorials/engine/encrypting_save_games.html), especially password
-- [ ] signal error on all classes / on singleton + Node that captures erreors and shows on screen
-- [ ] ~Server Send events.~ long polling is a better solution for our use-case
-
-[See theory of SSE](https://www.pubnub.com/guides/server-sent-events/).
-
-[fastapi sse](https://sysid.github.io/server-sent-events/).
-
-[old SSE Godot client](https://github.com/WolfgangSenff/HTTPSSEClient/tree/master) but looks like
-it should be [easy to implement with HTTPClient](https://github.com/godotengine/godot/issues/26238#issuecomment-466819999)
 
 ## Done
-
+- [x] ~Server Send events.~ long polling is a better solution for our use-case
 - [x] Android UI adaptations (particulary soft keyboard popup)
 - [x] use filter to filter name as well
 - [x] Auto login + logout
