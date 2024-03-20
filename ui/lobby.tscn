@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://ckdmpjff3gl3j"]
+[gd_scene load_steps=14 format=3 uid="uid://ckdmpjff3gl3j"]
 
 [ext_resource type="Script" path="res://ui/lobby.gd" id="1_pe60c"]
 [ext_resource type="Texture2D" uid="uid://y6npssa3umbx" path="res://assets/sunset.jpg" id="2_7mjkg"]
@@ -12,7 +12,6 @@
 [ext_resource type="Texture2D" uid="uid://chcrt5wqllqnv" path="res://assets/people_me_red_outline.png" id="5_r1mye"]
 [ext_resource type="PackedScene" uid="uid://b7togtnxg15ho" path="res://ui/menu_ingame.tscn" id="6_v5q1x"]
 [ext_resource type="Script" path="res://ui/spin.gd" id="9_q8pla"]
-[ext_resource type="Script" path="res://ui/scroll_gesture.gd" id="10_df7pk"]
 [ext_resource type="Script" path="res://ui/create_game.gd" id="12_b4u0t"]
 
 [node name="Lobby" type="Control"]
@@ -143,7 +142,6 @@ size_flags_vertical = 3
 follow_focus = true
 horizontal_scroll_mode = 0
 scroll_deadzone = 1
-script = ExtResource("10_df7pk")
 
 [node name="GameListVBoxContainer" type="VBoxContainer" parent="MarginContainer/MainVBoxContainer/VScrollBar"]
 unique_name_in_owner = true
