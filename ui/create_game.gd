@@ -17,3 +17,7 @@ func create_and_join_without_build() -> BtchCommon.HTTPStatus:
     var game_uuid: String = response_data["uuid"]
     play_game.emit(game_uuid)
     return status_code
+
+
+func _on_pressed():
+    create_and_join_without_build()

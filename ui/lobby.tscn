@@ -173,5 +173,6 @@ visible = false
 [connection signal="pressed" from="MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/RefreshButton" to="MarginContainer/MainVBoxContainer/ListToolsHBoxContainer/RefreshButton" method="_on_pressed"]
 [connection signal="error" from="MarginContainer/MainVBoxContainer/CreateGameButton" to="." method="_on_error"]
 [connection signal="play_game" from="MarginContainer/MainVBoxContainer/CreateGameButton" to="." method="_on_btch_game_play_game"]
+[connection signal="pressed" from="MarginContainer/MainVBoxContainer/CreateGameButton" to="MarginContainer/MainVBoxContainer/CreateGameButton" method="_on_pressed"]
 [connection signal="back_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_menu_pressed"]
 [connection signal="menu_pressed" from="NavigationLayer" to="." method="_on_navigation_layer_menu_pressed"]
