@@ -1,5 +1,7 @@
 extends Node
 
+class_name Lobby
+
 @onready var game_list_container = %GameListVBoxContainer
 @onready var player_name_label = $MarginContainer/MainVBoxContainer/HBoxContainer/PlayerNameLabel
 @onready var error_label = $MarginContainer/MainVBoxContainer/HBoxContainer/ErrorLabel
@@ -19,14 +21,14 @@ func _ready():
     finished_games_button.set_pressed_no_signal(BtchCommon.filter_show_finished)
     mine_games_check_box.set_pressed_no_signal(BtchCommon.filter_only_mine)
 
-    var is_connected = await btch_connect()
+    var is_connected_ = await btch_connect()
 
-    if is_connected:
+    if is_connected_:
         refresh_games()
 
 
 func btch_connect() -> bool:
-    var is_connected: bool = false
+    var is_connected_: bool = false
     if not BtchCommon.token:
         var result: BtchCommon.HTTPStatus = await BtchCommon.auth()
         if result != BtchCommon.HTTPStatus.OK:
@@ -34,10 +36,10 @@ func btch_connect() -> bool:
             error_label.text = "Error authenticating"
             error_label.visible = true
         else:
-            is_connected = true
+            is_connected_ = true
     else:
-        is_connected = true
-    return is_connected
+        is_connected_ = true
+    return is_connected_
 
 
 func clear_games():
@@ -76,7 +78,7 @@ func placeholder_fill():
     add_game(GameInfo.New("zxcv", "foo", "foo", "bar", GameInfo.GameStatus.WAITING))
 
 
-func remove_game(uuid: String):
+func remove_game(_uuid: String):
     #TODO implement
     pass
 
@@ -99,7 +101,7 @@ static func join_game(game_uuid: String) -> BtchCommon.HTTPStatus:
 func play_game(uuid: String):
     prints("Playing game", uuid)
     prints("Setting game uuid", uuid, "to singleton")
-    var response_status: BtchCommon.HTTPStatus = await join_game(uuid)
+    var response_status: BtchCommon.HTTPStatus = await Lobby.join_game(uuid)
     match response_status:
         BtchCommon.HTTPStatus.OK:
             BtchCommon.game_uuid = uuid
@@ -127,15 +129,15 @@ func _on_btch_game_play_game(uuid):
 
 
 func _on_error(status_code, msg):
-    error_label.text = msg
+    error_label.text = status_code + " " + msg
     error_label.visible = true
 
 
 func _on_refresh_button_pressed():
     error_label.visible = false
     if not BtchCommon.token:
-        var is_connected: bool = await btch_connect()
-        if is_connected:
+        var is_connected_: bool = await btch_connect()
+        if is_connected_:
             refresh_games()
     else:
         refresh_games()

@@ -86,7 +86,6 @@ func board_from_string(board_string: String):
 #            if char_piece == '_':
 #                continue
 
-            var debug_char_piece = "-" + char_piece + "-"
             var piece_type: ChessConstants.PieceType = char_to_piece.get(char_piece, ChessConstants.PieceType.EMPTY)
             if piece_type == null:
                 piece_type = ChessConstants.PieceType.EMPTY
@@ -129,7 +128,7 @@ func cancel_move(piece: ChessPiece):
     prints("placement canceled, returning", piece.piece_type, "to", piece.board_coords)
 
 
-func is_move_valid(piece: ChessPiece, origin: Vector2i, destination: Vector2i):
+func is_move_valid(_piece: ChessPiece, _origin: Vector2i, destination: Vector2i):
     #TODO check if movement valid instead of just occupied
     if get_tile_piece_type(destination) != ChessConstants.PieceType.EMPTY:
         return false
@@ -171,7 +170,7 @@ func get_tile_piece_type(board_coords: Vector2i) -> ChessConstants.PieceType:
     if piece_tile_data == null:
         return ChessConstants.PieceType.EMPTY
     var piece_num: int = piece_tile_data.get_custom_data("PieceType")
-    var piece_type: ChessConstants.PieceType = piece_num
+    var piece_type: ChessConstants.PieceType = piece_num as ChessConstants.PieceType
     return piece_type
 
 
@@ -182,17 +181,17 @@ func tile_neighbours(board_coords: Vector2i) -> Array[Vector2i]:
             var neighbour_board_coords: Vector2i = Vector2i(clamp(board_coords.x + dx, 0, 7), clamp(board_coords.y + dy, 0, 7))
             neighbours.add(neighbour_board_coords)
     var neigh: Array = neighbours.get_elements()
-    var neigh_tiles: Array[Vector2i]
+    var neigh_tiles: Array[Vector2i] = []
     neigh_tiles.assign(neigh)
     return neigh_tiles
 
 
-func has_neighbour(board_coords: Vector2i, player_color: ChessConstants.PlayerColor) -> bool:
+func has_neighbour(board_coords: Vector2i, player_color_: ChessConstants.PlayerColor) -> bool:
     var neighbour_tiles_coords: Array[Vector2i] = tile_neighbours(board_coords)
     for neighbour_board_coords in neighbour_tiles_coords:
         var piece_type: ChessConstants.PieceType = get_tile_piece_type(neighbour_board_coords)
         # prints("tile",board_coords,"has",ChessConstants.piece_to_emoji[piece_type],"@",neighbour_board_coords, 'of color', ChessConstants.piece_to_color[piece_type], 'and im', player_color)
-        if piece_type != ChessConstants.PieceType.EMPTY and ChessConstants.piece_to_color[piece_type] == player_color:
+        if piece_type != ChessConstants.PieceType.EMPTY and ChessConstants.piece_to_color[piece_type] == player_color_:
             return true
     return false
 
@@ -227,6 +226,7 @@ func hover_highlight_tile(board_point: Vector2):
     # option 1: go from local to map and map to local -- good for debuging mouse clicks...
     # apparently mouse coords are relative to the origin, non-offseted tilemap
     var tile_coords: Vector2i = board_tilemap.local_to_map(board_point)
+    @warning_ignore("integer_division")
     var tile_center: Vector2 = board_tilemap.map_to_local(tile_coords) - Vector2(TILE_SIZE / 2, TILE_SIZE / 2)
 
     # option 2: just round to the closest tile bottom-right corner

@@ -13,15 +13,15 @@ var black: String
 var status: GameStatus
 
 
-static func New(uuid: String, game_owner: String, white: String, black: String, status: GameStatus, board: String = "", taken: String = ""):
+static func New(uuid_: String, game_owner_: String, white_: String, black_: String, status_: GameStatus, board_: String = "", taken_: String = ""):
     var game_info: GameInfo = GameInfo.new()
-    game_info.uuid = uuid
-    game_info.game_owner = game_owner
-    game_info.white = white
-    game_info.black = black
-    game_info.status = status
-    game_info.board = board
-    game_info.taken = taken
+    game_info.uuid = uuid_
+    game_info.game_owner = game_owner_
+    game_info.white = white_
+    game_info.black = black_
+    game_info.status = status_
+    game_info.board = board_
+    game_info.taken = taken_
     return game_info
 
 

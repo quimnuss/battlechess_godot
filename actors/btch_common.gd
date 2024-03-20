@@ -157,7 +157,6 @@ func auth(p_username: String = "", p_password: String = "") -> HTTPStatus:
     var auth_endpoint: String = base_url + "/token"
     var credentials: Dictionary = {"username": p_username, "password": p_password}
     var query_string: String = _http_client.query_string_from_dict(credentials)
-    var payload: String = JSON.stringify(credentials)
     prints(query_string)
     var error: Error = common_request.request(
         auth_endpoint, ["Content-Type: application/x-www-form-urlencoded"], HTTPClient.METHOD_POST, query_string
@@ -229,7 +228,7 @@ func btch_standard_data_request(
         _:
             return {"status_code": HTTPStatus.BADGATEWAY, "error": "HTTPRequest.Result " + str(result)}
     var response_code: HTTPStatus = response_pack[1]
-    var headers = response_pack[2]
+    var _headers = response_pack[2]
     var body = response_pack[3]
 
     var json = JSON.parse_string(body.get_string_from_utf8())

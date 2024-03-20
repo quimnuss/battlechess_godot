@@ -6,7 +6,7 @@ var enabled: bool = true
 func _ready():
     self.visible = false
     var device: String = OS.get_name()
-    match OS.get_name():
+    match device:
         "Android":
             self.enabled = true
         "iOS":

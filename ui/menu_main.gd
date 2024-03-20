@@ -41,9 +41,6 @@ func _on_login_button_pressed():
         error_label.text = "fields cannot be empty"
         error_label.visible = true
     else:
-        #TODO login doesn't need e-mail :/ How should we deal with incomplete btch user?
-        var btch_user: BtchUser = BtchUser.New(username, password, "")
-
         error_label.visible = false
 
         BtchCommon.username = username

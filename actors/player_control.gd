@@ -13,19 +13,19 @@ func _ready():
     _set_label_text(player_name)
 
 
-func _set_label_text(name: String):
-    prints(name, label)
-    player_name = name
+func _set_label_text(name_: String):
+    prints(name_, label)
+    player_name = name_
     if label:
-        label.text = name
+        label.text = name_
 
 
 func set_connection_status(connected: bool):
     check.set_pressed_no_signal(connected)
 
 
-func set_player_info(name: String, connected: bool):
-    label.text = name
+func set_player_info(name_: String, connected: bool):
+    label.text = name_
     check.set_pressed_no_signal(connected)
 
 

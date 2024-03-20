@@ -69,9 +69,9 @@ func add_taken_piece(taken_piece: ChessConstants.PieceType):
     piece_texture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
     piece_texture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
     piece_texture.custom_minimum_size = Vector2(18, 18)
-    var pieces_atlas: AtlasTexture = pieces_atlas.duplicate()
-    pieces_atlas.region = piece_type_to_atlas_rect(taken_piece)
-    piece_texture.texture = pieces_atlas
+    var pieces_atlas_: AtlasTexture = pieces_atlas.duplicate()
+    pieces_atlas_.region = piece_type_to_atlas_rect(taken_piece)
+    piece_texture.texture = pieces_atlas_
     add_child(piece_texture)
 
 
@@ -83,13 +83,13 @@ func clear_taken_pieces():
 func remove_other_color(taken: String) -> String:
     var taken_by_me: String = ""
     if im_black:
-        for char in taken:
-            if char == char.to_lower():
-                taken_by_me = taken_by_me + char
+        for character in taken:
+            if character == character.to_lower():
+                taken_by_me = taken_by_me + character
     else:
-        for char in taken:
-            if char == char.to_upper():
-                taken_by_me = taken_by_me + char
+        for character in taken:
+            if character == character.to_upper():
+                taken_by_me = taken_by_me + character
     return taken_by_me
 
 

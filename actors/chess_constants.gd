@@ -5,7 +5,7 @@ enum PieceType { EMPTY, KW, KB, QW, QB, RW, RB, BW, BB, NW, NB, PW, PB }
 enum PlayerColor { BLACK, WHITE, EMPTY }
 
 
-static func playercolor_from_str(player_color) -> PlayerColor:
+func playercolor_from_str(player_color) -> PlayerColor:
     match player_color:
         "white":
             return ChessConstants.PlayerColor.WHITE

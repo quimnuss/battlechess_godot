@@ -21,12 +21,12 @@ var config: ConfigFile = ConfigFile.new()
 var player_section: String = Globals.PLAYER_SECTION
 
 
-static func New(username: String, password: String, email: String, full_name: String = "") -> BtchUser:
+static func New(username_: String, password_: String, email_: String, full_name_: String = "") -> BtchUser:
     var btch_user: BtchUser = BtchUser.new()
-    btch_user.username = username
-    btch_user.plain_password = password
-    btch_user.email = email
-    btch_user.full_name = full_name
+    btch_user.username = username_
+    btch_user.plain_password = password_
+    btch_user.email = email_
+    btch_user.full_name = full_name_
     return btch_user
 
 

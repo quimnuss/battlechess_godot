@@ -73,7 +73,7 @@ static func notation_to_tile(square: String) -> Vector2i:
 func get_moves(tile_coords: Vector2i) -> Array[Vector2i]:
     if not self.uuid:
         return []
-    var square: String = tile_to_notation(tile_coords)
+    var square: String = BtchGame.tile_to_notation(tile_coords)
     var endpoint: String = "/games/" + self.uuid + "/moves/" + square
 
     var response_json: Dictionary = await BtchCommon.btch_standard_data_request(endpoint, {}, http_request)
@@ -83,7 +83,7 @@ func get_moves(tile_coords: Vector2i) -> Array[Vector2i]:
     var possible_squares: Array = response_json["data"]
     var possible_tiles: Array[Vector2i] = []
     for square_candidate in possible_squares:
-        var tile_candidate: Vector2i = notation_to_tile(square_candidate)
+        var tile_candidate: Vector2i = BtchGame.notation_to_tile(square_candidate)
         possible_tiles.append(tile_candidate)
 
     return possible_tiles
@@ -91,8 +91,8 @@ func get_moves(tile_coords: Vector2i) -> Array[Vector2i]:
 
 func move(tile_start: Vector2i, tile_end: Vector2i) -> BtchGameSnap:
     var endpoint: String = "/games/" + self.uuid + "/move"
-    var square_start: String = tile_to_notation(tile_start)
-    var square_end: String = tile_to_notation(tile_end)
+    var square_start: String = BtchGame.tile_to_notation(tile_start)
+    var square_end: String = BtchGame.tile_to_notation(tile_end)
     var move_notation: String = square_start + square_end
     prints("request move", move_notation)
     var response_data: Dictionary = await BtchCommon.btch_standard_data_request(
@@ -133,8 +133,8 @@ func wait_for_turn() -> BtchCommon.HTTPStatus:
         prints(BtchCommon.username, "fetching turn")
         var response_data = await get_my_turn()
         if response_data["status_code"] == BtchCommon.HTTPStatus.OK:
-            var is_player_turn = response_data["data"]
-            if is_player_turn:
+            var is_player_turn_ = response_data["data"]
+            if is_player_turn_:
                 return BtchCommon.HTTPStatus.OK
             else:
                 continue

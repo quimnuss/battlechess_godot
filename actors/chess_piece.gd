@@ -63,7 +63,7 @@ func set_piece(chess_piece_type: ChessConstants.PieceType):
     original_position = self.global_position
 
 
-func _on_area_2d_input_event(viewport, event, shape_idx):
+func _on_area_2d_input_event(_viewport, _event, _shape_idx):
     if Input.is_action_just_pressed("select"):
         prints("selected", self.name)
         selected = true

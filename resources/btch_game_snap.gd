@@ -19,11 +19,11 @@ static func New(game_dict: Dictionary) -> BtchGameSnap:
     return btch_game_data
 
 
-static func get_winner(taken: String) -> ChessConstants.PlayerColor:
+static func get_winner(taken_: String) -> ChessConstants.PlayerColor:
     # if black king K is taken white wins and viceversa
-    if "K" in taken:
+    if "K" in taken_:
         return ChessConstants.PlayerColor.WHITE
-    elif "k" in taken:
+    elif "k" in taken_:
         return ChessConstants.PlayerColor.BLACK
     else:
         return ChessConstants.PlayerColor.EMPTY

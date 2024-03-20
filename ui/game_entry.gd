@@ -39,12 +39,12 @@ func filter(show_finished: bool, filter_only_mine: bool, uuid_partial: String) -
     self.visible = true
 
 
-func from_info(game_info: GameInfo):
-    self.game_info = game_info
-    game_uuid.text = game_info.uuid
-    player_1_name.text = game_info.black
-    player_2_name.text = game_info.white
-    match game_info.status:
+func from_info(game_info_: GameInfo):
+    self.game_info = game_info_
+    game_uuid.text = game_info_.uuid
+    player_1_name.text = game_info_.black
+    player_2_name.text = game_info_.white
+    match game_info_.status:
         GameInfo.GameStatus.WAITING:
             game_state_waiting.visible = true
             game_state_started.visible = false
