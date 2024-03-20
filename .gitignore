@@ -16,5 +16,9 @@ mono_crash.*.json
 
 .vscode
 
-builds/
+build/
+!build/battlechess_linux/.gitkeep
+!build/battlechess_windows/.gitkeep
+!build/battlechess_web/.gitkeep
+!build/battlechess_android/.gitkeep
 android/
