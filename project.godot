@@ -38,9 +38,9 @@ window/ios/hide_status_bar=false
 
 project/assembly_name="battlechess"
 
-[editor_plugins]
+[filesystem]
 
-enabled=PackedStringArray("res://addons/gut/plugin.cfg")
+import/blender/enabled=false
 
 [gui]
 
